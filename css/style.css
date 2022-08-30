@@ -1,0 +1,21 @@
+body{
+    background-image: url(/image/bgGame.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.logo{
+    width: 35%;
+    
+}
+.bgWood{
+    background-image: url(/image/Wood-Background.jpg);
+    border: rgb(176, 73, 9) groove 5px;
+}
+
+@media only screen and (max-width: 880px){
+
+    .logo{
+        width: 80%;
+    }
+}
