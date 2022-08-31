@@ -1,21 +1,162 @@
-body{
-    background-image: url(/image/bgGame.png);
+body {
+    background-image: url(/asset/image/bgGame.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    box-sizing: border-box;
+    font-family: 'Skranji', cursive;
 }
-.logo{
-    width: 35%;
+
+
+
+.bgWood {
+    background-image: url(/asset/image/bg-wood.jpg);
+    border: rgb(125, 50, 4) groove 5px;
+    border-radius: 10px;
+
+}
+
+
+.btnChoice {
+    border-radius: 20px;
+    background: linear-gradient(0deg, rgba(124,61,10,1) 39%, rgba(223,106,46,1) 98%);
+    font-weight: bold;
+    color: #ffffff;
+    border: #582b07 groove 2px;
+}
+
+.btnChoice:active{
+    background: rgb(145,40,1);
+    background: linear-gradient(0deg, rgba(145,40,1,1) 35%, rgba(201,62,6,1) 97%);  
+}
+
+.colorOrange {
+    color: #c53f00;
+}
+
+.colorOrange:hover {
+    color: #f78c13;
     
 }
-.bgWood{
-    background-image: url(/image/Wood-Background.jpg);
-    border: rgb(176, 73, 9) groove 5px;
+
+.jello-horizontal {
+    -webkit-animation: jello-horizontal 0.9s both;
+    animation: jello-horizontal 0.9s both;
 }
 
-@media only screen and (max-width: 880px){
+.list-choice input[type=radio]+label {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+}
 
-    .logo{
+.list-choice input[type=radio]+label:hover {
+    background-color:  rgba(0, 0, 0, 0.5);;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.list-choice input[type=radio]:checked+label {
+    background-color: transparent;
+    color: white;
+    
+    font-weight: bold;
+    box-shadow: none;
+}
+
+.logo {
+    width: 30%;
+    
+}
+
+.textShadow {
+    text-shadow: 2px 2px 1px rgb(0, 0, 0);
+}
+
+
+
+@-webkit-keyframes jello-horizontal {
+    0% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    
+    30% {
+        -webkit-transform: scale3d(1.25, 0.75, 1);
+        transform: scale3d(1.25, 0.75, 1);
+    }
+    
+    40% {
+        -webkit-transform: scale3d(0.75, 1.25, 1);
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        -webkit-transform: scale3d(1.15, 0.85, 1);
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        -webkit-transform: scale3d(0.95, 1.05, 1);
+        transform: scale3d(0.95, 1.05, 1);
+    }
+
+    75% {
+        -webkit-transform: scale3d(1.05, 0.95, 1);
+        transform: scale3d(1.05, 0.95, 1);
+    }
+
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes jello-horizontal {
+    0% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        -webkit-transform: scale3d(1.25, 0.75, 1);
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        -webkit-transform: scale3d(0.75, 1.25, 1);
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        -webkit-transform: scale3d(1.15, 0.85, 1);
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        -webkit-transform: scale3d(0.95, 1.05, 1);
+        transform: scale3d(0.95, 1.05, 1);
+    }
+
+    75% {
+        -webkit-transform: scale3d(1.05, 0.95, 1);
+        transform: scale3d(1.05, 0.95, 1);
+    }
+
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 880px) {
+
+    .logo {
         width: 80%;
     }
 }
