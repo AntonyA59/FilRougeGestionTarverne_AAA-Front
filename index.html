@@ -1,14 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Skranji:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js"></script>
-    <title>Document</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <script defer src="js/script.js"></script>
+    <title>Tavern Manager - Home</title>
 </head>
+
 <body>
-    
+    <header>
+        <img class="logo d-flex justify-content-center m-auto" src="asset/image/logo-tavern-manager.png" alt="Logo">
+    </header>
+    <main>
+        <div class="container col-10 col-sm-10 col-lg-6 bgWood bg-opacity-75 p-0 mb-5">
+            <ul
+                class="list-group-flush p-0 d-flex align-items-center list-choice mb-5 ">
+                <li class="list-group-item p-0 col-6 ">
+                    <input type="radio" checked="checked" class="btn-check connexion" value="connexion" name="type"
+                        id="connexion-outlined">
+                    <label class="d-block text-center p-3 rounded-0" for="connexion-outlined">Connexion </label>
+                </li>
+                <li class="list-group-item col-6 ">
+                    <input type="radio" class="btn-check inscription" value="inscription" name="type"
+                        id="inscription-outlined">
+                    <label class="d-block text-white text-center p-3 rounded-0"
+                        for="inscription-outlined">S'inscrire</label>
+                </li>
+            </ul>
+            <form class="offset-0 offset-sm-0 offset-lg-1 col-12 col-sm-12 col-lg-10 text-white">
+                <div class="row flex-column align-items-center">
+                    <div class="mb-5 text-center col-11 text-sm-center text-lg-start">
+                        <label for="InputEmail1" class="form-label fw-bold ">Adresse E-mail</label>
+                        <a class="d-block d-sm-block d-lg-inline  colorOrange text-decoration-none forgotMail textShadow mb-1"
+                            href="#">&nbsp;(Adresse e-mail oubliée ?)</a>
+                        <input type="email" class="form-control opacity-75" id="InputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-5 col-11 text-center text-sm-center text-lg-start">
+                        <label for="InputPassword1" class="form-label fw-bold  ">Mot de passe</label>
+                        <a class="d-block d-sm-block d-lg-inline fw-bold colorOrange text-decoration-none forgotPassword textShadow mb-1"
+                            href="#">&nbsp;(Mot de passe oubliée ?)</a>
+                        <input type="password" class="form-control opacity-75" id="InputPassword1">
+                    </div>
+                    <div class="mb-5 ms-5 col-11 form-check align-self-start">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Accepter les <a class="colorOrange textShadow" href="#">conditions d'utilisations.</a></label>
+                    </div>
+                    <div class="text-center mb-3">
+                        <button type="submit" class="w-50 btnChoice btnConnexion p-3">Connexion</button>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+    </main>
 </body>
+
 </html>
