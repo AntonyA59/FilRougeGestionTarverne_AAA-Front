@@ -1,0 +1,137 @@
+body{
+    background-image: url("../asset/image/bgGame.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Skranji',cursive;
+    height: 100vh;
+    overflow: hidden;
+}
+
+h2{
+    color: #C45404;
+    text-shadow: 2px 2px 1px#000000;
+}
+li{
+    font-size: 30px;
+}
+.navbar-nav{
+    flex-direction: row;
+}
+.navbar-nav .nav-link{
+    padding: 0.5rem 1rem;
+}
+#imgLogo{
+    width: 30%;
+}
+#boxSalle{
+    background-color: rgba(255, 196, 0, 0.575);
+}
+aside,#boxContent{
+    border-radius: 10px;
+    border: rgb(176, 73, 9) groove 8px;
+}
+aside li{
+    color: #f1adad;
+    border: ridge rgba(0, 0, 0, 0.507) ;
+    padding: 5px;
+    background-color: #ca4203;
+    
+}
+#boxSalle .active{
+    border: rgb(176, 9, 9) groove 8px;
+    color: rgba(255, 255, 0, 0.911);
+}
+.bg-brown{
+    background-color: rgba(165, 42, 42, 0.329);
+    
+}
+#boxContent{
+    background-image: url("../asset/image/bg-wood.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 75vh;
+    
+}
+#map{
+    background-color: #C45404;
+    width: 95%;
+    height: 95%;
+    margin: 2% auto;
+    border-radius: 10px;
+}
+#btnMobile-DisplayNotif{
+    bottom: 0.5rem ;
+    right: 0.5rem ;
+}
+#boxNotification{
+    background-color: rgba(0, 0, 0, 0.726);
+    top: 0;
+    height: 100vh;
+}
+#boxNotification aside{
+    background-color:rgba(161, 37, 37, 0.603) ;
+    top: 5rem;
+    left: 4%;
+}
+#boxNotification ul{
+    max-height: 37rem;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: brown orange;
+    text-shadow: 1px 1px 1px rgba(255, 255, 0, 0.856);
+}
+
+/* Works on Chrome, Edge, and Safari */
+#boxNotification ul::-webkit-scrollbar {
+    width: 12px;
+}
+
+#boxNotification ul::-webkit-scrollbar-track {
+    background: orange;
+}
+
+#boxNotification ul::-webkit-scrollbar-thumb {
+    background-color: brown;
+    border-radius: 20px;
+    border: 3px solid orange;
+}
+#boxNotification li{
+    background-color: rgba(255, 196, 0, 0.863);
+    color: #c43a04ec;
+    position: relative;
+}
+.crossTicketNotif,.crossWindowNotif{
+    color: black;
+    text-shadow: 0px 0px 3px black;
+    cursor: pointer;
+}
+.crossTicketNotif{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    
+}
+.crossWindowNotif{
+    margin: 5px;
+    font-size: 3rem;
+}
+
+
+@media (min-width: 1200px){
+    #boxNotification {
+        position: static!important;
+        background-color: rgba(0, 0, 0, 0)!important;
+        height: 75vh;
+    }
+    #boxNotification aside{
+        top: 0;
+        left: 0;
+        height: 75vh;
+    }
+}
+@media screen and (max-width: 992px){
+    #boxSalle{
+        display: flex;
+        flex-direction: row;
+    }
+}
