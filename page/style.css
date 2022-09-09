@@ -4,7 +4,7 @@ body{
     background-repeat: no-repeat;
     font-family: 'Skranji',cursive;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 h2{
