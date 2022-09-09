@@ -45,3 +45,21 @@ function displayNotif(boolean){
     }
 }
 
+let conteneurBiereMouse= document.getElementById("contenu")
+let bgLoader=document.getElementById("container")
+//test remplissage loader50%
+
+setTimeout(()=>{
+    console.log("page charger")
+    conteneurBiereMouse.classList.add("remplissage50")
+},1000)
+
+//test remplissage loader100%
+setTimeout(()=>{
+    console.log("fetch ok")
+    conteneurBiereMouse.classList.add("remplissage100")
+    setTimeout(()=>{
+        console.log("none")    
+        bgLoader.classList.add('d-none')
+    },5000)
+},2000)
