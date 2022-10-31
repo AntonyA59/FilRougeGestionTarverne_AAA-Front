@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --color1:  #C45404;
+    --color2: rgba(165, 42, 42, 0.329);
+    --color3: rgba(255, 196, 0, 0.575);
+    --color4: rgb(176, 9, 9);
+    --color5:rgba(255, 255, 0, 0.911);
+    --color6:#f1adad;
+}
+
 body {
     background-image: url(/assets/image/bgGame.png);
     background-repeat: no-repeat;
@@ -7,3 +16,9 @@ body {
     box-sizing: border-box;
     font-family: 'Skranji', cursive;
 }
+
+h2{
+    color: var(--color1);
+    text-shadow: 2px 2px 1px#000000;
+}
+

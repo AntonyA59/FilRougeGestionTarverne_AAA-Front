@@ -1,6 +1,6 @@
 aside,#boxContent{
     border-radius: 10px;
-    border: rgb(176, 73, 9) groove 8px;
+    border: var(--color1) groove 8px;
 }
 #boxContent{
     background-image: url("../../assets/image/bg-wood.jpg");
@@ -13,8 +13,34 @@ aside,#boxContent{
     align-items: center;
 }
 #map{
-    background-color: #C45404;
+    background-color: var(--color1);
     width: 98%;
     height: 95%;
     border-radius: 10px;
+}
+#btnDisplaySalle{
+    bottom: 0.5rem ;
+    left: 0.5rem ;
+}
+#boxSalle{
+    background-color: var(--color3);
+}
+
+aside li{
+    
+    border: ridge rgba(0, 0, 0, 0.507) ;
+    padding: 5px;
+    background-color: var(--color1);
+    
+}
+#boxSalle .active{
+    border: var(--color4) groove 8px;
+    color: var(--color5);
+}
+#boxSalle button{
+    cursor: pointer;
+    color: var(--color6);
+    background-color: transparent;
+    border: none;
+    width: 100%;
 }

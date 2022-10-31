@@ -10,6 +10,8 @@ import { GamePageComponent } from './game-page/game-page.component';
 import { GameMapComponent } from './game-map/game-map.component';
 import { RestaurantMapComponent } from './restaurant-map/restaurant-map.component';
 import { TerraceMapComponent } from './terrace-map/terrace-map.component';
+import { CuisineMapComponent } from './cuisine-map/cuisine-map.component';
+import { StoreMapComponent } from './store-map/store-map.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { TerraceMapComponent } from './terrace-map/terrace-map.component';
     GameMapComponent,
     RestaurantMapComponent,
     TerraceMapComponent,
+    CuisineMapComponent,
+    StoreMapComponent,
   ],
   imports: [
     BrowserModule,
