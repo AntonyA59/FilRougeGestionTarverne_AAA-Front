@@ -3,10 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ConnectionComponent } from './connection/connection.component';
+import { SelectManagerComponent } from './select-manager/select-manager.component';
 
 @NgModule({
   declarations: [
@@ -15,8 +17,9 @@ import { ConnectionComponent } from './connection/connection.component';
     HomePageComponent,
     RegistrationComponent,
     ConnectionComponent,
+    SelectManagerComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })

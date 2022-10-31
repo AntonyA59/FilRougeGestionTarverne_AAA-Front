@@ -1,0 +1,23 @@
+<header>
+    <img class="logo d-flex justify-content-center m-auto" src="assets/image/Logo_Tavern_Managerpng.png" alt="Logo">
+</header>
+<div class="container col-12 col-sm-10 col-lg-10 bgWood bg-opacity-75 p-0 mb-5">
+    <div class="row align-items-center text-center justify-content-center">
+        <div>
+            <h1 class="text-center m-3">Sélectionner votre manager</h1>
+        </div>
+        <div class="card p-0 col-lg-4 col-sm-10 col-10 colorCardBody borderCard m-4 " *ngFor="let manager of managers">
+            <div class="card-header colorCardHead text-center">
+                <h2>{{manager.name}}</h2>
+            </div>
+            <div class="card-body colorCardBody">
+                <h5 class="card-title">Niveau: {{manager.level}}</h5>
+                <p class="card-text">Or: {{manager.chest}}</p>
+                <p class="card-text">Exp: {{manager.experience}}/{{manager.maxExp}}</p>
+                <p class="card-text">Reputation: {{manager.reputation}}</p>
+                <a href="#" class="btn btn-play">Jouer ce manager</a>
+            </div>
+
+        </div>
+    </div>
+</div>

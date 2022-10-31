@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ConnectionComponent } from './connection/connection.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { SelectManagerComponent } from './select-manager/select-manager.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home/connexion', pathMatch: 'full' },
   {
     path: 'home',
     component: HomePageComponent,
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'inscription', component: RegistrationComponent },
     ],
   },
+  { path: 'manager/select', component: SelectManagerComponent },
 ];
 
 @NgModule({

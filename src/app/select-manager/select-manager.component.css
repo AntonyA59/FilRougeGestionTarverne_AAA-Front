@@ -1,0 +1,32 @@
+h1 {
+    color: var(--color1);
+    text-shadow: var(--textShadow);
+}
+
+
+
+h2 {
+    color: var(--color1);
+    text-shadow: var(--textShadow);
+}
+
+.colorCardHead {
+    background-color: var(--color7);
+}
+
+.colorCardBody {
+    background-color: #8b5730;
+}
+
+.btn-play {
+    border-radius: 20px;
+    background: linear-gradient(0deg, rgba(124, 61, 10, 1) 39%, rgba(223, 106, 46, 1) 98%);
+    font-weight: bold;
+    color: #2e1501;
+    border: #582b07 groove 2px;
+}
+
+.borderCard {
+    border: rgb(125, 50, 4) groove 5px;
+    border-radius: 10px;
+}
