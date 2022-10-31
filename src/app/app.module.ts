@@ -3,18 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { InscriptionConnexionComponent } from './inscription-connexion/inscription-connexion.component';
+
+import { HomePageComponent } from './home-page/home-page.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { ConnectionComponent } from './connection/connection.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InscriptionConnexionComponent
+    RegistrationComponent,
+    HomePageComponent,
+    RegistrationComponent,
+    ConnectionComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
