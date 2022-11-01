@@ -1,4 +1,4 @@
-export interface Manager {
+export interface ManagerModel {
   id: number;
   name: string;
   reputation: number;
@@ -8,6 +8,10 @@ export interface Manager {
   idPlayer: number;
   maxExp: number;
   ingredientQuantity: IngredientQuantity;
+}
+
+export interface Manager {
+  name: string;
 }
 
 export type IngredientQuantity = {

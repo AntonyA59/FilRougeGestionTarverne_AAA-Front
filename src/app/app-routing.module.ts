@@ -7,10 +7,11 @@ import { ConnectionComponent } from './connection/connection.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
 import { PlayerMenuComponent } from './player-menu/player-menu.component';
+import { AddManagerFormComponent } from './add-manager-form/add-manager-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home/connexion', pathMatch: 'full' },
-  { path: '/home/', redirectTo: '/home/connexion', pathMatch: 'full' },
+  { path: 'home', redirectTo: '/home/connexion', pathMatch: 'full' },
   {
     path: 'home',
     component: HomePageComponent,
@@ -22,6 +23,7 @@ const routes: Routes = [
       },
       { path: 'inscription', component: RegistrationComponent },
       { path: 'manager/select', component: SelectManagerComponent },
+      { path: 'manager/add', component: AddManagerFormComponent },
       { path: 'menu', component: PlayerMenuComponent },
     ],
   },

@@ -1,6 +1,6 @@
-import { Manager } from './interfaces/manager';
+import { ManagerModel } from './interfaces/manager';
 
-export const MANAGERS: Manager[] = [
+export const MANAGERS: ManagerModel[] = [
   {
     id: 1,
     chest: 10,

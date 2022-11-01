@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Manager } from '../interfaces/manager';
+import { ManagerModel } from '../interfaces/manager';
 import { MANAGERS } from '../mock-manager';
 
 @Component({
