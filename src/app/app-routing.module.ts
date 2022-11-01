@@ -6,6 +6,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ConnectionComponent } from './connection/connection.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
+import { PlayerMenuComponent } from './player-menu/player-menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home/connexion', pathMatch: 'full' },
@@ -19,9 +20,10 @@ const routes: Routes = [
         component: ConnectionComponent,
       },
       { path: 'inscription', component: RegistrationComponent },
+      { path: 'manager/select', component: SelectManagerComponent },
+      { path: 'menu', component: PlayerMenuComponent },
     ],
   },
-  { path: 'manager/select', component: SelectManagerComponent },
 ];
 
 @NgModule({
