@@ -10,6 +10,7 @@ import { PlayerMenuComponent } from './player-menu/player-menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home/connexion', pathMatch: 'full' },
+  { path: '/home/', redirectTo: '/home/connexion', pathMatch: 'full' },
   {
     path: 'home',
     component: HomePageComponent,
