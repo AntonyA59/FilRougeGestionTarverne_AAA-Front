@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ManagerModel } from '../interfaces/manager';
-import { MANAGERS } from '../mock-manager';
+import { ManagerModel, MANAGERS } from '../interfaces/manager';
 
 @Component({
   selector: 'app-select-manager',
