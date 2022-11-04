@@ -6,4 +6,5 @@ export interface Ingredient {
   level: number;
   buyingPrice: number;
   idSubCategory: number;
+  count?: number;
 }
