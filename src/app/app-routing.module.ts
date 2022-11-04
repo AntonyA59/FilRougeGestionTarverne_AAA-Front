@@ -22,9 +22,9 @@ const routes: Routes = [
         component: ConnectionComponent,
       },
       { path: 'inscription', component: RegistrationComponent },
+      { path: 'menu', component: PlayerMenuComponent },
       { path: 'manager/select', component: SelectManagerComponent },
       { path: 'manager/add', component: AddManagerFormComponent },
-      { path: 'menu', component: PlayerMenuComponent },
     ],
   },
 ];
