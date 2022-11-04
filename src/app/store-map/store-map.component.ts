@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NEVER } from 'rxjs';
-import { Category } from 'src/category';
-import { Ingredient } from 'src/ingredient';
-import { Subcategory } from 'src/subcategory';
+import { Category } from 'src/app/interfaces/category';
+import { Ingredient } from 'src/app/interfaces/ingredient';
+import { Subcategory } from 'src/app/interfaces/subcategory';
 
 @Component({
   selector: 'app-store-map',
@@ -66,7 +66,7 @@ export class StoreMapComponent implements OnInit {
       id: 64,
       name: 'Bière',
       level: 1,
-      buyingPrice: 1,
+      buyingPrice: 15,
       idSubCategory: 64,
       count: 18,
     },
@@ -74,13 +74,16 @@ export class StoreMapComponent implements OnInit {
       id: 94,
       name: 'Cuisse de Boeuf',
       level: 1,
-      buyingPrice: 1,
+      buyingPrice: 3,
       idSubCategory: 6,
       count: 2,
     },
   ];
   cartSelling: Ingredient[] = [];
   cartBuying: Ingredient[] = [];
+
+  totalBuyingPrice: number = 0;
+  totalSellingPrice: number = 0;
 
   constructor() {}
 
@@ -102,6 +105,7 @@ export class StoreMapComponent implements OnInit {
         ingredient.count++;
       }
     }
+    this.totalBuyingPrice += ingredient.buyingPrice;
   }
   addIngredientToSelling(index: number) {
     let ingredient: Ingredient | undefined;
@@ -127,6 +131,7 @@ export class StoreMapComponent implements OnInit {
         ingredient.count--;
       }
     }
+    this.totalSellingPrice += Math.ceil(ingredient.buyingPrice / 2);
   }
 
   removeIngredientToBuying(index: number) {
@@ -139,6 +144,7 @@ export class StoreMapComponent implements OnInit {
         ingredient.count--;
       }
     }
+    this.totalBuyingPrice -= ingredient.buyingPrice;
   }
 
   removeIngredientToSelling(index: number) {
@@ -165,5 +171,6 @@ export class StoreMapComponent implements OnInit {
         ingredient.count--;
       }
     }
+    this.totalSellingPrice -= Math.ceil(ingredient.buyingPrice / 2);
   }
 }
