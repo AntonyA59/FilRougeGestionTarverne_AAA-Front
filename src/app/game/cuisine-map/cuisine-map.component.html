@@ -1,1 +1,92 @@
-<p>cuisine-map works!</p>
+<div>
+  <div class="row">
+    <div class="col-sm-12"></div>
+    <div class="row">
+      <div class="col-sm-2">
+        <p class="text-white">Recette</p>
+        <div class="bg-secondary p-1 d-flex flex-wrap text-left">
+          <a
+            *ngFor="let item of recipes; index as i"
+            title="{{ item.name }}"
+            id="{{ item.id }}"
+            clickable
+          >
+            <div
+              class="p-2 position-relative"
+              id="ingredientsCart"
+              style="
+      background-image: url('assets/image/icons/{{ item.id }}.png');
+      "
+            ></div>
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <p class="text-white">Inventaire</p>
+        <div class="bg-secondary p-1 d-flex flex-wrap text-left">
+          <a
+            *ngFor="let item of inventory; index as i"
+            title="{{ item.name }}"
+            id="{{ item.id }}"
+            clickable
+          >
+            <div
+              class="p-2 position-relative"
+              id="ingredientsCart"
+              style="
+    background-image: url('assets/image/icons/{{ item.id }}.png');
+    "
+            >
+              <span
+                class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
+                >{{ item.count }}</span
+              >
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <p class="text-white">Recette sélectionnée</p>
+        <div class="bg-secondary p-1 d-flex flex-wrap text-left">
+          <a
+            *ngFor="let item of IngredientsRecipe; index as i"
+            title="{{ item.name }}"
+            id="{{ item.id }}"
+            clickable
+          >
+            <div
+              class="p-2 position-relative"
+              id="ingredientsCart"
+              style="
+      background-image: url('assets/image/icons/{{ item.id }}.png');
+      "
+            >
+              <span
+                class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
+              ></span>
+            </div>
+          </a>
+          <a
+            *ngFor="let item of numberNothing"
+            title="{{ item }}"
+            id="{{ item }}"
+            clickable
+          >
+            <div
+              class="p-2 position-relative"
+              id="ingredientsCart"
+              style="background-image: url('assets/image/icons/nothing.png')"
+            >
+              <span
+                class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
+              ></span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <p class="text-white">Recettes à Envoyer</p>
+      </div>
+    </div>
+  </div>
+</div>
