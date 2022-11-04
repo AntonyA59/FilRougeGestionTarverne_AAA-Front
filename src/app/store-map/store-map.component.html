@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-sm-5">
         <p class="text-white">Inventaire</p>
-        <div class="bg-secondary p-1">
+        <div class="bg-secondary p-1 d-flex flex-wrap text-left">
           <a
             *ngFor="let item of inventory; index as i"
             title="{{ item.name }}"
@@ -20,7 +20,7 @@
   "
             >
               <span
-                class="badge bg-warning text-dark bottom-0 end-0 rounded-pill position-absolute"
+                class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
                 >{{ item.count }}</span
               >
             </div>
@@ -48,7 +48,7 @@
     "
                 >
                   <span
-                    class="badge bg-warning text-dark bottom-0 end-0 rounded-pill position-absolute"
+                    class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
                     >{{ item.count }}</span
                   >
                 </div>
@@ -74,7 +74,7 @@
         "
                 >
                   <span
-                    class="badge bg-warning text-dark bottom-0 end-0 rounded-pill position-absolute"
+                    class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
                     >{{ item.count }}</span
                   >
                 </div>

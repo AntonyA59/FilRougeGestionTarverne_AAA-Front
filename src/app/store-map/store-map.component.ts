@@ -70,6 +70,14 @@ export class StoreMapComponent implements OnInit {
       idSubCategory: 64,
       count: 18,
     },
+    {
+      id: 94,
+      name: 'Cuisse de Boeuf',
+      level: 1,
+      buyingPrice: 1,
+      idSubCategory: 6,
+      count: 2,
+    },
   ];
   cartSelling: Ingredient[] = [];
   cartBuying: Ingredient[] = [];
@@ -98,24 +106,25 @@ export class StoreMapComponent implements OnInit {
   addIngredientToSelling(index: number) {
     let ingredient: Ingredient | undefined;
     let ingredientAlreadyExist: Ingredient | undefined;
+    let ingredient2: Ingredient | undefined;
     ingredient = this.inventory[index];
-
-    let ingredient2 = structuredClone(ingredient);
 
     ingredientAlreadyExist = this.cartSelling.find(
       (element) => element.id == ingredient?.id
     );
 
-    if (ingredientAlreadyExist === undefined && ingredient != undefined) {
-      ingredient.count = 1;
-      this.cartSelling.push(ingredient);
-      if (this.inventory[index].count != undefined) {
-        //this.inventory[index].count--;
-        //this.inventory.splice(index, 1);
+    if (ingredient != undefined && ingredient.count != undefined) {
+      if (ingredientAlreadyExist?.count != undefined) {
+        ingredientAlreadyExist.count++;
+      } else {
+        ingredient2 = structuredClone(ingredient);
+        ingredient2.count = 1;
+        this.cartSelling.push(ingredient2);
       }
-    } else {
-      if (ingredient != undefined && ingredient.count != undefined) {
-        ingredient.count++;
+      if (ingredient.count < 2) {
+        this.inventory.splice(index, 1);
+      } else {
+        ingredient.count--;
       }
     }
   }
@@ -131,22 +140,26 @@ export class StoreMapComponent implements OnInit {
       }
     }
   }
+
   removeIngredientToSelling(index: number) {
     let ingredient: Ingredient | undefined;
-    ingredient = this.cartSelling[index];
     let ingredientAlreadyExist: Ingredient | undefined;
+    let ingredient2: Ingredient | undefined;
+    ingredient = this.cartSelling[index];
 
     ingredientAlreadyExist = this.inventory.find(
       (element) => element.id == ingredient?.id
     );
 
     if (ingredient != undefined && ingredient.count != undefined) {
-      if (ingredientAlreadyExist != undefined) {
-        this.ingredients.push(ingredient);
+      if (ingredientAlreadyExist?.count != undefined) {
+        ingredientAlreadyExist.count++;
       } else {
-        this.ingredients[index];
+        ingredient2 = structuredClone(ingredient);
+        ingredient2.count = 1;
+        this.inventory.push(ingredient2);
       }
-      if (ingredient.count <= 1) {
+      if (ingredient.count < 2) {
         this.cartSelling.splice(index, 1);
       } else {
         ingredient.count--;
