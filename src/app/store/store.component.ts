@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NEVER } from 'rxjs';
 import { Category } from 'src/category';
 import { Ingredient } from 'src/ingredient';
 import { Subcategory } from 'src/subcategory';
@@ -67,6 +68,7 @@ export class StoreComponent implements OnInit {
       level: 1,
       buyingPrice: 1,
       idSubCategory: 64,
+      count: 18,
     },
   ];
   cartSelling: Ingredient[] = [];
@@ -75,13 +77,15 @@ export class StoreComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-  addIngredientToBuying(id: number) {
+  addIngredientToBuying(index: number) {
     let ingredient: Ingredient | undefined;
     let ingredientAlreadyExist: Ingredient | undefined;
-    ingredient = this.ingredients.find((element) => element.id == id);
+    ingredient = this.ingredients[index];
+
     ingredientAlreadyExist = this.cartBuying.find(
-      (element) => element.id == id
+      (element) => element.id == ingredient?.id
     );
+
     if (ingredientAlreadyExist === undefined && ingredient != undefined) {
       ingredient.count = 1;
       this.cartBuying.push(ingredient);
@@ -91,32 +95,61 @@ export class StoreComponent implements OnInit {
       }
     }
   }
-  addIngredientToSelling(id: number) {
-    let ingredient: Ingredient;
-    ingredient = this.ingredients.find((element) => element.id == id)!;
-    for (let index = 0; index < this.inventory.length; index++) {
-      if (this.inventory[index].id == id) {
-        this.cartSelling.push(this.inventory[index]);
-        this.inventory.splice(index, 1);
-        break;
+  addIngredientToSelling(index: number) {
+    let ingredient: Ingredient | undefined;
+    let ingredientAlreadyExist: Ingredient | undefined;
+    ingredient = this.inventory[index];
+
+    let ingredient2 = structuredClone(ingredient);
+
+    ingredientAlreadyExist = this.cartSelling.find(
+      (element) => element.id == ingredient?.id
+    );
+
+    if (ingredientAlreadyExist === undefined && ingredient != undefined) {
+      ingredient.count = 1;
+      this.cartSelling.push(ingredient);
+      if (this.inventory[index].count != undefined) {
+        //this.inventory[index].count--;
+        //this.inventory.splice(index, 1);
+      }
+    } else {
+      if (ingredient != undefined && ingredient.count != undefined) {
+        ingredient.count++;
       }
     }
   }
 
-  removeIngredientToBuying(id: number) {
-    for (let index = 0; index < this.cartBuying.length; index++) {
-      if (this.cartBuying[index].id == id) {
+  removeIngredientToBuying(index: number) {
+    let ingredient: Ingredient | undefined;
+    ingredient = this.cartBuying[index];
+    if (ingredient != undefined && ingredient.count != undefined) {
+      if (ingredient.count <= 1) {
         this.cartBuying.splice(index, 1);
-        break;
+      } else {
+        ingredient.count--;
       }
     }
   }
-  removeIngredientToSelling(id: number) {
-    for (let index = 0; index < this.cartSelling.length; index++) {
-      if (this.cartSelling[index].id == id) {
-        this.inventory.push(this.cartSelling[index]);
+  removeIngredientToSelling(index: number) {
+    let ingredient: Ingredient | undefined;
+    ingredient = this.cartSelling[index];
+    let ingredientAlreadyExist: Ingredient | undefined;
+
+    ingredientAlreadyExist = this.inventory.find(
+      (element) => element.id == ingredient?.id
+    );
+
+    if (ingredient != undefined && ingredient.count != undefined) {
+      if (ingredientAlreadyExist != undefined) {
+        this.ingredients.push(ingredient);
+      } else {
+        this.ingredients[index];
+      }
+      if (ingredient.count <= 1) {
         this.cartSelling.splice(index, 1);
-        break;
+      } else {
+        ingredient.count--;
       }
     }
   }

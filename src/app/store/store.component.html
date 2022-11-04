@@ -9,10 +9,21 @@
             *ngFor="let item of inventory; index as i"
             title="{{ item.name }}"
             id="{{ item.id }}"
-            (click)="addIngredientToSelling(item.id)"
+            (click)="addIngredientToSelling(i)"
             clickable
           >
-            <img src="../../assets/image/icons/{{ item.id }}.png" alt="" />
+            <div
+              class="p-2 position-relative"
+              id="ingredientsCart"
+              style="
+background-image: url('assets/image/icons/{{ item.id }}.png');
+"
+            >
+              <span
+                class="badge bg-warning text-dark bottom-0 end-0 rounded-pill position-absolute"
+                >{{ item.count }}</span
+              >
+            </div>
           </a>
         </div>
       </div>
@@ -21,19 +32,26 @@
         <div class="row">
           <div class="col-sm-6 text-left">
             <p class="text-white">Vente</p>
-            <div class="bg-secondary">
+            <div class="bg-secondary d-flex flex-wrap text-left">
               <a
                 *ngFor="let item of cartSelling; index as i"
                 title="{{ item.name }}"
                 id="{{ item.id }}"
-                (click)="removeIngredientToSelling(item.id)"
+                (click)="removeIngredientToSelling(i)"
                 clickable
               >
-                <img
-                  class="bg-image"
-                  src="../../assets/image/icons/{{ item.id }}.png"
-                  alt=""
-                />
+                <div
+                  class="p-2 position-relative"
+                  id="ingredientsCart"
+                  style="
+  background-image: url('assets/image/icons/{{ item.id }}.png');
+  "
+                >
+                  <span
+                    class="badge bg-warning text-dark bottom-0 end-0 rounded-pill position-absolute"
+                    >{{ item.count }}</span
+                  >
+                </div>
               </a>
             </div>
           </div>
@@ -45,17 +63,20 @@
                 *ngFor="let item of cartBuying; index as i"
                 title="{{ item.name }}"
                 id="{{ item.id }}"
-                (click)="removeIngredientToBuying(item.id)"
+                (click)="removeIngredientToBuying(i)"
                 clickable
               >
                 <div
-                  class="p-2"
+                  class="p-2 position-relative"
                   id="ingredientsCart"
                   style="
-      background-image: url('../../assets/image/icons/{{ item.id }}.png');
+      background-image: url('assets/image/icons/{{ item.id }}.png');
       "
                 >
-                  <span class="badge bg-primary">{{ item.count }}</span>
+                  <span
+                    class="badge bg-warning text-dark bottom-0 end-0 rounded-pill position-absolute"
+                    >{{ item.count }}</span
+                  >
                 </div>
               </a>
             </div>
@@ -71,12 +92,12 @@
             *ngFor="let item of ingredients; index as i"
             title="{{ item.name }}"
             id="{{ item.id }}"
-            (click)="addIngredientToBuying(item.id)"
+            (click)="addIngredientToBuying(i)"
             clickable
           >
             <img
               class="bg-image"
-              src="../../assets/image/icons/{{ item.id }}.png"
+              src="assets/image/icons/{{ item.id }}.png"
               alt=""
             />
           </a>
