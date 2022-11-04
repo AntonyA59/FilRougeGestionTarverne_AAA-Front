@@ -3,10 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { GamePageComponent } from './game-page/game-page.component';
-import { RestaurantMapComponent } from './restaurant-map/restaurant-map.component';
-import { TerraceMapComponent } from './terrace-map/terrace-map.component';
-import { CuisineMapComponent } from './cuisine-map/cuisine-map.component';
-import { StoreMapComponent } from './store-map/store-map.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ConnectionComponent } from './connection/connection.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -16,18 +12,10 @@ import { AddManagerFormComponent } from './add-manager-form/add-manager-form.com
 
 const routes: Routes = [
   //page Game
+  //TODO gerer l'obligation d'être connecter pour pouvoir avoir acces à ces routes là !!
   { path: 'game', redirectTo: '/game/grandeSalle', pathMatch: 'full' },
+  { path: 'game', component: GamePageComponent,loadChildren:()=>import('./game/game.module').then(m=>m.GameModule)},
 
-  {
-    path: 'game',
-    component: GamePageComponent,
-    children: [
-      { path: 'grandeSalle', component: RestaurantMapComponent },
-      { path: 'cuisine', component: CuisineMapComponent },
-      { path: 'terrace', component: TerraceMapComponent },
-      { path: 'store', component: StoreMapComponent },
-    ],
-  },
   //page Acceuil
   { path: '', redirectTo: '/home/connexion', pathMatch: 'full' },
   { path: 'home', redirectTo: '/home/connexion', pathMatch: 'full' },

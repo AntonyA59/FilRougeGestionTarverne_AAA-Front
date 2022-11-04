@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NEVER } from 'rxjs';
-import { Category } from 'src/category';
-import { Ingredient } from 'src/ingredient';
-import { Subcategory } from 'src/subcategory';
+import { Category } from 'src/app/interfaces/category';
+import { Ingredient } from 'src/app/interfaces/ingredient';
+import { Subcategory } from 'src/app/interfaces/subcategory';
 
 @Component({
   selector: 'app-store-map',
