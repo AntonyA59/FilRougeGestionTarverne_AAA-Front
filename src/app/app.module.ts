@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { StoreComponent } from './store/store.component';
 import { HeaderComponent } from './header/header.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { GamePageComponent } from './game-page/game-page.component';
@@ -25,7 +24,6 @@ import { AddManagerFormComponent } from './add-manager-form/add-manager-form.com
 @NgModule({
   declarations: [
     AppComponent,
-    StoreComponent,
     HeaderComponent,
     NotFoundComponent,
     GamePageComponent,

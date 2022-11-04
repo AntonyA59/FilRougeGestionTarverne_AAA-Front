@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { StoreComponent } from './store/store.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { RestaurantMapComponent } from './restaurant-map/restaurant-map.component';
@@ -49,7 +48,6 @@ const routes: Routes = [
   },
   //page Not found
   { path: '**', component: NotFoundComponent },
-  { path: 'store', component: StoreComponent },
 ];
 
 @NgModule({
