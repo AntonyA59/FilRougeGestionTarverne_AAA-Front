@@ -6,19 +6,21 @@
         <a class="a-brown" routerLink="/home/inscription">S'inscrire</a>
     </li>
 </ul>
-<form class="offset-0 offset-sm-0 offset-lg-1 col-12 col-sm-12 col-lg-10 text-white">
+<form (ngSubmit)="onSubmit()" [formGroup]="connectionForm"
+    class="offset-0 offset-sm-0 offset-lg-1 col-12 col-sm-12 col-lg-10 text-white">
     <div class="row flex-column align-items-center">
         <div class="mb-5 text-center col-11 text-sm-center text-lg-start">
-            <label for="InputEmail1" class="form-label fw-bold ">Adresse E-mail</label>
+            <label for="email" class="form-label fw-bold ">Adresse E-mail</label>
             <a class="d-block d-sm-block d-lg-inline  colorOrange text-decoration-none forgotMail textShadow mb-1"
                 href="#">&nbsp;(Adresse e-mail oubliée ?)</a>
-            <input type="email" class="form-control opacity-75" id="InputEmail1" aria-describedby="emailHelp">
+            <input type="email" formControlName="email" class="form-control opacity-75" id="email"
+                aria-describedby="emailHelp">
         </div>
         <div class="mb-5 col-11 text-center text-sm-center text-lg-start">
-            <label for="InputPassword1" class="form-label fw-bold  ">Mot de passe</label>
+            <label for="password" class="form-label fw-bold">Mot de passe</label>
             <a class="d-block d-sm-block d-lg-inline fw-bold colorOrange text-decoration-none forgotPassword textShadow mb-1"
                 href="#">&nbsp;(Mot de passe oubliée ?)</a>
-            <input type="password" class="form-control opacity-75" id="InputPassword1">
+            <input formControlName="password" type="password" class="form-control opacity-75" id="password">
         </div>
 
         <div class="text-center mb-3">
