@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-game-map',
   templateUrl: './game-map.component.html',
   styleUrls: ['./game-map.component.css']
 })
 export class GameMapComponent implements OnInit {
-  pageCurrent:string="grandeSalle"
+  pageCurrent:string=""
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     
   }
   ngAfterViewInit():void{
+     this.pageCurrent=this.route.children[0].snapshot.routeConfig?.path!;
     this.displayActive();
   }
 

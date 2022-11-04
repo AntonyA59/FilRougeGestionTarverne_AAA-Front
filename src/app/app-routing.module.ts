@@ -17,6 +17,8 @@ import { AddManagerFormComponent } from './add-manager-form/add-manager-form.com
 
 const routes: Routes = [
   //page Game
+  { path: 'game', redirectTo: '/game/grandeSalle', pathMatch: 'full' },
+
   {
     path: 'game',
     component: GamePageComponent,
