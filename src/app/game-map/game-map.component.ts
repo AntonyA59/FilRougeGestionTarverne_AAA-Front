@@ -50,10 +50,8 @@ export class GameMapComponent implements OnInit {
   }
 
   clickUrl(url : string):void{
-    
     this.pageCurrent=url;
     this.displayActive();
-    this.displaySalleBox();
     this.router.navigateByUrl('/game/'+url);
   }
 
