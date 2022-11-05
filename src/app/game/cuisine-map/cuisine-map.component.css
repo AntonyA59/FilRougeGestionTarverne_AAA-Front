@@ -11,3 +11,13 @@ img {
   background-size: 55px;
   text-align: left;
 }
+
+.imgred {
+  z-index: 10;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0px;
+}
