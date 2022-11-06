@@ -6,8 +6,10 @@ aside,
 
 #boxContent {
   background-image: url("../../assets/image/bg-wood.jpg");
+  /*
   background-repeat: no-repeat;
   background-size: cover;
+  */
   height: 85vh;
   display: flex;
   flex-direction: row;
