@@ -119,7 +119,7 @@ export class CuisineMapComponent implements OnInit {
     },
   ];
   ingredientsRecipe: Ingredient[] = [];
-  numberNothing: number[] = [1, 1, 1, 1, 1];
+  numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as Recipe;
   ingredientsQuantityAvailable: number[] = [];
   textdark = 'text-dark';
@@ -159,7 +159,7 @@ export class CuisineMapComponent implements OnInit {
         nbIngredients++;
       });
 
-      for (let index = 0; index < 5 - nbIngredients; index++) {
+      for (let index = 0; index < 4 - nbIngredients; index++) {
         this.numberNothing.push(1);
       }
     }
