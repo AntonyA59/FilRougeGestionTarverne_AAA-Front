@@ -13,8 +13,12 @@
   width: 692px;
   height: 416px;
 }
+
 img {
-  transform: rotate(3.142rad);
   margin: 20px;
   margin-left: 60px;
+}
+
+.customerTop {
+  transform: rotate(3.142rad);
 }

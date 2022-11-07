@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer } from 'src/app/interfaces/customer';
+import { Customer, CustomerModel } from 'src/app/interfaces/customer';
+import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
 
 @Component({
   selector: 'app-restaurant-map',
@@ -7,7 +8,7 @@ import { Customer } from 'src/app/interfaces/customer';
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
-  customers: Customer[] = [
+  customers: CustomerModel[] = [
     {
       id: 1,
       purseOfGold: 2,
@@ -22,12 +23,11 @@ export class RestaurantMapComponent implements OnInit {
       alcoholTolerance: 2,
       gender: 2,
       expGiven: 2,
-      idTableRest: 2,
+      idTableRest: 1,
       consommationStart: '2',
-      name: 'Oscar Ambar',
     },
     {
-      id: 1,
+      id: 2,
       purseOfGold: 3,
       happiness: 3,
       hunger: 3,
@@ -40,12 +40,62 @@ export class RestaurantMapComponent implements OnInit {
       alcoholTolerance: 3,
       gender: 3,
       expGiven: 3,
-      idTableRest: 2,
+      idTableRest: 1,
       consommationStart: '0',
-      name: 'Anne Ogastric',
+    },
+    {
+      id: 3,
+      purseOfGold: 3,
+      happiness: 3,
+      hunger: 3,
+      thirst: 3,
+      nauseaLevel: 3,
+      alcoholLevel: 3,
+      toilet: 3,
+      timeInTavern: '2',
+      nauseaTolerance: 3,
+      alcoholTolerance: 3,
+      gender: 3,
+      expGiven: 3,
+      idTableRest: 1,
+      consommationStart: '0',
+    },
+    {
+      id: 4,
+      purseOfGold: 3,
+      happiness: 3,
+      hunger: 3,
+      thirst: 3,
+      nauseaLevel: 3,
+      alcoholLevel: 3,
+      toilet: 3,
+      timeInTavern: '2',
+      nauseaTolerance: 3,
+      alcoholTolerance: 3,
+      gender: 3,
+      expGiven: 3,
+      idTableRest: 1,
+      consommationStart: '0',
+    },
+    {
+      id: 4,
+      purseOfGold: 3,
+      happiness: 3,
+      hunger: 3,
+      thirst: 3,
+      nauseaLevel: 3,
+      alcoholLevel: 3,
+      toilet: 3,
+      timeInTavern: '2',
+      nauseaTolerance: 3,
+      alcoholTolerance: 3,
+      gender: 3,
+      expGiven: 3,
+      idTableRest: 3,
+      consommationStart: '0',
     },
   ];
-  tableRests = [
+  tableRests: TableRestModel[] = [
     {
       id: 1,
       numberPlace: 4,
@@ -62,8 +112,40 @@ export class RestaurantMapComponent implements OnInit {
       posY: 1,
       idPlace: 1,
     },
+    {
+      id: 3,
+      numberPlace: 4,
+      hygiene: 0,
+      posX: 1,
+      posY: 1,
+      idPlace: 1,
+    },
+    {
+      id: 4,
+      numberPlace: 4,
+      hygiene: 0,
+      posX: 1,
+      posY: 1,
+      idPlace: 1,
+    },
   ];
+
+  tableRestWithCustomer: TableRest[] = [];
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.tableRestWithCustomer = this.tableRests;
+    let customerTempo = {} as Customer;
+
+    this.tableRestWithCustomer.forEach((table) => {
+      table.customers = [];
+      this.customers.forEach((customer) => {
+        customerTempo = customer;
+        if (customerTempo.idTableRest == table.id) {
+          customerTempo.numImg = Math.floor(Math.random() * 7) + 1;
+          table.customers?.push(customer);
+        }
+      });
+    });
+  }
 }
