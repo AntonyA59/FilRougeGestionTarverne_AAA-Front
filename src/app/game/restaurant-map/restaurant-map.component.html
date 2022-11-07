@@ -1,6 +1,6 @@
 <div class="row h-100 m-1">
-  <div class="col-sm-12 h-100" id="room">
-    <div class="row h-100 m-1">
+  <div class="col-sm-12" id="room">
+    <div class="row m-1">
       <div class="col-sm-6" id="bar"></div>
 
       <div
@@ -9,6 +9,9 @@
         id="tableRest"
         class="d-flex flex-wrap"
       >
+        <span class="position-absolute badge rounded-pill bg-danger">
+          {{ i + 1 }}
+        </span>
         <div
           *ngFor="
             let customer of tableRestWithCustomer[i].customers;
