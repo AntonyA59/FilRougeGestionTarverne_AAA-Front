@@ -1,7 +1,14 @@
 <div class="row h-100 m-1">
-  <div class="col-sm-2" id="room">
-    <img src="../../../assets/image/bar.png" alt="" />
-    <img src="../../../assets/image/table_01.png" alt="" />
-    <img src="../../../assets/image/table_01.png" alt="" />
+  <div class="col-sm-12 h-100" id="room">
+    <div class="row h-100 m-1">
+      <div class="col-sm-6" id="bar"></div>
+      <div *ngFor="let table of tableRests" class="col-sm-6" id="tableRest">
+        <img
+          *ngFor="let table of customers; index as i"
+          src="../../../assets/image/customer_0{{ i + 1 }}.png"
+          alt=""
+        />
+      </div>
+    </div>
   </div>
 </div>

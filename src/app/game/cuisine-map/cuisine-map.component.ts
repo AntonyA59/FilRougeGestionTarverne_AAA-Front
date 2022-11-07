@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Customer } from 'src/app/interfaces/customer';
 import { Ingredient } from 'src/app/interfaces/ingredient';
 import { Recipe } from 'src/app/interfaces/recipe';
 
@@ -8,6 +9,62 @@ import { Recipe } from 'src/app/interfaces/recipe';
   styleUrls: ['./cuisine-map.component.css'],
 })
 export class CuisineMapComponent implements OnInit {
+  customers: Customer[] = [
+    {
+      id: 1,
+      purseOfGold: 2,
+      happiness: 2,
+      hunger: 2,
+      thirst: 2,
+      nauseaLevel: 2,
+      alcoholLevel: 2,
+      toilet: 2,
+      timeInTavern: '2',
+      nauseaTolerance: 2,
+      alcoholTolerance: 2,
+      gender: 2,
+      expGiven: 2,
+      idTableRest: 2,
+      consommationStart: '2',
+      name: 'Oscar Ambar',
+    },
+    {
+      id: 2,
+      purseOfGold: 3,
+      happiness: 3,
+      hunger: 3,
+      thirst: 3,
+      nauseaLevel: 3,
+      alcoholLevel: 3,
+      toilet: 3,
+      timeInTavern: '2',
+      nauseaTolerance: 3,
+      alcoholTolerance: 3,
+      gender: 3,
+      expGiven: 3,
+      idTableRest: 2,
+      consommationStart: '0',
+      name: 'Anne Ogastric',
+    },
+    {
+      id: 2,
+      purseOfGold: 3,
+      happiness: 3,
+      hunger: 3,
+      thirst: 3,
+      nauseaLevel: 3,
+      alcoholLevel: 3,
+      toilet: 3,
+      timeInTavern: '2',
+      nauseaTolerance: 3,
+      alcoholTolerance: 3,
+      gender: 3,
+      expGiven: 3,
+      idTableRest: 2,
+      consommationStart: '0',
+      name: 'Julie Ogastric',
+    },
+  ];
   ingredients: Ingredient[] = [
     {
       id: 2,
@@ -125,6 +182,7 @@ export class CuisineMapComponent implements OnInit {
   textdark = 'text-dark';
   textred = 'text-danger';
   recipeReady = false;
+  customerChoosing = false;
 
   constructor() {}
 
@@ -162,6 +220,13 @@ export class CuisineMapComponent implements OnInit {
       for (let index = 0; index < 4 - nbIngredients; index++) {
         this.numberNothing.push(1);
       }
+    }
+  }
+  customerChange(event: Event): void {
+    if (event.target instanceof HTMLSelectElement && event.target.value != '') {
+      this.customerChoosing = true;
+    } else {
+      this.customerChoosing = false;
     }
   }
 }
