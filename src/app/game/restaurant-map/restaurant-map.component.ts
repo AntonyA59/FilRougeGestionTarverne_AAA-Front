@@ -128,6 +128,14 @@ export class RestaurantMapComponent implements OnInit {
       posY: 1,
       idPlace: 1,
     },
+    {
+      id: 5,
+      numberPlace: 4,
+      hygiene: 0,
+      posX: 1,
+      posY: 1,
+      idPlace: 1,
+    },
   ];
 
   tableRestWithCustomer: TableRest[] = [];

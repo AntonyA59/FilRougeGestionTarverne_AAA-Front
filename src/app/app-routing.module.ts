@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { ConnectionComponent } from './connection/connection.component';
+import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
 import { PlayerMenuComponent } from './player-menu/player-menu.component';
@@ -14,7 +14,11 @@ const routes: Routes = [
   //page Game
   //TODO gerer l'obligation d'être connecter pour pouvoir avoir acces à ces routes là !!
   { path: 'game', redirectTo: '/game/grandeSalle', pathMatch: 'full' },
-  { path: 'game', component: GamePageComponent,loadChildren:()=>import('./game/game.module').then(m=>m.GameModule)},
+  {
+    path: 'game',
+    component: GamePageComponent,
+    loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
+  },
 
   //page Acceuil
   { path: '', redirectTo: '/home/connexion', pathMatch: 'full' },
@@ -26,7 +30,7 @@ const routes: Routes = [
     children: [
       {
         path: 'connexion',
-        component: ConnectionComponent,
+        component: LoginComponent,
       },
       { path: 'inscription', component: RegistrationComponent },
       { path: 'menu', component: PlayerMenuComponent },

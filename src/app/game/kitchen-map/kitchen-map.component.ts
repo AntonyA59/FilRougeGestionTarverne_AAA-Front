@@ -5,10 +5,10 @@ import { Recipe } from 'src/app/interfaces/recipe';
 
 @Component({
   selector: 'app-cuisine-map',
-  templateUrl: './cuisine-map.component.html',
-  styleUrls: ['./cuisine-map.component.css'],
+  templateUrl: './kitchen-map.component.html',
+  styleUrls: ['./kitchen-map.component.css'],
 })
-export class CuisineMapComponent implements OnInit {
+export class KitchenMapComponent implements OnInit {
   customers: Customer[] = [
     {
       id: 1,
