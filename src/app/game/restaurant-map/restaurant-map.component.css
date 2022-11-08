@@ -22,3 +22,8 @@ img {
 .customerTop {
   transform: rotate(3.142rad);
 }
+
+.badgeTable {
+  width: 418px;
+  height: 287px;
+}

@@ -9,9 +9,15 @@
         id="tableRest"
         class="d-flex flex-wrap"
       >
-        <span class="position-absolute badge rounded-pill bg-danger">
-          {{ i + 1 }}
-        </span>
+        <div class="position-absolute badgeTable">
+          <h1>
+            <span
+              class="position-absolute badge rounded-pill bg-success ms-3 top-50"
+            >
+              {{ i + 1 }}
+            </span>
+          </h1>
+        </div>
         <div
           *ngFor="
             let customer of tableRestWithCustomer[i].customers;
