@@ -1,6 +1,12 @@
-import { Subcategory } from './subcategory';
-
-export interface IngredientModel {
+export interface IngredientQuantity {
+  id: number;
+  name: string;
+  level: number;
+  buyingPrice: number;
+  idSubCategory: number;
+  quantity: number;
+}
+export interface Ingredient{
   id: number;
   name: string;
   level: number;
@@ -8,11 +14,3 @@ export interface IngredientModel {
   idSubCategory: number;
 }
 
-export interface Ingredient {
-  id: number;
-  name: string;
-  level: number;
-  buyingPrice: number;
-  idSubCategory: number;
-  count?: number;
-}

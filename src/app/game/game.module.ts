@@ -6,6 +6,7 @@ import { KitchenMapComponent } from './kitchen-map/kitchen-map.component';
 import { RestaurantMapComponent } from './restaurant-map/restaurant-map.component';
 import { TerraceMapComponent } from './terrace-map/terrace-map.component';
 import { StoreMapComponent } from './store-map/store-map.component';
+import { CustomerManagerComponent } from '../customer-manager/customer-manager.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { StoreMapComponent } from './store-map/store-map.component';
     RestaurantMapComponent,
     TerraceMapComponent,
     StoreMapComponent,
+    CustomerManagerComponent,
   ],
   imports: [CommonModule, GameRoutingModule],
 })

@@ -1,3 +1,5 @@
+import { IngredientQuantity } from "./ingredient";
+
 export interface Recipe {
   id: number;
   name: string;
@@ -8,5 +10,5 @@ export interface Recipe {
   peremptionDate: string;
   expGiven: number;
   idSubCategory: number;
-  tabIngredientsForRecipe: Array<number>;
+  tabIngredientsForRecipe: IngredientQuantity[];
 }
