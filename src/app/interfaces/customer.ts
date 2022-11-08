@@ -31,6 +31,7 @@ export interface Customer {
   expGiven: number;
   idTableRest: number;
   consommationStart: string;
+  commandList:number[];
   name?: string;
   numImg?: number;
 }

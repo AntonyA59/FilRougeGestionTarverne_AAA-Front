@@ -1,3 +1,5 @@
+import { IngredientQuantity } from "./ingredient";
+
 export interface ManagerModel {
   id: number;
   name: string;
@@ -7,17 +9,12 @@ export interface ManagerModel {
   experience: number;
   idPlayer: number;
   maxExp: number;
-  ingredientQuantity: IngredientQuantity;
+  ingredientQuantity: IngredientQuantity[];
 }
 
 export interface Manager {
   name: string;
 }
-
-export type IngredientQuantity = {
-  idIngredient: number;
-  quantity: number;
-};
 
 export const MANAGERS: ManagerModel[] = [
   {
@@ -25,7 +22,14 @@ export const MANAGERS: ManagerModel[] = [
     chest: 10,
     experience: 30,
     idPlayer: 1,
-    ingredientQuantity: { idIngredient: 2, quantity: 2 },
+    ingredientQuantity:[ {   
+      id: 1,
+      name: "test",
+      level: 1,
+      buyingPrice: 1,
+      idSubCategory: 1,
+      quantity: 1
+    }],
     level: 1,
     maxExp: 100,
     name: 'Antony',
@@ -36,8 +40,14 @@ export const MANAGERS: ManagerModel[] = [
     chest: 20,
     experience: 40,
     idPlayer: 1,
-    ingredientQuantity: { idIngredient: 2, quantity: 2 },
-    level: 1,
+    ingredientQuantity:[ {   
+      id: 1,
+      name: "test",
+      level: 1,
+      buyingPrice: 1,
+      idSubCategory: 1,
+      quantity: 1
+    }],    level: 1,
     maxExp: 100,
     name: 'Adrien',
     reputation: 2,
@@ -47,8 +57,14 @@ export const MANAGERS: ManagerModel[] = [
     chest: 50,
     experience: 60,
     idPlayer: 1,
-    ingredientQuantity: { idIngredient: 2, quantity: 2 },
-    level: 1,
+    ingredientQuantity:[ {   
+      id: 1,
+      name: "test",
+      level: 1,
+      buyingPrice: 1,
+      idSubCategory: 1,
+      quantity: 1
+    }],    level: 1,
     maxExp: 100,
     name: 'Alexandre',
     reputation: 2,
@@ -58,8 +74,14 @@ export const MANAGERS: ManagerModel[] = [
     chest: 150,
     experience: 40,
     idPlayer: 1,
-    ingredientQuantity: { idIngredient: 2, quantity: 2 },
-    level: 1,
+    ingredientQuantity:[ {   
+      id: 1,
+      name: "test",
+      level: 1,
+      buyingPrice: 1,
+      idSubCategory: 1,
+      quantity: 1
+    }],    level: 1,
     maxExp: 100,
     name: 'Simon',
     reputation: 2,
