@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Manager } from '../interfaces/manager';
-import { ManagerService } from '../services/manager.service';
+import { ManagerService } from '../services/manager/manager.service';
 @Component({
   selector: 'app-add-manager-form',
   templateUrl: './add-manager-form.component.html',

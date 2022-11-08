@@ -13,7 +13,7 @@ import { GameMapComponent } from './game-map/game-map.component';
 import { AddManagerFormComponent } from './add-manager-form/add-manager-form.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { ConnectionComponent } from './connection/connection.component';
+import { LoginComponent } from './login/login.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
 import { PlayerMenuComponent } from './player-menu/player-menu.component';
 
@@ -26,8 +26,7 @@ import { PlayerMenuComponent } from './player-menu/player-menu.component';
     GameMapComponent,
     RegistrationComponent,
     HomePageComponent,
-    RegistrationComponent,
-    ConnectionComponent,
+    LoginComponent,
     SelectManagerComponent,
     PlayerMenuComponent,
     AddManagerFormComponent,

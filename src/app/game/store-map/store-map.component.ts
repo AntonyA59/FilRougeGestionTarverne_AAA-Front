@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NEVER } from 'rxjs';
-import { Category } from 'src/app/interfaces/category';
-import { Ingredient } from 'src/app/interfaces/ingredient';
-import { Subcategory } from 'src/app/interfaces/subcategory';
+import { Ingredient, IngredientModel } from 'src/app/interfaces/ingredient';
 
 @Component({
   selector: 'app-store-map',
@@ -10,7 +7,7 @@ import { Subcategory } from 'src/app/interfaces/subcategory';
   styleUrls: ['./store-map.component.css'],
 })
 export class StoreMapComponent implements OnInit {
-  ingredients: Ingredient[] = [
+  ingredients: IngredientModel[] = [
     {
       id: 2,
       name: 'Gruit',

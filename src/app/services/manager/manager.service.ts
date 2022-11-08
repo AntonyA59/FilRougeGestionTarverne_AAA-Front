@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Manager } from '../interfaces/manager';
+import { Manager } from '../../interfaces/manager';
 
 @Injectable({
   providedIn: 'root',
