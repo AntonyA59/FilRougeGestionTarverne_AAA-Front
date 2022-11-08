@@ -12,7 +12,7 @@ export interface CustomerModel {
   alcoholTolerance: number;
   gender: number;
   expGiven: number;
-  idTableRest: number;
+  idTableRest?: number;
   consommationStart: string;
 }
 export interface Customer {
@@ -29,7 +29,7 @@ export interface Customer {
   alcoholTolerance: number;
   gender: number;
   expGiven: number;
-  idTableRest: number;
+  idTableRest?: number;
   consommationStart: string;
   name?: string;
   numImg?: number;

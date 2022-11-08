@@ -94,6 +94,23 @@ export class RestaurantMapComponent implements OnInit {
       idTableRest: 3,
       consommationStart: '0',
     },
+    {
+      id: 5,
+      purseOfGold: 3,
+      happiness: 3,
+      hunger: 3,
+      thirst: 3,
+      nauseaLevel: 3,
+      alcoholLevel: 3,
+      toilet: 3,
+      timeInTavern: '2',
+      nauseaTolerance: 3,
+      alcoholTolerance: 3,
+      gender: 3,
+      expGiven: 3,
+      consommationStart: '0',
+      //idTableRest: 3,
+    },
   ];
   tableRests: TableRestModel[] = [
     {
@@ -139,6 +156,10 @@ export class RestaurantMapComponent implements OnInit {
   ];
 
   tableRestWithCustomer: TableRest[] = [];
+  newCustomers: Customer[] = [];
+  customerIndexSelected: number = 0;
+  tableIndexSelected: number = 0;
+
   constructor() {}
 
   ngOnInit(): void {
@@ -155,5 +176,50 @@ export class RestaurantMapComponent implements OnInit {
         }
       });
     });
+
+    this.customers.forEach((customer) => {
+      if (customer.idTableRest == undefined || customer.idTableRest < 1) {
+        this.newCustomers.push(customerTempo);
+      }
+    });
+  }
+
+  assignTable() {
+    let assignPossible = false;
+    if (
+      this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined
+    ) {
+      if (
+        this.tableRestWithCustomer[this.tableIndexSelected].customers
+          ?.length! >=
+        this.tableRestWithCustomer[this.tableIndexSelected].numberPlace
+      ) {
+      } else {
+        assignPossible = true;
+      }
+    } else {
+      assignPossible = true;
+    }
+
+    if (assignPossible) {
+      this.newCustomers[this.customerIndexSelected].numImg =
+        Math.floor(Math.random() * 7) + 1;
+      this.tableRestWithCustomer[this.tableIndexSelected].customers?.push(
+        this.newCustomers[this.customerIndexSelected]
+      );
+      this.newCustomers.splice(this.customerIndexSelected, 1);
+    }
+  }
+
+  customerChange(event: Event): void {
+    if (event.target instanceof HTMLSelectElement && event.target.value != '') {
+      this.customerIndexSelected = parseInt(event.target.value);
+    }
+  }
+
+  tableChange(event: Event): void {
+    if (event.target instanceof HTMLSelectElement && event.target.value != '') {
+      this.tableIndexSelected = parseInt(event.target.value);
+    }
   }
 }
