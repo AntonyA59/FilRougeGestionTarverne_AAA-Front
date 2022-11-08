@@ -84,64 +84,100 @@ export class StoreMapComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let strTableSelling = '';
+    let strTableBuying = '';
+    let strTotalBuyingPrice = '';
+    let strTotalSellingPrice = '';
+
+    strTableSelling = sessionStorage.getItem('tableSelling')!;
+    strTableBuying = sessionStorage.getItem('tableBuying')!;
+    strTotalSellingPrice = sessionStorage.getItem('totalSelling')!;
+    strTotalBuyingPrice = sessionStorage.getItem('totalBuying')!;
+
+    if (strTotalBuyingPrice != null) {
+      this.totalBuyingPrice = parseInt(strTotalBuyingPrice);
+    }
+    if (strTotalSellingPrice != null) {
+      this.totalSellingPrice = parseInt(strTotalSellingPrice);
+    }
+    if (strTableSelling != null) {
+      this.cartSelling = JSON.parse(strTableSelling);
+    }
+    if (strTableBuying != null) {
+      this.cartBuying = JSON.parse(strTableBuying);
+    }
+  }
   addIngredientToBuying(index: number) {
     let ingredient: Ingredient | undefined;
     let ingredientAlreadyExist: Ingredient | undefined;
-    ingredient = this.ingredients[index];
 
-    ingredientAlreadyExist = this.cartBuying.find(
-      (element) => element.id == ingredient?.id
-    );
+    if (this.ingredients[index] != undefined) {
+      ingredient = this.ingredients[index];
+      ingredientAlreadyExist = this.cartBuying.find(
+        (element) => element.id == ingredient?.id
+      );
 
-    if (ingredientAlreadyExist === undefined && ingredient != undefined) {
-      ingredient.count = 1;
-      this.cartBuying.push(ingredient);
-    } else {
-      if (ingredient != undefined && ingredient.count != undefined) {
-        ingredient.count++;
+      if (ingredientAlreadyExist === undefined && ingredient != undefined) {
+        ingredient.count = 1;
+        this.cartBuying.push(ingredient);
+      } else {
+        if (ingredient != undefined && ingredient.count != undefined) {
+          ingredient.count++;
+        }
       }
+      this.totalBuyingPrice += ingredient.buyingPrice;
+      sessionStorage.setItem('totalBuying', this.totalBuyingPrice.toString());
+      sessionStorage.setItem('tableBuying', JSON.stringify(this.cartBuying));
     }
-    this.totalBuyingPrice += ingredient.buyingPrice;
   }
   addIngredientToSelling(index: number) {
     let ingredient: Ingredient | undefined;
     let ingredientAlreadyExist: Ingredient | undefined;
     let ingredient2: Ingredient | undefined;
-    ingredient = this.inventory[index];
 
-    ingredientAlreadyExist = this.cartSelling.find(
-      (element) => element.id == ingredient?.id
-    );
+    if (this.ingredients[index] != undefined) {
+      ingredient = this.inventory[index];
+      ingredientAlreadyExist = this.cartSelling.find(
+        (element) => element.id == ingredient?.id
+      );
 
-    if (ingredient != undefined && ingredient.count != undefined) {
-      if (ingredientAlreadyExist?.count != undefined) {
-        ingredientAlreadyExist.count++;
-      } else {
-        ingredient2 = structuredClone(ingredient);
-        ingredient2.count = 1;
-        this.cartSelling.push(ingredient2);
+      if (ingredient != undefined && ingredient.count != undefined) {
+        if (ingredientAlreadyExist?.count != undefined) {
+          ingredientAlreadyExist.count++;
+        } else {
+          ingredient2 = structuredClone(ingredient);
+          ingredient2.count = 1;
+          this.cartSelling.push(ingredient2);
+        }
+        if (ingredient.count < 2) {
+          this.inventory.splice(index, 1);
+        } else {
+          ingredient.count--;
+        }
       }
-      if (ingredient.count < 2) {
-        this.inventory.splice(index, 1);
-      } else {
-        ingredient.count--;
-      }
+      this.totalSellingPrice += Math.ceil(ingredient.buyingPrice / 2);
+      sessionStorage.setItem('totalSelling', this.totalSellingPrice.toString());
+      sessionStorage.setItem('tableSelling', JSON.stringify(this.cartSelling));
     }
-    this.totalSellingPrice += Math.ceil(ingredient.buyingPrice / 2);
   }
 
   removeIngredientToBuying(index: number) {
     let ingredient: Ingredient | undefined;
-    ingredient = this.cartBuying[index];
-    if (ingredient != undefined && ingredient.count != undefined) {
-      if (ingredient.count <= 1) {
-        this.cartBuying.splice(index, 1);
-      } else {
-        ingredient.count--;
+
+    if (this.ingredients[index] != undefined) {
+      ingredient = this.cartBuying[index];
+      if (ingredient != undefined && ingredient.count != undefined) {
+        if (ingredient.count <= 1) {
+          this.cartBuying.splice(index, 1);
+        } else {
+          ingredient.count--;
+        }
       }
+      this.totalBuyingPrice -= ingredient.buyingPrice;
+      sessionStorage.setItem('totalBuying', this.totalBuyingPrice.toString());
+      sessionStorage.setItem('tableBuying', JSON.stringify(this.cartBuying));
     }
-    this.totalBuyingPrice -= ingredient.buyingPrice;
   }
 
   removeIngredientToSelling(index: number) {
@@ -150,24 +186,28 @@ export class StoreMapComponent implements OnInit {
     let ingredient2: Ingredient | undefined;
     ingredient = this.cartSelling[index];
 
-    ingredientAlreadyExist = this.inventory.find(
-      (element) => element.id == ingredient?.id
-    );
+    if (this.ingredients[index] != undefined) {
+      ingredientAlreadyExist = this.inventory.find(
+        (element) => element.id == ingredient?.id
+      );
 
-    if (ingredient != undefined && ingredient.count != undefined) {
-      if (ingredientAlreadyExist?.count != undefined) {
-        ingredientAlreadyExist.count++;
-      } else {
-        ingredient2 = structuredClone(ingredient);
-        ingredient2.count = 1;
-        this.inventory.push(ingredient2);
+      if (ingredient != undefined && ingredient.count != undefined) {
+        if (ingredientAlreadyExist?.count != undefined) {
+          ingredientAlreadyExist.count++;
+        } else {
+          ingredient2 = structuredClone(ingredient);
+          ingredient2.count = 1;
+          this.inventory.push(ingredient2);
+        }
+        if (ingredient.count < 2) {
+          this.cartSelling.splice(index, 1);
+        } else {
+          ingredient.count--;
+        }
       }
-      if (ingredient.count < 2) {
-        this.cartSelling.splice(index, 1);
-      } else {
-        ingredient.count--;
-      }
+      this.totalSellingPrice -= Math.ceil(ingredient.buyingPrice / 2);
+      sessionStorage.setItem('totalSelling', this.totalSellingPrice.toString());
+      sessionStorage.setItem('tableSelling', JSON.stringify(this.cartSelling));
     }
-    this.totalSellingPrice -= Math.ceil(ingredient.buyingPrice / 2);
   }
 }
