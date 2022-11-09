@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ManagerModel } from 'src/app/interfaces/manager';
-
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,6 +14,8 @@ export class ManagerService {
       Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
     }),
   };
+  private manager = new BehaviorSubject<ManagerModel>({} as ManagerModel);
+  manager$ = this.manager.asObservable();
   private emailPlayer: string = sessionStorage.getItem('email')!;
   private urlAddManager = environment.apiUrl + 'api/game/manager/create';
   private urlListManager =
@@ -28,6 +29,10 @@ export class ManagerService {
       .subscribe();
   }
 
+  setManager(newManager: ManagerModel): void {
+    this.manager.next(newManager);
+  }
+
   listManager(): Observable<ManagerModel[]> {
     const body = JSON.parse(`{"email": "${this.emailPlayer}"}`);
     return this.http.post<ManagerModel[]>(
@@ -36,6 +41,4 @@ export class ManagerService {
       this.httpOptions
     );
   }
-
-  loadManager() {}
 }

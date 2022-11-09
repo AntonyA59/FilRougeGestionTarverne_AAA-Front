@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer, CustomerModel } from 'src/app/interfaces/customer';
-import { Place } from 'src/app/interfaces/place';
+import { PlaceModel } from 'src/app/interfaces/place';
 import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
 
 @Component({
@@ -9,7 +9,7 @@ import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
-  places: Place[] = [
+  places: PlaceModel[] = [
     {
       id: 1,
       name: 'Grande Salle',
@@ -40,8 +40,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 2,
       idTableRest: 1,
       consommationStart: '2',
-      commandList:[1]
-
+      commandList: [1],
     },
     {
       id: 2,
@@ -59,8 +58,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
-      commandList:[1]
-
+      commandList: [1],
     },
     {
       id: 3,
@@ -78,8 +76,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
-      commandList:[]
-
+      commandList: [],
     },
     {
       id: 4,
@@ -97,8 +94,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
-      commandList:[]
-
+      commandList: [],
     },
     {
       id: 4,
@@ -116,8 +112,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 3,
       consommationStart: '0',
-      commandList:[1]
-
+      commandList: [1],
     },
     {
       id: 5,
@@ -134,7 +129,7 @@ export class RestaurantMapComponent implements OnInit {
       gender: 3,
       expGiven: 3,
       consommationStart: '0',
-      commandList:[1]
+      commandList: [1],
       //idTableRest: 3,
     },
   ];
@@ -190,7 +185,7 @@ export class RestaurantMapComponent implements OnInit {
 
   ngOnInit(): void {
     let customerTempo = {} as Customer;
-    let placeTempo = {} as Place;
+    let placeTempo = {} as PlaceModel;
 
     placeTempo = this.places.find((element) => element.type == 1)!;
 

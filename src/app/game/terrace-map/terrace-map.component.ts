@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer, CustomerModel } from 'src/app/interfaces/customer';
-import { Place } from 'src/app/interfaces/place';
+import { PlaceModel } from 'src/app/interfaces/place';
 import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
 
 @Component({
@@ -9,7 +9,7 @@ import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
   styleUrls: ['./terrace-map.component.css'],
 })
 export class TerraceMapComponent implements OnInit {
-  places: Place[] = [
+  places: PlaceModel[] = [
     {
       id: 1,
       name: 'Grande Salle',
@@ -179,7 +179,7 @@ export class TerraceMapComponent implements OnInit {
 
   ngOnInit(): void {
     let customerTempo = {} as Customer;
-    let placeTempo = {} as Place;
+    let placeTempo = {} as PlaceModel;
 
     placeTempo = this.places.find((element) => element.type == 2)!;
 

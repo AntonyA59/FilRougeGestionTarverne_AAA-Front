@@ -11,7 +11,8 @@
             <p class="card-text">Or: {{manager.chest}}</p>
             <p class="card-text">Exp: {{manager.experience}}/{{manager.maxExp}}</p>
             <p class="card-text">Reputation: {{manager.reputation}}</p>
-            <a href="#" class="btn-brown">Jouer ce manager</a>
+            <button type="button" (click)="selectManager(manager.id)" routerLink="/game/restaurant"
+                class="btn-brown">Jouer ce manager</button>
         </div>
 
     </div>
