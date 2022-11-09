@@ -1,3 +1,5 @@
+import { IngredientQuantity } from './ingredient';
+
 export interface ManagerModel {
   id: number;
   name: string;
@@ -7,10 +9,5 @@ export interface ManagerModel {
   experience: number;
   idPlayer: number;
   maxExp: number;
-  ingredientQuantity: IngredientQuantity;
+  ingredientQuantity: IngredientQuantity[];
 }
-
-export type IngredientQuantity = {
-  idIngredient: number;
-  quantity: number;
-};

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -62,4 +63,14 @@ export class AuthService {
   logOut() {
     sessionStorage.clear();
   }
+=======
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PlayerService {
+
+  constructor() { }
+>>>>>>> origin/master
 }
