@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer, CustomerModel } from 'src/app/interfaces/customer';
 import { Place } from 'src/app/interfaces/place';
-import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
+import {
+  TableRest,
+  TableRestModel,
+  AssignNewTableForCustomerDto,
+} from 'src/app/interfaces/table-rest';
 
 @Component({
   selector: 'app-restaurant-map',
@@ -40,8 +44,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 2,
       idTableRest: 1,
       consommationStart: '2',
-      commandList:[1]
-
+      commandList: [1],
     },
     {
       id: 2,
@@ -59,8 +62,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
-      commandList:[1]
-
+      commandList: [1],
     },
     {
       id: 3,
@@ -78,8 +80,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
-      commandList:[]
-
+      commandList: [],
     },
     {
       id: 4,
@@ -97,8 +98,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
-      commandList:[]
-
+      commandList: [],
     },
     {
       id: 4,
@@ -116,8 +116,7 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 3,
       consommationStart: '0',
-      commandList:[1]
-
+      commandList: [1],
     },
     {
       id: 5,
@@ -134,7 +133,7 @@ export class RestaurantMapComponent implements OnInit {
       gender: 3,
       expGiven: 3,
       consommationStart: '0',
-      commandList:[1]
+      commandList: [1],
       //idTableRest: 3,
     },
   ];
@@ -185,6 +184,7 @@ export class RestaurantMapComponent implements OnInit {
   newCustomers: Customer[] = [];
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
+  assignNewTableForCustomerDto = {} as AssignNewTableForCustomerDto;
 
   constructor() {}
 
@@ -236,12 +236,24 @@ export class RestaurantMapComponent implements OnInit {
     }
 
     if (assignPossible) {
-      this.newCustomers[this.customerIndexSelected].numImg =
-        Math.floor(Math.random() * 7) + 1;
-      this.tableRestWithCustomer[this.tableIndexSelected].customers?.push(
-        this.newCustomers[this.customerIndexSelected]
-      );
-      this.newCustomers.splice(this.customerIndexSelected, 1);
+      this.assignNewTableForCustomerDto.customerId =
+        this.newCustomers[this.customerIndexSelected].id;
+      this.assignNewTableForCustomerDto.tableId =
+        this.tableRestWithCustomer[this.tableIndexSelected].id;
+      // Envoi du post avec comme attribut this.assignNewTableForCustomerDto
+
+      if (true) {
+        this.newCustomers[this.customerIndexSelected].numImg =
+          Math.floor(Math.random() * 7) + 1;
+        this.tableRestWithCustomer[this.tableIndexSelected].customers?.push(
+          this.newCustomers[this.customerIndexSelected]
+        );
+        this.newCustomers.splice(this.customerIndexSelected, 1);
+      } else {
+        //erreur venant du back
+      }
+    } else {
+      // message d'erreur (place non disponibles)
     }
   }
 

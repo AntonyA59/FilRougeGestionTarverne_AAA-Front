@@ -278,7 +278,7 @@ export class StoreMapComponent implements OnInit {
                 JSON.stringify(this.inventory)
               );
             } else {
-              //message d'erreur
+              //erreur venant du back
             }
           }
         });

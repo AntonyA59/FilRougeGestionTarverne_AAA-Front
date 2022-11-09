@@ -64,37 +64,38 @@
       </div>
       <div
         *ngFor="let table of tableRestWithCustomer; index as i"
-        class="col-sm-6"
-        id="tableRest"
-        class="d-flex flex-wrap"
+        class="col-sm-6 d-flex flex-wrap"
       >
-        <div class="position-absolute badgeTable">
-          <h1>
-            <span
-              class="position-absolute badge rounded-pill bg-success ms-3 top-50"
-            >
-              {{ i + 1 }}
-            </span>
-          </h1>
-        </div>
-        <div
-          *ngFor="
-            let customer of tableRestWithCustomer[i].customers;
-            index as j
-          "
-          id="zoomCustomer"
-        >
-          <img
-            *ngIf="j < 2"
-            src="../../../assets/image/customer_0{{ customer.numImg }}.png"
-            class="customerTop"
-            alt=""
-          />
-          <img
-            *ngIf="j >= 2"
-            src="../../../assets/image/customer_0{{ customer.numImg }}.png"
-            alt=""
-          />
+        <div class="tableRest">
+          <div class="position-absolute badgeTable">
+            <h1>
+              <span
+                class="position-absolute badge rounded-pill bg-success ms-3 top-50"
+              >
+                {{ i + 1 }}
+              </span>
+            </h1>
+          </div>
+          <div
+            *ngFor="
+              let customer of tableRestWithCustomer[i].customers;
+              index as j
+            "
+            class="zoomCustomer"
+          >
+            <img
+              *ngIf="j < 2"
+              src="../../../assets/image/customer_0{{ customer.numImg }}.png"
+              class="customerTop"
+              alt=""
+            />
+            <img
+              *ngIf="j >= 2"
+              src="../../../assets/image/customer_0{{ customer.numImg }}.png"
+              class="customerBottom"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>
