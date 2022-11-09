@@ -12,7 +12,7 @@ import { ManagerService } from '../manager/manager.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerManagerService {
+export class CustomerManagementService {
   private listCustomer= new BehaviorSubject<Customer[]>([] as Customer[])
   listCustomer$=this.listCustomer.asObservable();
 

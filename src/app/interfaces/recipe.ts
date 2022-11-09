@@ -1,3 +1,4 @@
+import { CustomerModel } from "./customer";
 import { IngredientQuantity } from "./ingredient";
 
 export interface Recipe {
@@ -11,4 +12,9 @@ export interface Recipe {
   expGiven: number;
   idSubCategory: number;
   tabIngredientsForRecipe: IngredientQuantity[];
+}
+export interface RecipeCustomerInventoryIngredientModel{
+  recipe:Recipe;
+  customer:CustomerModel;
+  inventaire:IngredientQuantity[]
 }
