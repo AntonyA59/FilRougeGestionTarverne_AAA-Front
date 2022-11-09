@@ -112,6 +112,8 @@
     </select>
     <button
       class="btn btn-light m-1"
+      clickable
+      (click)="commitRecipe()"
       [disabled]="!customerChoosing || !recipeReady ? 'disabled' : null"
     >
       Lancer la Recette

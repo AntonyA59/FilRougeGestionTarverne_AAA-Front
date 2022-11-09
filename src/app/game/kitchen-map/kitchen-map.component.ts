@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/interfaces/customer';
-import { IngredientModel, IngredientQuantity } from 'src/app/interfaces/ingredient';
-import { Recipe } from 'src/app/interfaces/recipe';
+import {
+  IngredientModel,
+  IngredientQuantity,
+} from 'src/app/interfaces/ingredient';
+import { Recipe, RequestRecipeDto } from 'src/app/interfaces/recipe';
 
 @Component({
   selector: 'app-cuisine-map',
@@ -26,7 +29,7 @@ export class KitchenMapComponent implements OnInit {
       expGiven: 2,
       idTableRest: 2,
       consommationStart: '2',
-      commandList:[1],
+      commandList: [1],
       name: 'Oscar Ambar',
     },
     {
@@ -45,7 +48,7 @@ export class KitchenMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 2,
       consommationStart: '0',
-      commandList:[1],
+      commandList: [1],
       name: 'Anne Ogastric',
     },
     {
@@ -64,7 +67,7 @@ export class KitchenMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 2,
       consommationStart: '0',
-      commandList:[1],
+      commandList: [1],
       name: 'Julie Ogastric',
     },
   ];
@@ -165,13 +168,13 @@ export class KitchenMapComponent implements OnInit {
       idSubCategory: 1,
       tabIngredientsForRecipe: [
         {
-          id: 1,
-          name: "toto",
+          id: 64,
+          name: 'toto',
           level: 1,
           buyingPrice: 10,
           idSubCategory: 1,
           quantity: 10,
-        }
+        },
       ],
     },
     {
@@ -186,8 +189,8 @@ export class KitchenMapComponent implements OnInit {
       idSubCategory: 1,
       tabIngredientsForRecipe: [
         {
-          id: 1,
-          name: "toto",
+          id: 94,
+          name: 'toto',
           level: 1,
           buyingPrice: 10,
           idSubCategory: 1,
@@ -195,25 +198,28 @@ export class KitchenMapComponent implements OnInit {
         },
         {
           id: 2,
-          name: "toto",
+          name: 'toto',
           level: 1,
           buyingPrice: 10,
           idSubCategory: 1,
           quantity: 10,
         },
         {
-          id: 3,
-          name: "toto",
+          id: 14,
+          name: 'toto',
           level: 1,
           buyingPrice: 10,
           idSubCategory: 1,
           quantity: 10,
-        }],
+        },
+      ],
     },
   ];
   ingredientsRecipe: IngredientModel[] = [];
+  requestRecipeDto = {} as RequestRecipeDto;
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as Recipe;
+  customerIdSelected: number = 0;
   ingredientsQuantityAvailable: number[] = [];
   textdark = 'text-dark';
   textred = 'text-danger';
@@ -227,42 +233,63 @@ export class KitchenMapComponent implements OnInit {
     let ingredient: IngredientQuantity | undefined;
     let nbIngredients = 0;
 
-    if (this.recipeSelected.id != this.recipes[index].id) {
+    if (
+      this.recipeSelected != undefined &&
+      this.recipeSelected.id != this.recipes[index].id
+    ) {
       this.ingredientsRecipe = [];
       this.numberNothing = [];
       this.ingredientsQuantityAvailable = [];
       this.recipeSelected = this.recipes[index];
       this.recipeReady = true;
 
-      this.recipeSelected.tabIngredientsForRecipe.forEach((ingredientQuantity) => {
-        ingredient = this.ingredients.find(
-          (element) => element.id == ingredientQuantity.id
-        );
-        if (ingredient != undefined) {
-          this.ingredientsRecipe.push(ingredient);
+      this.recipeSelected.tabIngredientsForRecipe.forEach(
+        (ingredientQuantity) => {
+          ingredient = this.ingredients.find(
+            (element) => element.id == ingredientQuantity.id
+          );
+          if (ingredient != undefined) {
+            this.ingredientsRecipe.push(ingredient);
+          }
+          ingredient = this.inventory.find(
+            (element) => element.id == ingredientQuantity.id
+          );
+          if (ingredient != undefined) {
+            this.ingredientsQuantityAvailable.push(ingredient.quantity!);
+          } else {
+            this.ingredientsQuantityAvailable.push(0);
+            this.recipeReady = false;
+          }
+          nbIngredients++;
         }
-        ingredient = this.inventory.find(
-          (element) => element.id == ingredientQuantity.id
-        );
-        if (ingredient != undefined) {
-          this.ingredientsQuantityAvailable.push(ingredient.quantity!);
-        } else {
-          this.ingredientsQuantityAvailable.push(0);
-          this.recipeReady = false;
-        }
-        nbIngredients++;
-      });
+      );
 
       for (let index = 0; index < 4 - nbIngredients; index++) {
         this.numberNothing.push(1);
       }
     }
   }
+
   customerChange(event: Event): void {
     if (event.target instanceof HTMLSelectElement && event.target.value != '') {
+      this.customerIdSelected = parseInt(event.target.value);
       this.customerChoosing = true;
     } else {
+      this.customerIdSelected = 0;
       this.customerChoosing = false;
+    }
+  }
+  commitRecipe() {
+    if (this.customerChoosing == true && this.recipeSelected != undefined) {
+      this.requestRecipeDto.customerId = this.customerIdSelected;
+      this.requestRecipeDto.recipeId = this.recipeSelected.id;
+      this.requestRecipeDto.managerId = 1;
+
+      // envoi du Post avec comme argument this.requestRecipeDto ;
+      if (true) {
+      } else {
+        //erreur venant du back
+      }
     }
   }
 }

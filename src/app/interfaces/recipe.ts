@@ -1,5 +1,5 @@
-import { CustomerModel } from "./customer";
-import { IngredientQuantity } from "./ingredient";
+import { CustomerModel } from './customer';
+import { IngredientQuantity } from './ingredient';
 
 export interface Recipe {
   id: number;
@@ -13,8 +13,14 @@ export interface Recipe {
   idSubCategory: number;
   tabIngredientsForRecipe: IngredientQuantity[];
 }
-export interface RecipeCustomerInventoryIngredientModel{
-  recipe:Recipe;
-  customer:CustomerModel;
-  inventaire:IngredientQuantity[]
+export interface RecipeCustomerInventoryIngredientModel {
+  recipe: Recipe;
+  customer: CustomerModel;
+  inventaire: IngredientQuantity[];
+}
+
+export interface RequestRecipeDto {
+  managerId: number;
+  recipeId: number;
+  customerId: number;
 }
