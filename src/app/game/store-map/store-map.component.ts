@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IngredientModel, IngredientQuantity } from 'src/app/interfaces/ingredient';
+import {
+  IngredientModel,
+  IngredientQuantity,
+  ShopIngredientDto,
+  ShopIngredientQuantity,
+} from 'src/app/interfaces/ingredient';
 
 @Component({
   selector: 'app-store-map',
@@ -82,16 +87,23 @@ export class StoreMapComponent implements OnInit {
   totalBuyingPrice: number = 0;
   totalSellingPrice: number = 0;
 
+  shopIngredientDtoToSelling = {} as ShopIngredientDto;
+  shopIngredientDtoToBuying = {} as ShopIngredientDto;
+
   constructor() {}
 
   ngOnInit(): void {
     let strTableSelling = '';
     let strTableBuying = '';
+    let strInventory = ' ;';
     let strTotalBuyingPrice = '';
     let strTotalSellingPrice = '';
 
     strTableSelling = sessionStorage.getItem('tableSelling')!;
     strTableBuying = sessionStorage.getItem('tableBuying')!;
+
+    strInventory = sessionStorage.getItem('inventory')!;
+
     strTotalSellingPrice = sessionStorage.getItem('totalSelling')!;
     strTotalBuyingPrice = sessionStorage.getItem('totalBuying')!;
 
@@ -106,6 +118,9 @@ export class StoreMapComponent implements OnInit {
     }
     if (strTableBuying != null) {
       this.cartBuying = JSON.parse(strTableBuying);
+    }
+    if (strInventory != null) {
+      this.inventory = JSON.parse(strInventory);
     }
   }
   addIngredientToBuying(index: number) {
@@ -159,6 +174,7 @@ export class StoreMapComponent implements OnInit {
       this.totalSellingPrice += Math.ceil(ingredient.buyingPrice / 2);
       sessionStorage.setItem('totalSelling', this.totalSellingPrice.toString());
       sessionStorage.setItem('tableSelling', JSON.stringify(this.cartSelling));
+      sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
     }
   }
 
@@ -208,6 +224,65 @@ export class StoreMapComponent implements OnInit {
       this.totalSellingPrice -= Math.ceil(ingredient.buyingPrice / 2);
       sessionStorage.setItem('totalSelling', this.totalSellingPrice.toString());
       sessionStorage.setItem('tableSelling', JSON.stringify(this.cartSelling));
+      sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
+    }
+  }
+  commitTransaction() {
+    let shopIngredientQuantity = {} as ShopIngredientQuantity;
+    this.shopIngredientDtoToSelling.idManager = 1;
+    let stopTransaction: boolean = false;
+
+    if (this.cartSelling.length > 0) {
+      this.cartSelling.forEach((element) => {
+        if (element.quantity != undefined) {
+          shopIngredientQuantity.idIngredient = element.id;
+          shopIngredientQuantity.quantity = element.quantity;
+          this.shopIngredientDtoToSelling.shopIngredientQuantity.push(
+            shopIngredientQuantity
+          );
+          //envoie du post avec comme argument this.shopIngredientDtoToSelling
+          if (true) {
+            this.totalSellingPrice = 0;
+            this.cartSelling = [];
+            sessionStorage.removeItem('totalSelling');
+            sessionStorage.removeItem('tableSelling');
+            sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
+          } else {
+            stopTransaction = true;
+            //message d'erreur
+          }
+        }
+      });
+    }
+
+    if (stopTransaction == false) {
+      this.shopIngredientDtoToBuying.idManager = 1;
+      shopIngredientQuantity = {} as ShopIngredientQuantity;
+
+      if (this.cartBuying.length > 0) {
+        this.cartBuying.forEach((element) => {
+          if (element.quantity != undefined) {
+            shopIngredientQuantity.idIngredient = element.id;
+            shopIngredientQuantity.quantity = element.quantity;
+            this.shopIngredientDtoToBuying.shopIngredientQuantity.push(
+              shopIngredientQuantity
+            );
+            //envoie du post avec comme argument this.shopIngredientDtoToBuying
+            if (true) {
+              this.cartBuying = [];
+              this.totalBuyingPrice = 0;
+              sessionStorage.removeItem('totalBuying');
+              sessionStorage.removeItem('tableBuying');
+              sessionStorage.setItem(
+                'inventory',
+                JSON.stringify(this.inventory)
+              );
+            } else {
+              //message d'erreur
+            }
+          }
+        });
+      }
     }
   }
 }
