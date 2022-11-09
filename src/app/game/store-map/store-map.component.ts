@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Ingredient, IngredientQuantity } from 'src/app/interfaces/ingredient';
+import { IngredientModel, IngredientQuantity } from 'src/app/interfaces/ingredient';
 
 @Component({
   selector: 'app-store-map',
@@ -7,7 +7,7 @@ import { Ingredient, IngredientQuantity } from 'src/app/interfaces/ingredient';
   styleUrls: ['./store-map.component.css'],
 })
 export class StoreMapComponent implements OnInit {
-  ingredients: Ingredient[] = [
+  ingredients: IngredientModel[] = [
     {
       id: 2,
       name: 'Gruit',

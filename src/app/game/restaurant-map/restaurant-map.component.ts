@@ -23,7 +23,7 @@ export class RestaurantMapComponent implements OnInit {
       level: 2,
     },
   ];
-  customers: CustomerModel[] = [
+  customers: Customer[] = [
     {
       id: 1,
       purseOfGold: 2,
@@ -40,6 +40,8 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 2,
       idTableRest: 1,
       consommationStart: '2',
+      commandList:[1]
+
     },
     {
       id: 2,
@@ -57,6 +59,8 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
+      commandList:[1]
+
     },
     {
       id: 3,
@@ -74,6 +78,8 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
+      commandList:[]
+
     },
     {
       id: 4,
@@ -91,6 +97,8 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 1,
       consommationStart: '0',
+      commandList:[]
+
     },
     {
       id: 4,
@@ -108,6 +116,8 @@ export class RestaurantMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 3,
       consommationStart: '0',
+      commandList:[1]
+
     },
     {
       id: 5,
@@ -124,6 +134,7 @@ export class RestaurantMapComponent implements OnInit {
       gender: 3,
       expGiven: 3,
       consommationStart: '0',
+      commandList:[1]
       //idTableRest: 3,
     },
   ];

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/interfaces/customer';
-import { Ingredient, IngredientQuantity } from 'src/app/interfaces/ingredient';
+import { IngredientModel, IngredientQuantity } from 'src/app/interfaces/ingredient';
 import { Recipe } from 'src/app/interfaces/recipe';
 
 @Component({
@@ -68,7 +68,7 @@ export class KitchenMapComponent implements OnInit {
       name: 'Julie Ogastric',
     },
   ];
-  ingredients: Ingredient[] = [
+  ingredients: IngredientModel[] = [
     {
       id: 2,
       name: 'Gruit',
@@ -211,7 +211,7 @@ export class KitchenMapComponent implements OnInit {
         }],
     },
   ];
-  ingredientsRecipe: Ingredient[] = [];
+  ingredientsRecipe: IngredientModel[] = [];
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as Recipe;
   ingredientsQuantityAvailable: number[] = [];
@@ -224,7 +224,7 @@ export class KitchenMapComponent implements OnInit {
 
   ngOnInit(): void {}
   selectRecipe(index: number) {
-    let ingredient: Ingredient | undefined;
+    let ingredient: IngredientQuantity | undefined;
     let nbIngredients = 0;
 
     if (this.recipeSelected.id != this.recipes[index].id) {
@@ -234,15 +234,15 @@ export class KitchenMapComponent implements OnInit {
       this.recipeSelected = this.recipes[index];
       this.recipeReady = true;
 
-      this.recipeSelected.tabIngredientsForRecipe.forEach((idIngredient) => {
+      this.recipeSelected.tabIngredientsForRecipe.forEach((ingredientQuantity) => {
         ingredient = this.ingredients.find(
-          (element) => element.id == idIngredient
+          (element) => element.id == ingredientQuantity.id
         );
         if (ingredient != undefined) {
           this.ingredientsRecipe.push(ingredient);
         }
         ingredient = this.inventory.find(
-          (element) => element.id == idIngredient
+          (element) => element.id == ingredientQuantity.id
         );
         if (ingredient != undefined) {
           this.ingredientsQuantityAvailable.push(ingredient.quantity!);

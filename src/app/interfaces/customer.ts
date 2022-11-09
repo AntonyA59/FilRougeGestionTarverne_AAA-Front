@@ -13,7 +13,8 @@ export interface CustomerModel {
   gender: number;
   expGiven: number;
   idTableRest?: number;
-  consommationStart: string;
+  consommationStart?: string;
+  commandList?:number[];
 }
 export interface Customer {
   id: number;
@@ -30,8 +31,8 @@ export interface Customer {
   gender: number;
   expGiven: number;
   idTableRest?: number;
-  consommationStart: string;
-  commandList:number[];
+  consommationStart?: string;
+  commandList?:number[];
   name?: string;
   numImg?: number;
 }

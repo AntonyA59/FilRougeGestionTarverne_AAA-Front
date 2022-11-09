@@ -4,15 +4,15 @@ export interface IngredientQuantity {
   level: number;
   buyingPrice: number;
   idSubCategory: number;
-  quantity: number;
+  quantity?: number;
 }
-export interface Ingredient{
+export interface IngredientModel{
   id: number;
   name: string;
   level: number;
   buyingPrice: number;
   idSubCategory: number;
-  quantity?: number|undefined;
+  //quantity?: number|undefined;
 
 }
 

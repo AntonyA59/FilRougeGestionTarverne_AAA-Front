@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Customer } from 'src/app/interfaces/customer';
+import { Customer, CustomerModel } from 'src/app/interfaces/customer';
 import { CustomerTableModel } from 'src/app/interfaces/customer-table-model';
 import { Recipe } from 'src/app/interfaces/recipe';
 import { TableRestModel } from 'src/app/interfaces/table-rest';
@@ -46,9 +46,9 @@ export class CustomerManagerService {
   getNewRecipe():Observable<Recipe>{
     return this.http.get<Recipe>(this.urlNewRecipe,this.httpOptions);
   }
-  getNewCustomer():Observable<Customer>{
-    return new Observable<Customer>(subscriber=>{
-      this.http.post<Customer>(this.urlNewCustomer,this.httpOptions).subscribe((newCustomer)=>{
+  getNewCustomer():Observable<CustomerModel>{
+    return new Observable<CustomerModel>(subscriber=>{
+      this.http.post<CustomerModel>(this.urlNewCustomer,this.httpOptions).subscribe((newCustomer)=>{
         let newListCustomer:Customer[]=Array.from(this.listCustomer.getValue());
         newListCustomer.push(newCustomer);
         this.setListCustomer(newListCustomer);
@@ -66,7 +66,7 @@ export class CustomerManagerService {
   }
 
   customerServed(customer:Customer):void{
-    this.http.post<Customer>(this.urlAssignCustomerInTable,customer.id,this.httpOptions).subscribe((customerUpdate)=>{
+    this.http.post<CustomerModel>(this.urlAssignCustomerInTable,customer.id,this.httpOptions).subscribe((customerUpdate)=>{
       this.updateCustomer(customer,customerUpdate);
     });
   }
