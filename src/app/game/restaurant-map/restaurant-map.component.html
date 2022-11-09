@@ -1,5 +1,5 @@
-<div class="row h-100 m-1">
-  <div class="col-sm-12" id="room">
+<div class="row h-100 " >
+  <div class="col-12 p-0" id="room">
     <div class="row m-1">
       <div class="position-absolute d-flex justify-content-end">
         <div id="divNewCustomer">
@@ -66,8 +66,7 @@
       <div
         *ngFor="let table of tableRestWithCustomer; index as i"
         class="col-sm-6"
-        id="tableRest"
-        class="d-flex flex-wrap"
+        class="d-flex flex-wrap tableRest"
       >
         <div class="position-absolute badgeTable">
           <h1>
@@ -83,7 +82,7 @@
             let customer of tableRestWithCustomer[i].customers;
             index as j
           "
-          id="zoomCustomer"
+          class="zoomCustomer"
         >
           <img
             *ngIf="j < 2"
