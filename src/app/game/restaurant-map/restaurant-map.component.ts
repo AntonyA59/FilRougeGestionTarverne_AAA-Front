@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer, CustomerModel } from 'src/app/interfaces/customer';
+import { Place } from 'src/app/interfaces/place';
 import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
 
 @Component({
@@ -8,6 +9,20 @@ import { TableRest, TableRestModel } from 'src/app/interfaces/table-rest';
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
+  places: Place[] = [
+    {
+      id: 1,
+      name: 'Grande Salle',
+      type: 1,
+      level: 1,
+    },
+    {
+      id: 2,
+      name: 'Terasse',
+      type: 2,
+      level: 2,
+    },
+  ];
   customers: CustomerModel[] = [
     {
       id: 1,
@@ -151,7 +166,7 @@ export class RestaurantMapComponent implements OnInit {
       hygiene: 0,
       posX: 1,
       posY: 1,
-      idPlace: 1,
+      idPlace: 2,
     },
   ];
 
@@ -163,8 +178,16 @@ export class RestaurantMapComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.tableRestWithCustomer = this.tableRests;
     let customerTempo = {} as Customer;
+    let placeTempo = {} as Place;
+
+    placeTempo = this.places.find((element) => element.type == 1)!;
+
+    this.tableRests.forEach((table) => {
+      if (table.idPlace == placeTempo.id) {
+        this.tableRestWithCustomer.push(table);
+      }
+    });
 
     this.tableRestWithCustomer.forEach((table) => {
       table.customers = [];
