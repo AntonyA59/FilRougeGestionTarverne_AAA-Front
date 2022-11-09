@@ -20,7 +20,6 @@ export class AuthService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
     }),
   };
 
@@ -41,11 +40,8 @@ export class AuthService {
         })
       );
   }
-  register(player: Player): Observable<Player | Status> {
-    return this.http.post<Player | Status>(
-      environment.apiUrl + 'api/register',
-      player
-    );
+  register(player: Player): Observable<Player> {
+    return this.http.post<Player>(environment.apiUrl + 'api/register', player);
   }
   isUserLoggedIn() {
     let email = sessionStorage.getItem('email');
@@ -58,12 +54,11 @@ export class AuthService {
   isPlayer(obj: any): obj is Player {
     return 'email' in obj;
   }
+
   isStatus(obj: any): obj is Status {
     return 'response' in obj;
   }
-  isConnected(): boolean {
-    return this.curUser.value.connected;
-  }
+
   logOut() {
     sessionStorage.clear();
   }

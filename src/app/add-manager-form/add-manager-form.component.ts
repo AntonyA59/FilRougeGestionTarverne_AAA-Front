@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Manager } from '../interfaces/manager';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ManagerService } from '../services/manager/manager.service';
 
 @Component({
@@ -10,14 +9,19 @@ import { ManagerService } from '../services/manager/manager.service';
 })
 export class AddManagerFormComponent implements OnInit {
   manager = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
   });
-
+  emailPlayer = sessionStorage.getItem('email');
   constructor(private managerService: ManagerService) {}
 
   onSubmit() {
-    this.managerService.addManager(this.manager.value as Manager);
+    const val = this.manager.value;
+    if (val.name) {
+      this.managerService.addManager(val.name, this.emailPlayer!);
+    }
     this.manager.reset();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.emailPlayer);
+  }
 }

@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Manager } from 'src/app/interfaces/manager';
+import { Observable } from 'rxjs';
+import { ManagerModel } from 'src/app/interfaces/manager';
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,14 +10,32 @@ import { environment } from 'src/environments/environment';
 })
 export class ManagerService {
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
+    }),
   };
+  private emailPlayer: string = sessionStorage.getItem('email')!;
+  private urlAddManager = environment.apiUrl + 'api/game/manager/create';
+  private urlListManager =
+    environment.apiUrl + 'api/game/manager/listExistingManager';
 
-  private urlAddManager = environment.apiUrl + 'api/manager/create';
-  addManager(manager: Manager) {
+  constructor(private http: HttpClient) {}
+
+  addManager(name: string, email: string) {
     return this.http
-      .post<Manager>(this.urlAddManager, manager, this.httpOptions)
+      .post<any>(this.urlAddManager, { name, email }, this.httpOptions)
       .subscribe();
   }
-  constructor(private http: HttpClient) {}
+
+  listManager(): Observable<ManagerModel[]> {
+    const body = JSON.parse(`{"email": "${this.emailPlayer}"}`);
+    return this.http.post<ManagerModel[]>(
+      this.urlListManager,
+      body,
+      this.httpOptions
+    );
+  }
+
+  loadManager() {}
 }

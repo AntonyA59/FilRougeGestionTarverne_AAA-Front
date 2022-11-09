@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ManagerModel, MANAGERS } from '../interfaces/manager';
+import { ManagerModel } from '../interfaces/manager';
+import { ManagerService } from '../services/manager/manager.service';
 
 @Component({
   selector: 'app-select-manager',
@@ -7,8 +8,12 @@ import { ManagerModel, MANAGERS } from '../interfaces/manager';
   styleUrls: ['./select-manager.component.css'],
 })
 export class SelectManagerComponent implements OnInit {
-  managers = MANAGERS;
-  constructor() {}
+  managers: ManagerModel[] = [];
+  constructor(private managerService: ManagerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.managerService.listManager().subscribe((response) => {
+      this.managers = response;
+    });
+  }
 }
