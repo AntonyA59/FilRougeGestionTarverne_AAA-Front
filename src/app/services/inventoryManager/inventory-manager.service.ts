@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Ingredient } from 'src/app/interfaces/ingredient';
+import { IngredientQuantity } from 'src/app/interfaces/ingredient';
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryManagerService {
-  private inventaireSave: BehaviorSubject<Ingredient[]> =
-    new BehaviorSubject<Ingredient[]>({} as Ingredient[]);
-  inventaireConnect$ = this.inventaireSave.asObservable();
+  private inventaire: BehaviorSubject<IngredientQuantity[]> =
+    new BehaviorSubject<IngredientQuantity[]>({} as IngredientQuantity[]);
+  inventaireConnect$ = this.inventaire.asObservable();
 
-  constructor() {
+  constructor() {}
 
+  setInventaire(newInventaire: IngredientQuantity[]): void {
+    this.inventaire.next(newInventaire);
   }
-  
-  setInventaireSave(newInventaire: Ingredient[]): void {
-    this.inventaireSave.next(newInventaire);
-  }
-  
 }

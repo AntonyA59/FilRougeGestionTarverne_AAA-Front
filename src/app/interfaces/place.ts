@@ -1,4 +1,4 @@
-export interface Place {
+export interface PlaceModel {
   id: number;
   name: string;
   type: number;

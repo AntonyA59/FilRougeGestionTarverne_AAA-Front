@@ -6,7 +6,7 @@ import { StoreMapComponent } from './store-map/store-map.component';
 import { TerraceMapComponent } from './terrace-map/terrace-map.component';
 
 const routes: Routes = [
-  { path: 'grandeSalle', component: RestaurantMapComponent },
+  { path: 'restaurant', component: RestaurantMapComponent },
   { path: 'cuisine', component: KitchenMapComponent },
   { path: 'terrace', component: TerraceMapComponent },
   { path: 'store', component: StoreMapComponent },
