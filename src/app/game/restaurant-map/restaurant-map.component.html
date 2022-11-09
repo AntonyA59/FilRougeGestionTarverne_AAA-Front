@@ -65,9 +65,7 @@
       <div class="col-sm-6" id="bar"></div>
       <div
         *ngFor="let table of tableRestWithCustomer; index as i"
-        class="col-sm-6"
-        id="tableRest"
-        class="d-flex flex-wrap"
+        class="tableRest col-sm-6 d-flex flex-wrap"
       >
         <div class="position-absolute badgeTable">
           <h1>
@@ -83,7 +81,7 @@
             let customer of tableRestWithCustomer[i].customers;
             index as j
           "
-          id="zoomCustomer"
+          class="zoomCustomer"
         >
           <img
             *ngIf="j < 2"

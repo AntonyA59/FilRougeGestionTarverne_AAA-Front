@@ -18,3 +18,9 @@ export interface RecipeCustomerInventoryIngredientModel {
   customer: CustomerModel;
   inventaire: IngredientQuantity[];
 }
+
+export interface RequestRecipeDto {
+  managerId: number;
+  recipeId: number;
+  customerId: number;
+}

@@ -3,7 +3,7 @@
   width: 100%;
   height: 100%;
 }
-#tableRest {
+.tableRest {
   background-image: url("../../../assets/image/table_01.png");
   width: 418px;
   height: 287px;
@@ -18,7 +18,7 @@ img {
   margin: 20px;
   margin-left: 60px;
 }
-#zoomCustomer {
+.zoomCustomer {
   cursor: url("../../../assets/image/cursor-zooming.png"), auto;
 }
 .customerTop {

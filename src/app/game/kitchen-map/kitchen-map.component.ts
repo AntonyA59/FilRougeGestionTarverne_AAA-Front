@@ -5,7 +5,7 @@ import {
   IngredientModel,
   IngredientQuantity,
 } from 'src/app/interfaces/ingredient';
-import { RecipeModel } from 'src/app/interfaces/recipe';
+import { RecipeModel, RequestRecipeDto } from 'src/app/interfaces/recipe';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
 
@@ -21,8 +21,10 @@ export class KitchenMapComponent implements OnInit {
   inventory: IngredientQuantity[] = [];
   recipes: RecipeModel[] = [];
   ingredientsRecipe: IngredientModel[] = [];
+  requestRecipeDto = {} as RequestRecipeDto;
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as RecipeModel;
+  customerIdSelected: number = 0;
   ingredientsQuantityAvailable: number[] = [];
   textdark = 'text-dark';
   textred = 'text-danger';
@@ -43,7 +45,10 @@ export class KitchenMapComponent implements OnInit {
     let ingredient: IngredientQuantity | undefined;
     let nbIngredients = 0;
 
-    if (this.recipeSelected.id != this.recipes[index].id) {
+    if (
+      this.recipeSelected != undefined &&
+      this.recipeSelected.id != this.recipes[index].id
+    ) {
       this.ingredientsRecipe = [];
       this.numberNothing = [];
       this.ingredientsQuantityAvailable = [];
@@ -76,11 +81,27 @@ export class KitchenMapComponent implements OnInit {
       }
     }
   }
+
   customerChange(event: Event): void {
     if (event.target instanceof HTMLSelectElement && event.target.value != '') {
+      this.customerIdSelected = parseInt(event.target.value);
       this.customerChoosing = true;
     } else {
+      this.customerIdSelected = 0;
       this.customerChoosing = false;
+    }
+  }
+  commitRecipe() {
+    if (this.customerChoosing == true && this.recipeSelected != undefined) {
+      this.requestRecipeDto.customerId = this.customerIdSelected;
+      this.requestRecipeDto.recipeId = this.recipeSelected.id;
+      this.requestRecipeDto.managerId = 1;
+
+      // envoi du Post avec comme argument this.requestRecipeDto ;
+      if (true) {
+      } else {
+        //erreur venant du back
+      }
     }
   }
 }

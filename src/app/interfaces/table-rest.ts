@@ -18,3 +18,8 @@ export interface TableRest {
   idPlace: number;
   customers?: Customer[];
 }
+
+export interface AssignNewTableForCustomerDto {
+  customerId: number;
+  tableId: number;
+}
