@@ -5,4 +5,6 @@ export interface Player {
   password: string;
   matchingPassword: string;
   enabled?: boolean;
+  accessToken: string;
+  refreshToken: string;
 }
