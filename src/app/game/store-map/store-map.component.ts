@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Ingredient, IngredientModel } from 'src/app/interfaces/ingredient';
+import { Ingredient, IngredientQuantity } from 'src/app/interfaces/ingredient';
 
 @Component({
   selector: 'app-store-map',
@@ -7,7 +7,7 @@ import { Ingredient, IngredientModel } from 'src/app/interfaces/ingredient';
   styleUrls: ['./store-map.component.css'],
 })
 export class StoreMapComponent implements OnInit {
-  ingredients: IngredientModel[] = [
+  ingredients: Ingredient[] = [
     {
       id: 2,
       name: 'Gruit',
@@ -58,14 +58,14 @@ export class StoreMapComponent implements OnInit {
       idSubCategory: 6,
     },
   ];
-  inventory: Ingredient[] = [
+  inventory: IngredientQuantity[] = [
     {
       id: 64,
       name: 'Bière',
       level: 1,
       buyingPrice: 15,
       idSubCategory: 64,
-      count: 18,
+      quantity: 18,
     },
     {
       id: 94,
@@ -73,11 +73,11 @@ export class StoreMapComponent implements OnInit {
       level: 1,
       buyingPrice: 3,
       idSubCategory: 6,
-      count: 2,
+      quantity: 2,
     },
   ];
-  cartSelling: Ingredient[] = [];
-  cartBuying: Ingredient[] = [];
+  cartSelling: IngredientQuantity[] = [];
+  cartBuying: IngredientQuantity[] = [];
 
   totalBuyingPrice: number = 0;
   totalSellingPrice: number = 0;
@@ -109,8 +109,8 @@ export class StoreMapComponent implements OnInit {
     }
   }
   addIngredientToBuying(index: number) {
-    let ingredient: Ingredient | undefined;
-    let ingredientAlreadyExist: Ingredient | undefined;
+    let ingredient: IngredientQuantity | undefined;
+    let ingredientAlreadyExist: IngredientQuantity | undefined;
 
     if (this.ingredients[index] != undefined) {
       ingredient = this.ingredients[index];
@@ -119,22 +119,22 @@ export class StoreMapComponent implements OnInit {
       );
 
       if (ingredientAlreadyExist === undefined && ingredient != undefined) {
-        ingredient.count = 1;
+        ingredient.quantity = 1;
         this.cartBuying.push(ingredient);
       } else {
-        if (ingredient != undefined && ingredient.count != undefined) {
-          ingredient.count++;
+        if (ingredient != undefined && ingredient.quantity != undefined) {
+          ingredient.quantity++;
         }
       }
-      this.totalBuyingPrice += ingredient.buyingPrice;
+      this.totalBuyingPrice += ingredient!.buyingPrice;
       sessionStorage.setItem('totalBuying', this.totalBuyingPrice.toString());
       sessionStorage.setItem('tableBuying', JSON.stringify(this.cartBuying));
     }
   }
   addIngredientToSelling(index: number) {
-    let ingredient: Ingredient | undefined;
-    let ingredientAlreadyExist: Ingredient | undefined;
-    let ingredient2: Ingredient | undefined;
+    let ingredient: IngredientQuantity | undefined;
+    let ingredientAlreadyExist: IngredientQuantity | undefined;
+    let ingredient2: IngredientQuantity | undefined;
 
     if (this.ingredients[index] != undefined) {
       ingredient = this.inventory[index];
@@ -142,18 +142,18 @@ export class StoreMapComponent implements OnInit {
         (element) => element.id == ingredient?.id
       );
 
-      if (ingredient != undefined && ingredient.count != undefined) {
-        if (ingredientAlreadyExist?.count != undefined) {
-          ingredientAlreadyExist.count++;
+      if (ingredient != undefined && ingredient.quantity != undefined) {
+        if (ingredientAlreadyExist?.quantity != undefined) {
+          ingredientAlreadyExist.quantity++;
         } else {
           ingredient2 = structuredClone(ingredient);
-          ingredient2.count = 1;
+          ingredient2.quantity = 1;
           this.cartSelling.push(ingredient2);
         }
-        if (ingredient.count < 2) {
+        if (ingredient.quantity < 2) {
           this.inventory.splice(index, 1);
         } else {
-          ingredient.count--;
+          ingredient.quantity--;
         }
       }
       this.totalSellingPrice += Math.ceil(ingredient.buyingPrice / 2);
@@ -163,15 +163,15 @@ export class StoreMapComponent implements OnInit {
   }
 
   removeIngredientToBuying(index: number) {
-    let ingredient: Ingredient | undefined;
+    let ingredient: IngredientQuantity | undefined;
 
     if (this.ingredients[index] != undefined) {
       ingredient = this.cartBuying[index];
-      if (ingredient != undefined && ingredient.count != undefined) {
-        if (ingredient.count <= 1) {
+      if (ingredient != undefined && ingredient.quantity != undefined) {
+        if (ingredient.quantity <= 1) {
           this.cartBuying.splice(index, 1);
         } else {
-          ingredient.count--;
+          ingredient.quantity--;
         }
       }
       this.totalBuyingPrice -= ingredient.buyingPrice;
@@ -181,9 +181,9 @@ export class StoreMapComponent implements OnInit {
   }
 
   removeIngredientToSelling(index: number) {
-    let ingredient: Ingredient | undefined;
-    let ingredientAlreadyExist: Ingredient | undefined;
-    let ingredient2: Ingredient | undefined;
+    let ingredient: IngredientQuantity | undefined;
+    let ingredientAlreadyExist: IngredientQuantity | undefined;
+    let ingredient2: IngredientQuantity | undefined;
     ingredient = this.cartSelling[index];
 
     if (this.ingredients[index] != undefined) {
@@ -191,18 +191,18 @@ export class StoreMapComponent implements OnInit {
         (element) => element.id == ingredient?.id
       );
 
-      if (ingredient != undefined && ingredient.count != undefined) {
-        if (ingredientAlreadyExist?.count != undefined) {
-          ingredientAlreadyExist.count++;
+      if (ingredient != undefined && ingredient.quantity != undefined) {
+        if (ingredientAlreadyExist?.quantity != undefined) {
+          ingredientAlreadyExist.quantity++;
         } else {
           ingredient2 = structuredClone(ingredient);
-          ingredient2.count = 1;
+          ingredient2.quantity = 1;
           this.inventory.push(ingredient2);
         }
-        if (ingredient.count < 2) {
+        if (ingredient.quantity < 2) {
           this.cartSelling.splice(index, 1);
         } else {
-          ingredient.count--;
+          ingredient.quantity--;
         }
       }
       this.totalSellingPrice -= Math.ceil(ingredient.buyingPrice / 2);

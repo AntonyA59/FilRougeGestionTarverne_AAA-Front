@@ -12,5 +12,7 @@ export interface Ingredient{
   level: number;
   buyingPrice: number;
   idSubCategory: number;
+  quantity?: number|undefined;
+
 }
 

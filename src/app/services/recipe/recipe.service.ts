@@ -27,5 +27,9 @@ export class RecipeService {
   requestRecipe(manager:ManagerModel,recipe:Recipe,customer:Customer){
     const body= JSON.parse(`{"managerId":${manager.id},"recipeId":${recipe.id},"customerId":${customer.id}}`)
     this.http.post<>(this.urlRequestRecipe,body ,this.httpOptions);
+
+    ('{"idmanager":2,"list":[{"id":220},{}]}')
+
+    dto:list 
   }
 }

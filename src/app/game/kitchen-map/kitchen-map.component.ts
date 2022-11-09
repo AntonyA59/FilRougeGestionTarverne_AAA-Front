@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from 'src/app/interfaces/customer';
-import { Ingredient } from 'src/app/interfaces/ingredient';
+import { Ingredient, IngredientQuantity } from 'src/app/interfaces/ingredient';
 import { Recipe } from 'src/app/interfaces/recipe';
 
 @Component({
@@ -26,6 +26,7 @@ export class KitchenMapComponent implements OnInit {
       expGiven: 2,
       idTableRest: 2,
       consommationStart: '2',
+      commandList:[1],
       name: 'Oscar Ambar',
     },
     {
@@ -44,6 +45,7 @@ export class KitchenMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 2,
       consommationStart: '0',
+      commandList:[1],
       name: 'Anne Ogastric',
     },
     {
@@ -62,6 +64,7 @@ export class KitchenMapComponent implements OnInit {
       expGiven: 3,
       idTableRest: 2,
       consommationStart: '0',
+      commandList:[1],
       name: 'Julie Ogastric',
     },
   ];
@@ -123,14 +126,14 @@ export class KitchenMapComponent implements OnInit {
       idSubCategory: 6,
     },
   ];
-  inventory: Ingredient[] = [
+  inventory: IngredientQuantity[] = [
     {
       id: 64,
       name: 'Bière',
       level: 1,
       buyingPrice: 15,
       idSubCategory: 64,
-      count: 18,
+      quantity: 18,
     },
     {
       id: 94,
@@ -138,7 +141,7 @@ export class KitchenMapComponent implements OnInit {
       level: 1,
       buyingPrice: 3,
       idSubCategory: 6,
-      count: 2,
+      quantity: 2,
     },
     {
       id: 14,
@@ -146,7 +149,7 @@ export class KitchenMapComponent implements OnInit {
       level: 1,
       buyingPrice: 1,
       idSubCategory: 6,
-      count: 1,
+      quantity: 1,
     },
   ];
   recipes: Recipe[] = [
@@ -160,7 +163,16 @@ export class KitchenMapComponent implements OnInit {
       peremptionDate: '',
       expGiven: 0,
       idSubCategory: 1,
-      tabIngredientsForRecipe: [94],
+      tabIngredientsForRecipe: [
+        {
+          id: 1,
+          name: "toto",
+          level: 1,
+          buyingPrice: 10,
+          idSubCategory: 1,
+          quantity: 10,
+        }
+      ],
     },
     {
       id: 2,
@@ -172,7 +184,31 @@ export class KitchenMapComponent implements OnInit {
       peremptionDate: '',
       expGiven: 0,
       idSubCategory: 1,
-      tabIngredientsForRecipe: [64, 10, 13, 14],
+      tabIngredientsForRecipe: [
+        {
+          id: 1,
+          name: "toto",
+          level: 1,
+          buyingPrice: 10,
+          idSubCategory: 1,
+          quantity: 10,
+        },
+        {
+          id: 2,
+          name: "toto",
+          level: 1,
+          buyingPrice: 10,
+          idSubCategory: 1,
+          quantity: 10,
+        },
+        {
+          id: 3,
+          name: "toto",
+          level: 1,
+          buyingPrice: 10,
+          idSubCategory: 1,
+          quantity: 10,
+        }],
     },
   ];
   ingredientsRecipe: Ingredient[] = [];
@@ -209,7 +245,7 @@ export class KitchenMapComponent implements OnInit {
           (element) => element.id == idIngredient
         );
         if (ingredient != undefined) {
-          this.ingredientsQuantityAvailable.push(ingredient.count!);
+          this.ingredientsQuantityAvailable.push(ingredient.quantity!);
         } else {
           this.ingredientsQuantityAvailable.push(0);
           this.recipeReady = false;
