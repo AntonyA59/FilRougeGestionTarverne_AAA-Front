@@ -34,45 +34,15 @@ export class StoreMapComponent implements OnInit {
   constructor(
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
-    private storeService: StoreService,
-    private managerService: ManagerService
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
-    let strTableSelling = '';
-    let strTableBuying = '';
-    let strInventory = ' ;';
-    let strTotalBuyingPrice = '';
-    let strTotalSellingPrice = '';
-
     this.sub1 = this.ingredientsService.ingredients$.subscribe((ingredient) => {
       this.ingredients = ingredient;
       this.sub2 = this.inventoryManagerService.inventaireConnect$.subscribe(
         (inventory) => {
           this.inventory = inventory;
-          strTableSelling = sessionStorage.getItem('tableSelling')!;
-          strTableBuying = sessionStorage.getItem('tableBuying')!;
-
-          strInventory = sessionStorage.getItem('inventory')!;
-
-          strTotalSellingPrice = sessionStorage.getItem('totalSelling')!;
-          strTotalBuyingPrice = sessionStorage.getItem('totalBuying')!;
-
-          if (strTotalBuyingPrice != null) {
-            this.totalBuyingPrice = parseInt(strTotalBuyingPrice);
-          }
-          if (strTotalSellingPrice != null) {
-            this.totalSellingPrice = parseInt(strTotalSellingPrice);
-          }
-          if (strTableSelling != null) {
-            this.cartSelling = JSON.parse(strTableSelling);
-          }
-          if (strTableBuying != null) {
-            this.cartBuying = JSON.parse(strTableBuying);
-          }
-          if (strInventory != null) {
-            this.inventory = JSON.parse(strInventory);
-          }
         }
       );
     });
@@ -96,8 +66,6 @@ export class StoreMapComponent implements OnInit {
         }
       }
       this.totalBuyingPrice += ingredient!.buyingPrice;
-      sessionStorage.setItem('totalBuying', this.totalBuyingPrice.toString());
-      sessionStorage.setItem('tableBuying', JSON.stringify(this.cartBuying));
     }
   }
   addIngredientToSelling(index: number) {
@@ -126,9 +94,6 @@ export class StoreMapComponent implements OnInit {
         }
       }
       this.totalSellingPrice += Math.ceil(ingredient.buyingPrice / 2);
-      sessionStorage.setItem('totalSelling', this.totalSellingPrice.toString());
-      sessionStorage.setItem('tableSelling', JSON.stringify(this.cartSelling));
-      sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
     }
   }
 
@@ -145,8 +110,6 @@ export class StoreMapComponent implements OnInit {
         }
       }
       this.totalBuyingPrice -= ingredient.buyingPrice;
-      sessionStorage.setItem('totalBuying', this.totalBuyingPrice.toString());
-      sessionStorage.setItem('tableBuying', JSON.stringify(this.cartBuying));
     }
   }
 
@@ -176,9 +139,6 @@ export class StoreMapComponent implements OnInit {
         }
       }
       this.totalSellingPrice -= Math.ceil(ingredient.buyingPrice / 2);
-      sessionStorage.setItem('totalSelling', this.totalSellingPrice.toString());
-      sessionStorage.setItem('tableSelling', JSON.stringify(this.cartSelling));
-      sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
     }
   }
   commitTransaction() {
@@ -196,13 +156,10 @@ export class StoreMapComponent implements OnInit {
             shopIngredientQuantity
           );
           //envoie du post avec comme argument this.shopIngredientDtoToSelling
-          //this.storeService.sellIngredients(this.shopIngredientDtoToSelling);
+          this.storeService.sellIngredients(this.shopIngredientDtoToSelling);
           if (true) {
             this.totalSellingPrice = 0;
             this.cartSelling = [];
-            sessionStorage.removeItem('totalSelling');
-            sessionStorage.removeItem('tableSelling');
-            sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
           } else {
             stopTransaction = true;
             //message d'erreur
@@ -226,8 +183,6 @@ export class StoreMapComponent implements OnInit {
             if (true) {
               this.cartBuying = [];
               this.totalBuyingPrice = 0;
-              sessionStorage.removeItem('totalBuying');
-              sessionStorage.removeItem('tableBuying');
               sessionStorage.setItem(
                 'inventory',
                 JSON.stringify(this.inventory)

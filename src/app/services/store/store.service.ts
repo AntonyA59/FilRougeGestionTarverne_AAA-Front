@@ -13,17 +13,19 @@ export class StoreService {
       Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
     }),
   };
-  private urlShop = environment.apiUrl + 'api/game/shop/';
+  private urlShopSell = environment.apiUrl + 'api/game/shop/ShopSelling';
+  private urlShopBuy = environment.apiUrl + 'api/game/shop/ShopBying';
   constructor(private http: HttpClient) {}
 
   sellIngredients(shopIngredientDtoToSelling: ShopIngredientDto) {
-    this.urlShop += 'ShopSelling';
     this.http
-      .post(this.urlShop, shopIngredientDtoToSelling, this.httpOptions)
-      .subscribe((response) => {});
+      .post(this.urlShopSell, shopIngredientDtoToSelling, this.httpOptions)
+      .subscribe();
   }
 
   buyIngredients(shopIngredientDtoToBuying: ShopIngredientDto) {
-    this.urlShop += 'ShopBying';
+    this.http
+      .post(this.urlShopBuy, shopIngredientDtoToBuying, this.httpOptions)
+      .subscribe();
   }
 }
