@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TableRestService } from './tableRest.service';
+import { StoreService } from './store.service';
 
-describe('TableService', () => {
-  let service: TableRestService;
+describe('StoreService', () => {
+  let service: StoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TableRestService);
+    service = TestBed.inject(StoreService);
   });
 
   it('should be created', () => {

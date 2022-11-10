@@ -1,13 +1,13 @@
-<div class="row h-100 m-1">
-  <div class="col-sm-12" id="room">
+<div class="row h-100 " >
+  <div class="col-12 p-0" id="room">
     <div class="row m-1">
       <div class="position-absolute d-flex justify-content-end">
         <div id="divNewCustomer">
-          <div *ngIf="newCustomers.length" class="accordion">
+          <div *ngIf="newCustomers.length" class="accordion accordion-flush">
             <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
+              <h2 class="accordion-header">
                 <button
-                  class="accordion-button"
+                  class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target="#collapseOne"
@@ -19,7 +19,7 @@
               </h2>
               <div
                 id="collapseOne"
-                class="accordion-collapse collapse show"
+                class="accordion-collapse collapse"
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample"
               >
@@ -65,7 +65,8 @@
       <div class="col-sm-6" id="bar"></div>
       <div
         *ngFor="let table of tableRestWithCustomer; index as i"
-        class="tableRest col-sm-6 d-flex flex-wrap"
+        class="col-sm-6"
+        class="d-flex flex-wrap tableRest"
       >
         <div class="position-absolute badgeTable">
           <h1>

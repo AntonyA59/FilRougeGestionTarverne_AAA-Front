@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer, CustomerModel } from 'src/app/interfaces/customer';
+import { Subscription } from 'rxjs';
+import { Customer } from 'src/app/interfaces/customer';
 import { PlaceModel } from 'src/app/interfaces/place';
 import {
   TableRest,
-  TableRestModel,
   AssignNewTableForCustomerDto,
 } from 'src/app/interfaces/table-rest';
+import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
+import { PlacesService } from 'src/app/services/places/places.service';
+import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
 
 @Component({
   selector: 'app-restaurant-map',
@@ -13,209 +16,57 @@ import {
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
-  places: PlaceModel[] = [
-    {
-      id: 1,
-      name: 'Grande Salle',
-      type: 1,
-      level: 1,
-    },
-    {
-      id: 2,
-      name: 'Terasse',
-      type: 2,
-      level: 2,
-    },
-  ];
-  customers: Customer[] = [
-    {
-      id: 1,
-      purseOfGold: 2,
-      happiness: 2,
-      hunger: 2,
-      thirst: 2,
-      nauseaLevel: 2,
-      alcoholLevel: 2,
-      toilet: 2,
-      timeInTavern: '2',
-      nauseaTolerance: 2,
-      alcoholTolerance: 2,
-      gender: 2,
-      expGiven: 2,
-      idTableRest: 1,
-      consommationStart: '2',
-      commandList: [1],
-    },
-    {
-      id: 2,
-      purseOfGold: 3,
-      happiness: 3,
-      hunger: 3,
-      thirst: 3,
-      nauseaLevel: 3,
-      alcoholLevel: 3,
-      toilet: 3,
-      timeInTavern: '2',
-      nauseaTolerance: 3,
-      alcoholTolerance: 3,
-      gender: 3,
-      expGiven: 3,
-      idTableRest: 1,
-      consommationStart: '0',
-      commandList: [1],
-    },
-    {
-      id: 3,
-      purseOfGold: 3,
-      happiness: 3,
-      hunger: 3,
-      thirst: 3,
-      nauseaLevel: 3,
-      alcoholLevel: 3,
-      toilet: 3,
-      timeInTavern: '2',
-      nauseaTolerance: 3,
-      alcoholTolerance: 3,
-      gender: 3,
-      expGiven: 3,
-      idTableRest: 1,
-      consommationStart: '0',
-      commandList: [],
-    },
-    {
-      id: 4,
-      purseOfGold: 3,
-      happiness: 3,
-      hunger: 3,
-      thirst: 3,
-      nauseaLevel: 3,
-      alcoholLevel: 3,
-      toilet: 3,
-      timeInTavern: '2',
-      nauseaTolerance: 3,
-      alcoholTolerance: 3,
-      gender: 3,
-      expGiven: 3,
-      idTableRest: 1,
-      consommationStart: '0',
-      commandList: [],
-    },
-    {
-      id: 4,
-      purseOfGold: 3,
-      happiness: 3,
-      hunger: 3,
-      thirst: 3,
-      nauseaLevel: 3,
-      alcoholLevel: 3,
-      toilet: 3,
-      timeInTavern: '2',
-      nauseaTolerance: 3,
-      alcoholTolerance: 3,
-      gender: 3,
-      expGiven: 3,
-      idTableRest: 3,
-      consommationStart: '0',
-      commandList: [1],
-    },
-    {
-      id: 5,
-      purseOfGold: 3,
-      happiness: 3,
-      hunger: 3,
-      thirst: 3,
-      nauseaLevel: 3,
-      alcoholLevel: 3,
-      toilet: 3,
-      timeInTavern: '2',
-      nauseaTolerance: 3,
-      alcoholTolerance: 3,
-      gender: 3,
-      expGiven: 3,
-      consommationStart: '0',
-      commandList: [1],
-      //idTableRest: 3,
-    },
-  ];
-  tableRests: TableRestModel[] = [
-    {
-      id: 1,
-      numberPlace: 4,
-      hygiene: 0,
-      posX: 1,
-      posY: 1,
-      idPlace: 1,
-    },
-    {
-      id: 2,
-      numberPlace: 4,
-      hygiene: 0,
-      posX: 1,
-      posY: 1,
-      idPlace: 1,
-    },
-    {
-      id: 3,
-      numberPlace: 4,
-      hygiene: 0,
-      posX: 1,
-      posY: 1,
-      idPlace: 1,
-    },
-    {
-      id: 4,
-      numberPlace: 4,
-      hygiene: 0,
-      posX: 1,
-      posY: 1,
-      idPlace: 1,
-    },
-    {
-      id: 5,
-      numberPlace: 4,
-      hygiene: 0,
-      posX: 1,
-      posY: 1,
-      idPlace: 2,
-    },
-  ];
-
+  place: PlaceModel={}as PlaceModel;
+  customers: Customer[] = [];
+  sub: Subscription = new Subscription();
   tableRestWithCustomer: TableRest[] = [];
   newCustomers: Customer[] = [];
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
   assignNewTableForCustomerDto = {} as AssignNewTableForCustomerDto;
 
-  constructor() {}
+  constructor(
+    private placesService: PlacesService,
+    private tableRestService: TableRestService,
+    private customerManagementService:CustomerManagementService
+  ) {}
 
   ngOnInit(): void {
-    let customerTempo = {} as Customer;
-    let placeTempo = {} as PlaceModel;
 
-    placeTempo = this.places.find((element) => element.type == 1)!;
 
-    this.tableRests.forEach((table) => {
-      if (table.idPlace == placeTempo.id) {
-        this.tableRestWithCustomer.push(table);
-      }
+    this.sub = this.placesService.places$.subscribe((places) => {
+      this.place =places.find((element) => element.type == 1)!;
     });
 
-    this.tableRestWithCustomer.forEach((table) => {
-      table.customers = [];
-      this.customers.forEach((customer) => {
-        customerTempo = customer;
-        if (customerTempo.idTableRest == table.id) {
-          customerTempo.numImg = Math.floor(Math.random() * 7) + 1;
-          table.customers?.push(customer);
+    this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
+      tableRests.forEach((table)=>{
+        if(table.idPlace==this.place.id){
+          this.tableRestWithCustomer.push({
+            id: table.id,
+            numberPlace: table.numberPlace,
+            hygiene: table.hygiene,
+            posX: table.posX,
+            posY: table.posY,
+            idPlace: table.idPlace,
+            customers: []
+          });
+
         }
-      });
+      })
     });
+    this.sub=this.customerManagementService.listCustomer$.subscribe((customers)=>{
+      customers.forEach((customer)=>{
+        for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+          const tableCurrent = this.tableRestWithCustomer[i];
+          if(tableCurrent.id==customer.idTableRest)
+            tableCurrent.customers!.push();
+          else
+            this.newCustomers.push(customer);
+        }
+      })
+    })
 
-    this.customers.forEach((customer) => {
-      if (customer.idTableRest == undefined || customer.idTableRest < 1) {
-        this.newCustomers.push(customerTempo);
-      }
-    });
+
   }
 
   assignTable() {

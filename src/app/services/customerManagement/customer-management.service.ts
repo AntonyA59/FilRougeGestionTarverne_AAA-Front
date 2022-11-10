@@ -8,6 +8,7 @@ import { TableRestModel } from 'src/app/interfaces/table-rest';
 import { ManagerModel } from 'src/app/interfaces/manager';
 import { TableRestService } from '../tableRest/tableRest.service';
 import { ManagerService } from '../manager/manager.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,13 +17,13 @@ export class CustomerManagementService {
   private listCustomer = new BehaviorSubject<Customer[]>([] as Customer[]);
   listCustomer$ = this.listCustomer.asObservable();
 
-  private urlNewCustomer =
-    'localhost:8080/api/game/customerManagement/newCustomer';
-  private urlNewRecipe = 'localhost:8080/api/game/customerManagement/newRecipe';
-  private urlAssignCustomerInTable =
-    'localhost:8080/api/game/customerManagement/customerAssignTable';
-  private urlCustomerFinish =
-    'localhost:8080/api/game/customerManagement/customerFinish';
+  private urlNewCustomer =environment.apiUrl+
+    'api/game/customerManagement/newCustomer';
+  private urlNewRecipe = environment.apiUrl+'api/game/customerManagement/newRecipe';
+  private urlAssignCustomerInTable =environment.apiUrl+
+    'api/game/customerManagement/customerAssignTable';
+  private urlCustomerFinish =environment.apiUrl+
+    'api/game/customerManagement/customerFinish';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

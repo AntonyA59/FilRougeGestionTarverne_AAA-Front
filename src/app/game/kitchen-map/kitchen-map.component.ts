@@ -6,8 +6,8 @@ import {
   IngredientQuantity,
 } from 'src/app/interfaces/ingredient';
 import { RecipeModel, RequestRecipeDto } from 'src/app/interfaces/recipe';
+import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
-import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
 
 @Component({
   selector: 'app-cuisine-map',
@@ -31,11 +31,18 @@ export class KitchenMapComponent implements OnInit {
   recipeReady = false;
   customerChoosing = false;
 
-  constructor(private recipesService: RecipeService) {}
+  constructor(
+    private recipesService: RecipeService,
+    private ingredientsService: IngredientsService
+  ) {}
 
   ngOnInit(): void {
     this.sub = this.recipesService.recipes$.subscribe((recipes) => {
       this.recipes = recipes;
+    });
+
+    this.sub = this.ingredientsService.ingredients$.subscribe((ingredients) => {
+      this.ingredients = ingredients;
     });
   }
   ngOnDestroy(): void {
