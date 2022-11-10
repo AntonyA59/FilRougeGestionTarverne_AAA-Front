@@ -11,7 +11,6 @@ import { ManagerService } from '../services/manager/manager.service';
 export class SelectManagerComponent implements OnInit {
   managers: ManagerModel[] = [];
   constructor(
-    private loadManagerService: LoadManagerService,
     private managerService: ManagerService
   ) {}
 
@@ -22,6 +21,6 @@ export class SelectManagerComponent implements OnInit {
   }
 
   selectManager(idManager: number) {
-    this.loadManagerService.loadManager(idManager);
+    sessionStorage.setItem("idManager",idManager.toString());
   }
 }
