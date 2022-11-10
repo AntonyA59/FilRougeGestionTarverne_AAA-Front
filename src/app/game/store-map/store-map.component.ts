@@ -7,6 +7,7 @@ import {
   ShopIngredientQuantity,
 } from 'src/app/interfaces/ingredient';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
+import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
 
 @Component({
   selector: 'app-store-map',
@@ -15,24 +16,7 @@ import { IngredientsService } from 'src/app/services/ingredients/ingredients.ser
 })
 export class StoreMapComponent implements OnInit {
   ingredients: IngredientModel[] = [];
-  inventory: IngredientQuantity[] = [
-    {
-      id: 64,
-      name: 'Bière',
-      level: 1,
-      buyingPrice: 15,
-      idSubCategory: 64,
-      quantity: 18,
-    },
-    {
-      id: 94,
-      name: 'Cuisse de Boeuf',
-      level: 1,
-      buyingPrice: 3,
-      idSubCategory: 6,
-      quantity: 2,
-    },
-  ];
+  inventory: IngredientQuantity[] = [];
   cartSelling: IngredientQuantity[] = [];
   cartBuying: IngredientQuantity[] = [];
 
@@ -42,9 +26,13 @@ export class StoreMapComponent implements OnInit {
   shopIngredientDtoToSelling = {} as ShopIngredientDto;
   shopIngredientDtoToBuying = {} as ShopIngredientDto;
 
-  sub: Subscription = new Subscription();
+  sub1: Subscription = new Subscription();
+  sub2: Subscription = new Subscription();
 
-  constructor(private ingredientsService: IngredientsService) {}
+  constructor(
+    private ingredientsService: IngredientsService,
+    private inventoryManagerService: InventoryManagerService
+  ) {}
 
   ngOnInit(): void {
     let strTableSelling = '';
@@ -53,33 +41,37 @@ export class StoreMapComponent implements OnInit {
     let strTotalBuyingPrice = '';
     let strTotalSellingPrice = '';
 
-    this.sub = this.ingredientsService.ingredients$.subscribe((ingredientS) => {
-      this.ingredients = ingredientS;
+    this.sub1 = this.ingredientsService.ingredients$.subscribe((ingredient) => {
+      this.ingredients = ingredient;
+      this.sub2 = this.inventoryManagerService.inventaireConnect$.subscribe(
+        (inventory) => {
+          this.inventory = inventory;
+          strTableSelling = sessionStorage.getItem('tableSelling')!;
+          strTableBuying = sessionStorage.getItem('tableBuying')!;
+
+          strInventory = sessionStorage.getItem('inventory')!;
+
+          strTotalSellingPrice = sessionStorage.getItem('totalSelling')!;
+          strTotalBuyingPrice = sessionStorage.getItem('totalBuying')!;
+
+          if (strTotalBuyingPrice != null) {
+            this.totalBuyingPrice = parseInt(strTotalBuyingPrice);
+          }
+          if (strTotalSellingPrice != null) {
+            this.totalSellingPrice = parseInt(strTotalSellingPrice);
+          }
+          if (strTableSelling != null) {
+            this.cartSelling = JSON.parse(strTableSelling);
+          }
+          if (strTableBuying != null) {
+            this.cartBuying = JSON.parse(strTableBuying);
+          }
+          if (strInventory != null) {
+            this.inventory = JSON.parse(strInventory);
+          }
+        }
+      );
     });
-
-    strTableSelling = sessionStorage.getItem('tableSelling')!;
-    strTableBuying = sessionStorage.getItem('tableBuying')!;
-
-    strInventory = sessionStorage.getItem('inventory')!;
-
-    strTotalSellingPrice = sessionStorage.getItem('totalSelling')!;
-    strTotalBuyingPrice = sessionStorage.getItem('totalBuying')!;
-
-    if (strTotalBuyingPrice != null) {
-      this.totalBuyingPrice = parseInt(strTotalBuyingPrice);
-    }
-    if (strTotalSellingPrice != null) {
-      this.totalSellingPrice = parseInt(strTotalSellingPrice);
-    }
-    if (strTableSelling != null) {
-      this.cartSelling = JSON.parse(strTableSelling);
-    }
-    if (strTableBuying != null) {
-      this.cartBuying = JSON.parse(strTableBuying);
-    }
-    if (strInventory != null) {
-      this.inventory = JSON.parse(strInventory);
-    }
   }
   addIngredientToBuying(index: number) {
     let ingredient: IngredientQuantity | undefined;
