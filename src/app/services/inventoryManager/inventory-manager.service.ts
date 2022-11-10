@@ -5,16 +5,16 @@ import { IngredientQuantity } from 'src/app/interfaces/ingredient';
   providedIn: 'root',
 })
 export class InventoryManagerService {
-  private inventaireSave: BehaviorSubject<IngredientQuantity[]> =
+
+  private inventaire: BehaviorSubject<IngredientQuantity[]> =
     new BehaviorSubject<IngredientQuantity[]>({} as IngredientQuantity[]);
-  inventaireConnect$ = this.inventaireSave.asObservable();
+  inventaireConnect$ = this.inventaire.asObservable();
 
-  constructor() {
 
+  constructor() {}
+
+  setInventaire(newInventaire: IngredientQuantity[]): void {
+    this.inventaire.next(newInventaire);
   }
-  
-  setInventaireSave(newInventaire: IngredientQuantity[]): void {
-    this.inventaireSave.next(newInventaire);
-  }
-  
+
 }

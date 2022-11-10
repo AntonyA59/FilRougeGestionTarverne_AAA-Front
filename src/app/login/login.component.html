@@ -1,24 +1,22 @@
 <ul class="list-group-flush p-0 d-flex align-items-center text-center list-choice mb-5 ">
-    <li class="list-group-item blackAlpha p-3 col-6 ">
+    <li class="list-group-item  p-3 col-6 ">
         <a class="a-brown" routerLink="/home/connexion">Connexion</a>
     </li>
-    <li class="list-group-item  p-3 col-6 ">
+    <li class="list-group-item  blackAlpha p-3 col-6 ">
         <a class="a-brown" routerLink="/home/inscription">S'inscrire</a>
     </li>
 </ul>
-<form class="offset-0 offset-sm-0 offset-lg-1 col-12 col-sm-12 col-lg-10 text-white">
+<form (ngSubmit)="onSubmit()" [formGroup]="connectionForm"
+    class="offset-0 offset-sm-0 offset-lg-1 col-12 col-sm-12 col-lg-10 text-white">
     <div class="row flex-column align-items-center">
         <div class="mb-5 text-center col-11 text-sm-center text-lg-start">
-            <label for="InputEmail1" class="form-label fw-bold ">Adresse E-mail</label>
-            <a class="d-block d-sm-block d-lg-inline  colorOrange text-decoration-none forgotMail textShadow mb-1"
-                href="#">&nbsp;(Adresse e-mail oubliée ?)</a>
-            <input type="email" class="form-control opacity-75" id="InputEmail1" aria-describedby="emailHelp">
+            <label for="email" class="form-label fw-bold ">Adresse E-mail</label>
+            <input type="email" formControlName="email" class="form-control opacity-75" id="email"
+                aria-describedby="emailHelp">
         </div>
         <div class="mb-5 col-11 text-center text-sm-center text-lg-start">
-            <label for="InputPassword1" class="form-label fw-bold  ">Mot de passe</label>
-            <a class="d-block d-sm-block d-lg-inline fw-bold colorOrange text-decoration-none forgotPassword textShadow mb-1"
-                href="#">&nbsp;(Mot de passe oubliée ?)</a>
-            <input type="password" class="form-control opacity-75" id="InputPassword1">
+            <label for="password" class="form-label fw-bold">Mot de passe</label>
+            <input formControlName="password" type="password" class="form-control opacity-75" id="password">
         </div>
 
         <div class="text-center mb-3">

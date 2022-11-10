@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {
   IngredientModel,
   IngredientQuantity,
   ShopIngredientDto,
   ShopIngredientQuantity,
 } from 'src/app/interfaces/ingredient';
+import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 
 @Component({
   selector: 'app-store-map',
@@ -12,57 +14,7 @@ import {
   styleUrls: ['./store-map.component.css'],
 })
 export class StoreMapComponent implements OnInit {
-  ingredients: IngredientModel[] = [
-    {
-      id: 2,
-      name: 'Gruit',
-      level: 1,
-      buyingPrice: 2,
-      idSubCategory: 1,
-    },
-    {
-      id: 6,
-      name: 'Pomme Verte',
-      level: 1,
-      buyingPrice: 1,
-      idSubCategory: 9,
-    },
-    {
-      id: 8,
-      name: 'Boulettes de Boeuf',
-      level: 1,
-      buyingPrice: 1,
-      idSubCategory: 6,
-    },
-    {
-      id: 10,
-      name: 'Omelette aux Herbes',
-      level: 1,
-      buyingPrice: 1,
-      idSubCategory: 6,
-    },
-    {
-      id: 13,
-      name: 'Blanc de Poulet',
-      level: 1,
-      buyingPrice: 1,
-      idSubCategory: 6,
-    },
-    {
-      id: 64,
-      name: 'Bière',
-      level: 1,
-      buyingPrice: 1,
-      idSubCategory: 64,
-    },
-    {
-      id: 14,
-      name: 'Cuisse de Boeuf',
-      level: 1,
-      buyingPrice: 1,
-      idSubCategory: 6,
-    },
-  ];
+  ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [
     {
       id: 64,
@@ -90,7 +42,9 @@ export class StoreMapComponent implements OnInit {
   shopIngredientDtoToSelling = {} as ShopIngredientDto;
   shopIngredientDtoToBuying = {} as ShopIngredientDto;
 
-  constructor() {}
+  sub: Subscription = new Subscription();
+
+  constructor(private ingredientsService: IngredientsService) {}
 
   ngOnInit(): void {
     let strTableSelling = '';
@@ -98,6 +52,10 @@ export class StoreMapComponent implements OnInit {
     let strInventory = ' ;';
     let strTotalBuyingPrice = '';
     let strTotalSellingPrice = '';
+
+    this.sub = this.ingredientsService.ingredients$.subscribe((ingredientS) => {
+      this.ingredients = ingredientS;
+    });
 
     strTableSelling = sessionStorage.getItem('tableSelling')!;
     strTableBuying = sessionStorage.getItem('tableBuying')!;
