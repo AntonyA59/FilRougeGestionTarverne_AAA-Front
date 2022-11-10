@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { VirtualTimeScheduler } from 'rxjs';
 import { LoadManager } from 'src/app/interfaces/load-manager';
 import { environment } from 'src/environments/environment';
 import { CategoriesSubcatgoriesService } from '../categories-subcatgories/categories-subcatgories.service';
+import { CustomerManagementService } from '../customerManagement/customer-management.service';
 import { IngredientsService } from '../ingredients/ingredients.service';
 import { InventoryManagerService } from '../inventoryManager/inventory-manager.service';
 import { ManagerService } from '../manager/manager.service';
@@ -24,6 +26,7 @@ export class LoadManagerService {
   constructor(
     private http: HttpClient,
     private managerService: ManagerService,
+    private customerManagementService:CustomerManagementService,
     private categorieSubCategoriesService: CategoriesSubcatgoriesService,
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
@@ -39,6 +42,7 @@ export class LoadManagerService {
       .subscribe((response) => {
         this.managerService.setManager(response.manager);
         this.categorieSubCategoriesService.setCategories(response.categories);
+        this.customerManagementService.setCustomers(response.customers);
         this.categorieSubCategoriesService.setSubCategories(
           response.subCategories
         );

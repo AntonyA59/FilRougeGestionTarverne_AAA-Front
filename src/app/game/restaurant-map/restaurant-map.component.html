@@ -1,4 +1,4 @@
-<div class="row h-100 " >
+<!--<div class="row h-100 " >
   <div class="col-12 p-0" id="room">
     <div class="row m-1">
       <div class="position-absolute d-flex justify-content-end">
@@ -99,4 +99,97 @@
       </div>
     </div>
   </div>
+</div> -->
+
+
+<div class="w-100 h-100 map position-relative d-flex flex-row flex-wrap justify-content-between pb-5" id="room">
+  <div class="position-absolute accordion accordion-flush" *ngIf="newCustomers.length">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseOne"
+          aria-expanded="true"
+          aria-controls="collapseOne"
+        >
+          <h1><span class="badge rounded-pill bg-danger">!</span></h1>
+        </button>
+      </h2>
+      <div
+        id="collapseOne"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample"
+      >
+        <select
+          class="form-select"
+          aria-label="-Client-"
+          (change)="tableChange($event)"
+        >
+          <option selected>-Table-</option>
+          <option
+            value="{{ i }}"
+            *ngFor="let table of tableRestWithCustomer; index as i"
+          >
+            Table {{ i + 1 }}
+          </option>
+        </select>
+        <select
+          class="form-select"
+          aria-label="-Client-"
+          (change)="customerChange($event)"
+        >
+          <option selected>-Client-</option>
+          <option
+            value="{{ i }}"
+            *ngFor="let customer of newCustomers; index as i"
+          >
+            {{ customer.id }}
+          </option>
+        </select>
+        <button
+          type="button"
+          class="btn btn-secondary m-3"
+          (click)="assignTable()"
+          clickable
+        >
+          Placer le client
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6" id="bar"></div>
+    <div
+      *ngFor="let table of tableRestWithCustomer; index as i"
+      class="col-sm-6"
+      class="tableRest"
+    >
+      <span
+        class="position-absolute badge top-50 rounded-pill bg-success ms-3"
+      >
+        {{ i + 1 }}
+      </span>
+      <div
+        *ngFor="
+          let customer of tableRestWithCustomer[i].customers;
+          index as j
+        "
+        class="zoomCustomer"
+      >
+        <img
+          *ngIf="j < 2"
+          src="../../../assets/image/customer_0{{ customer.numImg }}.png"
+          class="customerTop"
+          alt=""
+        />
+        <img
+          *ngIf="j >= 2"
+          src="../../../assets/image/customer_0{{ customer.numImg }}.png"
+          alt=""
+        />
+      </div>
+    </div>
 </div>
+

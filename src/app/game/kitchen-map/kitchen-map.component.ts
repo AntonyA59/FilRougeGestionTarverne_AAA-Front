@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Customer } from 'src/app/interfaces/customer';
+import { CustomerModel } from 'src/app/interfaces/customer';
 import {
   IngredientModel,
   IngredientQuantity,
@@ -16,7 +16,7 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
 })
 export class KitchenMapComponent implements OnInit {
   sub: Subscription = new Subscription();
-  customers: Customer[] = [];
+  customers: CustomerModel[] = [];
   ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [];
   recipes: RecipeModel[] = [];
