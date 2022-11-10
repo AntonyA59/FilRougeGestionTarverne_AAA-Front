@@ -1,7 +1,7 @@
-import { Customer } from "./customer";
+import { CustomerModel } from "./customer";
 import { TableRest } from "./table-rest";
 
 export interface CustomerTableModel {
-    customer:Customer;
+    customer:CustomerModel;
     tableRest:TableRest;
 }

@@ -1,12 +1,22 @@
+.map{
+  --bs-gutter-x: 0 !important;
+}
 #room {
   background-image: url("../../../assets/image/bg-stone.jpg");
   width: 98%;
   height: 100%;
+  border-radius: 10px;
 }
 .tableRest {
   background-image: url("../../../assets/image/table_01.png");
   width: 418px;
   height: 287px;
+  position: relative;
+}
+.accordion{
+  right: 0;
+  width: 150px;
+
 }
 #bar {
   background-image: url("../../../assets/image/bar.png");
@@ -28,13 +38,12 @@ img {
 .badgeTable {
   width: 418px;
   height: 287px;
+  position: relative;
 }
 #btnDisplayNewCustomer {
   bottom: 0.5rem;
   left: 0.5rem;
 }
-#divNewCustomer {
-  width: 150px;
-  margin-right: 15px;
-  z-index: 10;
+.badge{
+  font-size: 1.5rem;
 }

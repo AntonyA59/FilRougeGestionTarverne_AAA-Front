@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Customer, CustomerModel } from 'src/app/interfaces/customer';
+import { CustomerModel, tabName, tabSurName } from 'src/app/interfaces/customer';
 import { CustomerTableModel } from 'src/app/interfaces/customer-table-model';
 import { RecipeModel } from 'src/app/interfaces/recipe';
 import { TableRestModel } from 'src/app/interfaces/table-rest';
@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class CustomerManagementService {
-  private listCustomer = new BehaviorSubject<Customer[]>([] as Customer[]);
-  listCustomer$ = this.listCustomer.asObservable();
+  private customers = new BehaviorSubject<CustomerModel[]>([] as CustomerModel[]);
+  customers$ = this.customers.asObservable();
 
   private urlNewCustomer =environment.apiUrl+
     'api/game/customerManagement/newCustomer';
@@ -26,7 +26,10 @@ export class CustomerManagementService {
     'api/game/customerManagement/customerFinish';
 
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({ 
+      'Content-Type': 'application/json', 
+      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken')
+    }),
   };
 
   constructor(
@@ -34,23 +37,69 @@ export class CustomerManagementService {
     private tableService: TableRestService,
     private managerService: ManagerService
   ) {}
-  setListCustomer(newListCustomer: Customer[]): void {
-    this.listCustomer.next(newListCustomer);
-  }
+  setCustomers(newCustomers: CustomerModel[]): void {
+    let customerNewName:CustomerModel[]=[];
 
-  updateCustomer(customerBefore: Customer, customerAfter: Customer): void {
-    let newListCustomer: Customer[] = Array.from(this.listCustomer.getValue());
-    const index = newListCustomer.findIndex(
-      (element) => (element = customerBefore)
-    );
-    newListCustomer[index] = customerAfter;
-    this.setListCustomer(newListCustomer);
+    for (let index = 0; index < newCustomers.length; index++) {
+      let customerCurrent = newCustomers[index];
+      
+      if(customerCurrent.name)
+        customerNewName.push(customerCurrent);
+      else{
+        const name:string=this.getName();
+        const nbImg:number=this.getImg();
+        customerNewName.push({
+          id: customerCurrent.id,
+          purseOfGold: customerCurrent.purseOfGold,
+          happiness: customerCurrent.happiness,
+          hunger: customerCurrent.hunger,
+          thirst: customerCurrent.thirst,
+          nauseaLevel: customerCurrent.nauseaLevel,
+          alcoholLevel: customerCurrent.alcoholLevel,
+          toilet: customerCurrent.toilet,
+          timeInTavern: customerCurrent.timeInTavern,
+          nauseaTolerance: customerCurrent.nauseaTolerance,
+          alcoholTolerance: customerCurrent.alcoholTolerance,
+          gender: customerCurrent.gender,
+          expGiven: customerCurrent.expGiven,
+          idTableRest: customerCurrent.idTableRest,
+          consommationStart: customerCurrent.consommationStart,
+          commandList:customerCurrent.commandList,
+          name: name,
+          numImg: nbImg,
+        })
+      }
+    }
+
+    this.customers.next(customerNewName);
   }
-  deleteCustomer(customer: Customer): void {
-    let newListCustomer: Customer[] = Array.from(this.listCustomer.getValue());
-    const index = newListCustomer.findIndex((element) => (element = customer));
-    newListCustomer.splice(index, 1);
-    this.setListCustomer(newListCustomer);
+  getName():string{
+    const name:string= tabName[Math.floor(Math.random()*20)+1];
+    const surname:string= tabSurName[Math.floor(Math.random()*20)+1];
+    return name+surname;
+  }
+  getImg():number{
+    return Math.floor(Math.random() * 7) + 1;
+  }
+  
+  updateCustomer(customerBefore: CustomerModel, customerAfter: CustomerModel): void {
+    let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
+    const index = newCustomers.findIndex(
+      (element) => {this.findCustomer(element,customerBefore)}
+    );
+    newCustomers[index] = customerAfter;
+    this.setCustomers(newCustomers);
+  }
+  deleteCustomer(customer: CustomerModel): void {
+    let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
+    const index = newCustomers.findIndex((element) =>  {this.findCustomer(element,customer)});
+    newCustomers.splice(index, 1);
+    this.setCustomers(newCustomers);
+  }
+  findCustomer(customerA:CustomerModel,customerB:CustomerModel):boolean{
+    if(customerA.id==customerB.id)
+      return true;
+    return false;
   }
 
   getNewRecipe(): Observable<RecipeModel> {
@@ -61,19 +110,19 @@ export class CustomerManagementService {
       this.http
         .post<CustomerModel>(this.urlNewCustomer, this.httpOptions)
         .subscribe((newCustomer) => {
-          let newListCustomer: Customer[] = Array.from(
-            this.listCustomer.getValue()
+          let newCustomers: CustomerModel[] = Array.from(
+            this.customers.getValue()
           );
-          newListCustomer.push(newCustomer);
-          this.setListCustomer(newListCustomer);
+          newCustomers.push(newCustomer);
+          this.setCustomers(newCustomers);
           subscriber.next(newCustomer);
         });
     });
   }
 
-  assignCustomerInTable(customer: Customer, table: TableRestModel): void {
+  assignCustomerInTable(customer: CustomerModel, table: TableRestModel): void {
     const body = JSON.parse(
-      `{"customerId":${customer.id}, "tableId:${table.id}"}`
+      `{"customerId":${customer.id}, "tableId":${table.id}}`
     );
     this.http
       .post<CustomerTableModel>(
@@ -87,7 +136,7 @@ export class CustomerManagementService {
       });
   }
 
-  customerServed(customer: Customer): void {
+  customerServed(customer: CustomerModel): void {
     this.http
       .post<CustomerModel>(
         this.urlAssignCustomerInTable,
@@ -98,7 +147,7 @@ export class CustomerManagementService {
         this.updateCustomer(customer, customerUpdate);
       });
   }
-  customerFinish(customer: Customer, manager: ManagerModel): void {
+  customerFinish(customer: CustomerModel, manager: ManagerModel): void {
     const body = JSON.parse(
       `{"customerId":${customer.id}, "managerId:${manager.id}"}`
     );
