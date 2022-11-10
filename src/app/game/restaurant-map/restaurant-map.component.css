@@ -16,6 +16,7 @@
 .accordion{
   right: 0;
   width: 150px;
+  z-index: 100;
 
 }
 #bar {
@@ -25,11 +26,25 @@
 }
 
 img {
-  margin: 20px;
-  margin-left: 60px;
+  width: 130px;
+  margin: 0 0 0 40px;
+}
+.customer0{
+  transform: rotate(180deg);
 }
 .zoomCustomer {
   cursor: url("../../../assets/image/cursor-zooming.png"), auto;
+
+}
+.zoomCustomer:hover + .textCustomer{
+  display: block !important;
+}
+.textCustomer{
+  top: 0;
+  left: -150px;
+  padding: 10px;
+  background-color: var(--color1);
+  z-index: 10;
 }
 .customerTop {
   transform: rotate(3.142rad);
