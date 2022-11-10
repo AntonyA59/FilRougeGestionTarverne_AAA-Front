@@ -21,8 +21,8 @@ export class GameMapComponent implements OnInit {
   displayActive():void{
     document.getElementsByClassName("active")[0]?.classList.remove("active");
     switch(this.pageCurrent){ 
-      case "grandeSalle":
-        document.getElementById("grandeSalle")?.classList.add("active");
+      case "restaurant":
+        document.getElementById("restaurant")?.classList.add("active");
         break;
       case "store":
         document.getElementById("shop")?.classList.add("active");

@@ -9,7 +9,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                 <div class="navbar-nav  ">
-                    <a class="nav-link" [routerLink]="['/']" >Déconnexion</a>
+                    <a class="nav-link" (click)="logout()" [routerLink]="['/']" >Déconnexion</a>
                     <a class="nav-link" >Paramètre</a>
                 </div>
             </div>
