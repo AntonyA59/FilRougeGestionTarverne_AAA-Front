@@ -8,6 +8,8 @@ import {
 } from 'src/app/interfaces/ingredient';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
+import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
   selector: 'app-store-map',
@@ -31,7 +33,9 @@ export class StoreMapComponent implements OnInit {
 
   constructor(
     private ingredientsService: IngredientsService,
-    private inventoryManagerService: InventoryManagerService
+    private inventoryManagerService: InventoryManagerService,
+    private storeService: StoreService,
+    private managerService: ManagerService
   ) {}
 
   ngOnInit(): void {
@@ -179,7 +183,8 @@ export class StoreMapComponent implements OnInit {
   }
   commitTransaction() {
     let shopIngredientQuantity = {} as ShopIngredientQuantity;
-    this.shopIngredientDtoToSelling.idManager = 1;
+    this.shopIngredientDtoToSelling.idManager = 836;
+    this.shopIngredientDtoToSelling.shopIngredientQuantity = [];
     let stopTransaction: boolean = false;
 
     if (this.cartSelling.length > 0) {
@@ -191,6 +196,7 @@ export class StoreMapComponent implements OnInit {
             shopIngredientQuantity
           );
           //envoie du post avec comme argument this.shopIngredientDtoToSelling
+          //this.storeService.sellIngredients(this.shopIngredientDtoToSelling);
           if (true) {
             this.totalSellingPrice = 0;
             this.cartSelling = [];
@@ -206,7 +212,6 @@ export class StoreMapComponent implements OnInit {
     }
 
     if (stopTransaction == false) {
-      this.shopIngredientDtoToBuying.idManager = 1;
       shopIngredientQuantity = {} as ShopIngredientQuantity;
 
       if (this.cartBuying.length > 0) {
