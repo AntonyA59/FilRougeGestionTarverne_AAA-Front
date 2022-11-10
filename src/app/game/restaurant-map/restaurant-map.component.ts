@@ -4,7 +4,6 @@ import { Customer } from 'src/app/interfaces/customer';
 import { PlaceModel } from 'src/app/interfaces/place';
 import {
   TableRest,
-  TableRestModel,
   AssignNewTableForCustomerDto,
 } from 'src/app/interfaces/table-rest';
 import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
@@ -17,9 +16,8 @@ import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
-  places: PlaceModel[] = [];
+  place: PlaceModel={}as PlaceModel;
   customers: Customer[] = [];
-  tableRests: TableRestModel[] = [];
   sub: Subscription = new Subscription();
   tableRestWithCustomer: TableRest[] = [];
   newCustomers: Customer[] = [];
@@ -29,45 +27,46 @@ export class RestaurantMapComponent implements OnInit {
 
   constructor(
     private placesService: PlacesService,
-    private tableRestService: TableRestService
+    private tableRestService: TableRestService,
+    private customerManagementService:CustomerManagementService
   ) {}
 
   ngOnInit(): void {
-    let customerTempo = {} as Customer;
-    let placeTempo = {} as PlaceModel;
+
 
     this.sub = this.placesService.places$.subscribe((places) => {
-      this.places = places;
+      this.place =places.find((element) => element.type == 1)!;
     });
 
     this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
-      this.tableRests = tableRests;
-    });
+      tableRests.forEach((table)=>{
+        if(table.idPlace==this.place.id){
+          this.tableRestWithCustomer.push({
+            id: table.id,
+            numberPlace: table.numberPlace,
+            hygiene: table.hygiene,
+            posX: table.posX,
+            posY: table.posY,
+            idPlace: table.idPlace,
+            customers: []
+          });
 
-    placeTempo = this.places.find((element) => element.type == 1)!;
-
-    this.tableRests.forEach((table) => {
-      if (table.idPlace == placeTempo.id) {
-        this.tableRestWithCustomer.push(table);
-      }
-    });
-
-    this.tableRestWithCustomer.forEach((table) => {
-      table.customers = [];
-      this.customers.forEach((customer) => {
-        customerTempo = customer;
-        if (customerTempo.idTableRest == table.id) {
-          customerTempo.numImg = Math.floor(Math.random() * 7) + 1;
-          table.customers?.push(customer);
         }
-      });
+      })
     });
+    this.sub=this.customerManagementService.listCustomer$.subscribe((customers)=>{
+      customers.forEach((customer)=>{
+        for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+          const tableCurrent = this.tableRestWithCustomer[i];
+          if(tableCurrent.id==customer.idTableRest)
+            tableCurrent.customers!.push();
+          else
+            this.newCustomers.push(customer);
+        }
+      })
+    })
 
-    this.customers.forEach((customer) => {
-      if (customer.idTableRest == undefined || customer.idTableRest < 1) {
-        this.newCustomers.push(customerTempo);
-      }
-    });
+
   }
 
   assignTable() {
