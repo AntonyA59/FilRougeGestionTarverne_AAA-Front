@@ -31,7 +31,6 @@ export class RestaurantMapComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     this.sub = this.placesService.places$.subscribe((places) => {
       this.place =places.find((element) => element.type == 1)!;
     });
@@ -61,16 +60,11 @@ export class RestaurantMapComponent implements OnInit {
               if(tableCurrent.id==customer.idTableRest){
                 tableCurrent.customers!.push(customer);
               }
-              else
-                this.newCustomers.push(customer);
             }
           }
         })
       })
     });
-
-
-
   }
 
   assignTable() {
