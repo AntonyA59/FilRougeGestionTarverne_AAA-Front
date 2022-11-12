@@ -10,6 +10,7 @@ aside,
   background-repeat: no-repeat;
   background-size: cover;
   */
+  min-width: 720px;
   min-height: 85vh;
   display: flex;
   flex-direction: row;
