@@ -14,7 +14,6 @@ import { IsLoggedManagerGuard } from './guard/managerStep/is-logged-manager.guar
 
 const routes: Routes = [
   //page Game
-  //TODO gerer l'obligation d'être connecter pour pouvoir avoir acces à ces routes là !!
   {
     path: 'game',
     component: GamePageComponent,
