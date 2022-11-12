@@ -9,8 +9,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
 import { PlayerMenuComponent } from './player-menu/player-menu.component';
 import { AddManagerFormComponent } from './add-manager-form/add-manager-form.component';
-import { IsLoggedGuard } from './guard/playerStep/is-logged.guard';
 import { IsLoggedManagerGuard } from './guard/managerStep/is-logged-manager.guard';
+import { IsLoggedGuard } from './guard/playerStep/is-logged.guard';
 
 const routes: Routes = [
   //page Game
