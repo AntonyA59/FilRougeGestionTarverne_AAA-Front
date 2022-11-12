@@ -16,7 +16,7 @@ export class ManagerService {
   };
   private manager = new BehaviorSubject<ManagerModel>({} as ManagerModel);
   manager$ = this.manager.asObservable();
-  private emailPlayer: string = sessionStorage.getItem('email')!;
+  private emailPlayer: string = '';
   private urlAddManager = environment.apiUrl + 'api/game/manager/create';
   private urlListManager =
     environment.apiUrl + 'api/game/manager/listExistingManager';
@@ -34,6 +34,7 @@ export class ManagerService {
   }
 
   listManager(): Observable<ManagerModel[]> {
+    this.emailPlayer=sessionStorage.getItem('email')!;
     const body = JSON.parse(`{"email": "${this.emailPlayer}"}`);
     return this.http.post<ManagerModel[]>(
       this.urlListManager,

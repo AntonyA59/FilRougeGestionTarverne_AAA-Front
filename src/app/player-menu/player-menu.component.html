@@ -6,7 +6,7 @@
     <div class="m-4 d-flex justify-content-around">
         <a class="btn-brown" routerLink="/home/manager/add">Créer un manager</a>
         <a class="btn-brown" routerLink="/home/manager/select">Sélectionner un manager</a>
-        <a class="btn-brown">Deconnexion</a>
+        <a class="btn-brown" (click)="logout()" [routerLink]="['/']">Deconnexion</a>
     </div>
 
 </div>
