@@ -9,14 +9,16 @@ import { RegistrationComponent } from './registration/registration.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
 import { PlayerMenuComponent } from './player-menu/player-menu.component';
 import { AddManagerFormComponent } from './add-manager-form/add-manager-form.component';
+import { IsLoggedGuard } from './guard/playerStep/is-logged.guard';
+import { IsLoggedManagerGuard } from './guard/managerStep/is-logged-manager.guard';
 
 const routes: Routes = [
   //page Game
   //TODO gerer l'obligation d'être connecter pour pouvoir avoir acces à ces routes là !!
-  { path: 'game', redirectTo: '/game/grandeSalle', pathMatch: 'full' },
   {
     path: 'game',
     component: GamePageComponent,
+    canActivate:[IsLoggedManagerGuard],
     loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
   },
 
@@ -33,9 +35,9 @@ const routes: Routes = [
         component: LoginComponent,
       },
       { path: 'inscription', component: RegistrationComponent },
-      { path: 'menu', component: PlayerMenuComponent },
-      { path: 'manager/select', component: SelectManagerComponent },
-      { path: 'manager/add', component: AddManagerFormComponent },
+      { path: 'menu', component: PlayerMenuComponent, canActivate:[IsLoggedGuard] },
+      { path: 'manager/select', component: SelectManagerComponent,canActivate:[IsLoggedGuard] },
+      { path: 'manager/add', component: AddManagerFormComponent,canActivate:[IsLoggedGuard] },
     ],
   },
   //page Not found

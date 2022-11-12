@@ -22,6 +22,5 @@ export class AddManagerFormComponent implements OnInit {
     this.manager.reset();
   }
   ngOnInit(): void {
-    console.log(this.emailPlayer);
   }
 }
