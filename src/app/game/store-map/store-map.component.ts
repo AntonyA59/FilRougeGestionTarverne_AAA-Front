@@ -34,7 +34,8 @@ export class StoreMapComponent implements OnInit {
   constructor(
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private managerService: ManagerService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +47,10 @@ export class StoreMapComponent implements OnInit {
         }
       );
     });
+  }
+  ngOnDestroy(): void {
+    this.sub1.unsubscribe;
+    this.sub2.unsubscribe;
   }
   addIngredientToBuying(index: number) {
     let ingredient: IngredientQuantity | undefined;
@@ -142,7 +147,7 @@ export class StoreMapComponent implements OnInit {
     }
   }
   commitTransaction() {
-    let shopIngredientQuantity = {} as ShopIngredientQuantity;
+    //const shopIngredientQuantity = {} as ShopIngredientQuantity;
     this.shopIngredientDtoToSelling.idManager = 836;
     this.shopIngredientDtoToSelling.shopIngredientQuantity = [];
     let stopTransaction: boolean = false;
@@ -150,48 +155,49 @@ export class StoreMapComponent implements OnInit {
     if (this.cartSelling.length > 0) {
       this.cartSelling.forEach((element) => {
         if (element.quantity != undefined) {
+          const shopIngredientQuantity = {} as ShopIngredientQuantity;
           shopIngredientQuantity.idIngredient = element.id;
           shopIngredientQuantity.quantity = element.quantity;
           this.shopIngredientDtoToSelling.shopIngredientQuantity.push(
             shopIngredientQuantity
           );
-          //envoie du post avec comme argument this.shopIngredientDtoToSelling
-          this.storeService.sellIngredients(this.shopIngredientDtoToSelling);
-          if (true) {
-            this.totalSellingPrice = 0;
-            this.cartSelling = [];
-          } else {
-            stopTransaction = true;
-            //message d'erreur
-          }
         }
       });
+      //envoie du post avec comme argument this.shopIngredientDtoToSelling
+      this.storeService.sellIngredients(this.shopIngredientDtoToSelling);
+      if (true) {
+        this.totalSellingPrice = 0;
+        this.cartSelling = [];
+      } else {
+        stopTransaction = true;
+        //message d'erreur
+      }
     }
 
     if (stopTransaction == false) {
-      shopIngredientQuantity = {} as ShopIngredientQuantity;
+      this.shopIngredientDtoToBuying.idManager = 836;
+      this.shopIngredientDtoToBuying.shopIngredientQuantity = [];
 
       if (this.cartBuying.length > 0) {
         this.cartBuying.forEach((element) => {
           if (element.quantity != undefined) {
+            const shopIngredientQuantity = {} as ShopIngredientQuantity;
             shopIngredientQuantity.idIngredient = element.id;
             shopIngredientQuantity.quantity = element.quantity;
             this.shopIngredientDtoToBuying.shopIngredientQuantity.push(
               shopIngredientQuantity
             );
-            //envoie du post avec comme argument this.shopIngredientDtoToBuying
-            if (true) {
-              this.cartBuying = [];
-              this.totalBuyingPrice = 0;
-              sessionStorage.setItem(
-                'inventory',
-                JSON.stringify(this.inventory)
-              );
-            } else {
-              //erreur venant du back
-            }
           }
         });
+        //envoie du post avec comme argument this.shopIngredientDtoToBuying
+        this.storeService.buyIngredients(this.shopIngredientDtoToBuying);
+        if (true) {
+          this.cartBuying = [];
+          this.totalBuyingPrice = 0;
+          sessionStorage.setItem('inventory', JSON.stringify(this.inventory));
+        } else {
+          //erreur venant du back
+        }
       }
     }
   }
