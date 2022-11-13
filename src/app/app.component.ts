@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, switchMap, timer } from 'rxjs';
-import { JwtToken } from './interfaces/JwtToken';
 import { AuthService } from './services/auth/auth.service';
 
 @Component({
