@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { VirtualTimeScheduler } from 'rxjs';
 import { LoadManager } from 'src/app/interfaces/load-manager';
 import { environment } from 'src/environments/environment';
 import { CategoriesSubcatgoriesService } from '../categories-subcatgories/categories-subcatgories.service';
@@ -26,13 +27,13 @@ export class LoadManagerService {
   constructor(
     private http: HttpClient,
     private managerService: ManagerService,
+    private customerManagementService: CustomerManagementService,
     private categorieSubCategoriesService: CategoriesSubcatgoriesService,
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
     private placesServices: PlacesService,
     private recipesServices: RecipeService,
-    private tableRestService: TableRestService,
-    private customerManagementService: CustomerManagementService
+    private tableRestService: TableRestService
   ) {}
 
   loadManager(idManager: number) {
@@ -44,6 +45,7 @@ export class LoadManagerService {
       .subscribe((response) => {
         this.managerService.setManager(response.manager);
         this.categorieSubCategoriesService.setCategories(response.categories);
+        this.customerManagementService.setCustomers(response.customers);
         this.categorieSubCategoriesService.setSubCategories(
           response.subCategories
         );
@@ -54,7 +56,7 @@ export class LoadManagerService {
         this.placesServices.setPlaces(response.places);
         this.recipesServices.setRecipes(response.recipes);
         this.tableRestService.setTables(response.tableRests);
-        this.customerManagementService.setListCustomer(response.customers);
+        this.customerManagementService.setCustomers(response.customers);
       });
   }
 }

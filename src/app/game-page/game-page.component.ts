@@ -12,7 +12,7 @@ export class GamePageComponent implements OnInit {
   constructor(private loadManagerService: LoadManagerService,private router:Router) { }
 
   ngOnInit(): void {
-    
+    //todo: à supprimer et le remplacer par des guards
     if(sessionStorage.getItem("idManager")){
       const idManager:number=Number.parseInt(sessionStorage.getItem("idManager")!);
       this.loadManagerService.loadManager(idManager);

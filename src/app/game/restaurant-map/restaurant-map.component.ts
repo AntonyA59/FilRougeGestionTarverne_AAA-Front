@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Customer } from 'src/app/interfaces/customer';
+import { CustomerModel } from 'src/app/interfaces/customer';
 import { PlaceModel } from 'src/app/interfaces/place';
-import {
-  TableRest,
-  AssignNewTableForCustomerDto,
-} from 'src/app/interfaces/table-rest';
+import { TableRest } from 'src/app/interfaces/table-rest';
 import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
 import { PlacesService } from 'src/app/services/places/places.service';
 import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
@@ -16,31 +13,28 @@ import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
-  place: PlaceModel={}as PlaceModel;
-  customers: Customer[] = [];
+  place: PlaceModel = {} as PlaceModel;
+  customers: CustomerModel[] = [];
   sub: Subscription = new Subscription();
   tableRestWithCustomer: TableRest[] = [];
-  newCustomers: Customer[] = [];
+  newCustomers: CustomerModel[] = [];
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
-  assignNewTableForCustomerDto = {} as AssignNewTableForCustomerDto;
 
   constructor(
     private placesService: PlacesService,
     private tableRestService: TableRestService,
-    private customerManagementService:CustomerManagementService
+    private customerManagementService: CustomerManagementService
   ) {}
 
   ngOnInit(): void {
-
-
     this.sub = this.placesService.places$.subscribe((places) => {
-      this.place =places.find((element) => element.type == 1)!;
+      this.place = places.find((element) => element.type == 1)!;
     });
 
     this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
-      tableRests.forEach((table)=>{
-        if(table.idPlace==this.place.id){
+      tableRests.forEach((table) => {
+        if (table.idPlace == this.place.id) {
           this.tableRestWithCustomer.push({
             id: table.id,
             numberPlace: table.numberPlace,
@@ -48,25 +42,26 @@ export class RestaurantMapComponent implements OnInit {
             posX: table.posX,
             posY: table.posY,
             idPlace: table.idPlace,
-            customers: []
+            customers: [],
           });
-
         }
-      })
+      });
+      this.sub = this.customerManagementService.customers$.subscribe(
+        (customers) => {
+          customers.forEach((customer) => {
+            if (customer.idTableRest == 1) this.newCustomers.push(customer);
+            else {
+              for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+                const tableCurrent = this.tableRestWithCustomer[i];
+                if (tableCurrent.id == customer.idTableRest) {
+                  tableCurrent.customers!.push(customer);
+                }
+              }
+            }
+          });
+        }
+      );
     });
-    this.sub=this.customerManagementService.listCustomer$.subscribe((customers)=>{
-      customers.forEach((customer)=>{
-        for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
-          const tableCurrent = this.tableRestWithCustomer[i];
-          if(tableCurrent.id==customer.idTableRest)
-            tableCurrent.customers!.push();
-          else
-            this.newCustomers.push(customer);
-        }
-      })
-    })
-
-
   }
 
   assignTable() {
@@ -87,12 +82,10 @@ export class RestaurantMapComponent implements OnInit {
     }
 
     if (assignPossible) {
-      this.assignNewTableForCustomerDto.customerId =
-        this.newCustomers[this.customerIndexSelected].id;
-      this.assignNewTableForCustomerDto.tableId =
-        this.tableRestWithCustomer[this.tableIndexSelected].id;
-      // Envoi du post avec comme attribut this.assignNewTableForCustomerDto
-
+      this.customerManagementService.assignCustomerInTable(
+        this.newCustomers[this.customerIndexSelected],
+        this.tableRestWithCustomer[this.tableIndexSelected]
+      );
       if (true) {
         this.newCustomers[this.customerIndexSelected].numImg =
           Math.floor(Math.random() * 7) + 1;

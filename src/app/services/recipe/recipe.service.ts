@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Customer } from 'src/app/interfaces/customer';
+import { CustomerModel } from 'src/app/interfaces/customer';
 import { ManagerModel } from 'src/app/interfaces/manager';
 import {
   RecipeModel,
@@ -35,7 +35,7 @@ export class RecipeService {
   requestRecipe(
     manager: ManagerModel,
     recipe: RecipeModel,
-    customer: Customer
+    customer: CustomerModel
   ) {
     const body = JSON.parse(
       `{"managerId":${manager.id},"recipeId":${recipe.id},"customerId":${customer.id}}`

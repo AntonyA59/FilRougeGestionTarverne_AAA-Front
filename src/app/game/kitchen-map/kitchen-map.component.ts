@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Customer } from 'src/app/interfaces/customer';
+import { CustomerModel } from 'src/app/interfaces/customer';
 import {
   IngredientModel,
   IngredientQuantity,
 } from 'src/app/interfaces/ingredient';
 import { RecipeModel, RequestRecipeDto } from 'src/app/interfaces/recipe';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
+import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 
 @Component({
@@ -15,8 +16,9 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
   styleUrls: ['./kitchen-map.component.css'],
 })
 export class KitchenMapComponent implements OnInit {
-  sub: Subscription = new Subscription();
-  customers: Customer[] = [];
+  sub1: Subscription = new Subscription();
+  sub2: Subscription = new Subscription();
+  customers: CustomerModel[] = [];
   ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [];
   recipes: RecipeModel[] = [];
@@ -33,20 +35,29 @@ export class KitchenMapComponent implements OnInit {
 
   constructor(
     private recipesService: RecipeService,
-    private ingredientsService: IngredientsService
+    private ingredientsService: IngredientsService,
+    private inventoryManagerService: InventoryManagerService
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.recipesService.recipes$.subscribe((recipes) => {
+    this.sub1 = this.recipesService.recipes$.subscribe((recipes) => {
       this.recipes = recipes;
+      this.sub2 = this.inventoryManagerService.inventaireConnect$.subscribe(
+        (inventory) => {
+          this.inventory = inventory;
+        }
+      );
     });
 
-    this.sub = this.ingredientsService.ingredients$.subscribe((ingredients) => {
-      this.ingredients = ingredients;
-    });
+    this.sub1 = this.ingredientsService.ingredients$.subscribe(
+      (ingredients) => {
+        this.ingredients = ingredients;
+      }
+    );
   }
   ngOnDestroy(): void {
-    this.sub.unsubscribe;
+    this.sub1.unsubscribe;
+    this.sub2.unsubscribe;
   }
   selectRecipe(index: number) {
     let ingredient: IngredientQuantity | undefined;

@@ -6,6 +6,7 @@ import { StoreMapComponent } from './store-map/store-map.component';
 import { TerraceMapComponent } from './terrace-map/terrace-map.component';
 
 const routes: Routes = [
+  { path: 'game', redirectTo: '/game/restaurant'},
   { path: 'restaurant', component: RestaurantMapComponent },
   { path: 'cuisine', component: KitchenMapComponent },
   { path: 'terrace', component: TerraceMapComponent },

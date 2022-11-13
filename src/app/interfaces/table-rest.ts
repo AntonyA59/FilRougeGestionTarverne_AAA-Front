@@ -1,4 +1,4 @@
-import { Customer } from './customer';
+import { CustomerModel } from './customer';
 
 export interface TableRestModel {
   id: number;
@@ -16,10 +16,6 @@ export interface TableRest {
   posX: number;
   posY: number;
   idPlace: number;
-  customers?: Customer[];
+  customers?: CustomerModel[];
 }
 
-export interface AssignNewTableForCustomerDto {
-  customerId: number;
-  tableId: number;
-}
