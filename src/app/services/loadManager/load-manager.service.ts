@@ -27,14 +27,13 @@ export class LoadManagerService {
   constructor(
     private http: HttpClient,
     private managerService: ManagerService,
-    private customerManagementService:CustomerManagementService,
+    private customerManagementService: CustomerManagementService,
     private categorieSubCategoriesService: CategoriesSubcatgoriesService,
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
     private placesServices: PlacesService,
     private recipesServices: RecipeService,
-    private tableRestService: TableRestService,
-    private customerManagementService: CustomerManagementService
+    private tableRestService: TableRestService
   ) {}
 
   loadManager(idManager: number) {
@@ -57,7 +56,7 @@ export class LoadManagerService {
         this.placesServices.setPlaces(response.places);
         this.recipesServices.setRecipes(response.recipes);
         this.tableRestService.setTables(response.tableRests);
-        this.customerManagementService.setListCustomer(response.customers);
+        this.customerManagementService.setCustomers(response.customers);
       });
   }
 }
