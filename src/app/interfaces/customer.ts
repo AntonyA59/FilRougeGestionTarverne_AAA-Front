@@ -15,6 +15,8 @@ export interface CustomerModel {
   idTableRest?: number;
   consommationStart?: string;
   commandList?: number[];
+  name?: string;
+  numImg?: number;
 }
 export interface Customer {
   id: number;

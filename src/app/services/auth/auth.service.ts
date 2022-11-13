@@ -7,6 +7,7 @@ import { Status } from 'src/app/interfaces/status';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { JwtToken } from 'src/app/interfaces/JwtToken';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class AuthService {
 
   curUserObs$ = this.curUser.asObservable();
   apiProfile = environment.apiUrl + 'api/game/profile';
+  apiRefresh = environment.apiUrl + 'refreshToken';
   apiRegister = environment.apiUrl + 'api/register';
   apiLogin = environment.apiUrl + 'login';
 
@@ -53,6 +55,20 @@ export class AuthService {
       }),
     };
     return this.http.get<PlayerModel>(this.apiProfile, httpOptions);
+  }
+
+  refreshToken() {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('refreshToken'),
+      }),
+    };
+    return this.http.get<JwtToken>(this.apiRefresh, httpOptions).pipe(
+      map((userData) => {
+        return userData;
+      })
+    );
   }
 
   setCurrentUser(auth: CurrentUser) {
