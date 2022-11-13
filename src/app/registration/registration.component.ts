@@ -33,17 +33,25 @@ export class RegistrationComponent implements OnInit {
     ]),
   });
 
-  constructor(private authService: AuthService,private router:Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   get f() {
     return this.formRegistration.controls;
   }
   onSubmit() {
+    const val = this.formRegistration.value;
     this.authService
       .register(this.formRegistration.value as Player)
       .subscribe();
     this.submitted = true;
-    this.router.navigateByUrl('/');
+    setTimeout(() => {
+      if (val.email && val.password)
+        this.authService.login(val.email, val.password).subscribe((data) => {
+          sessionStorage.setItem('accessToken', data.accessToken);
+          sessionStorage.setItem('refreshToken', data.refreshToken);
+          this.router.navigateByUrl('/home/menu');
+        });
+    }, 500);
   }
   ngOnInit(): void {}
 }
