@@ -5,7 +5,9 @@ import { PlaceModel } from 'src/app/interfaces/place';
 import { TableRest } from 'src/app/interfaces/table-rest';
 import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
 import { PlacesService } from 'src/app/services/places/places.service';
+import { RecipeService } from 'src/app/services/recipe/recipe.service';
 import { TableRestService } from 'src/app/services/tableRest/tableRest.service';
+import { TimerService } from 'src/app/services/timer/timer.service';
 
 @Component({
   selector: 'app-restaurant-map',
@@ -24,7 +26,9 @@ export class RestaurantMapComponent implements OnInit {
   constructor(
     private placesService: PlacesService,
     private tableRestService: TableRestService,
-    private customerManagementService: CustomerManagementService
+    private customerManagementService: CustomerManagementService,
+    private recipeService:RecipeService,
+    private timerService:TimerService
   ) {}
 
   ngOnInit(): void {
@@ -47,15 +51,28 @@ export class RestaurantMapComponent implements OnInit {
         }
       });
       this.sub = this.customerManagementService.customers$.subscribe(
-        (customers) => {
+        (customers) => { 
           customers.forEach((customer) => {
-            if (customer.idTableRest == 1) this.newCustomers.push(customer);
+            if (customer.idTableRest == 1) 
+              this.newCustomers.push(customer);
+              //todo:voir pourquoi les newcustomer sont ajouter deux fois
             else {
               for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
                 const tableCurrent = this.tableRestWithCustomer[i];
                 if (tableCurrent.id == customer.idTableRest) {
                   tableCurrent.customers!.push(customer);
                 }
+              }
+            }
+            if(customer.consommationStart!=null){
+              const recipeTime= this.recipeService.getRecipeById(customer.commandList[0])?.consommationTime;
+              const timeNow= Date.now();
+              const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
+              if(timeRemaining <=0 ){
+
+                this.displayBadge();
+              }else{
+                this.timerService.addTimer(setTimeout(this.displayBadge,timeRemaining));
               }
             }
           });
@@ -65,40 +82,29 @@ export class RestaurantMapComponent implements OnInit {
   }
 
   assignTable() {
+    if (this.checkFreeTable()) {
+      console.log("toto")
+      this.customerManagementService.assignCustomerInTable(
+        this.newCustomers[this.customerIndexSelected],
+        this.tableRestWithCustomer[this.tableIndexSelected]
+      );
+      //voir avec simon pour le retour error
+    } else {
+      // message d'erreur (place non disponibles)
+    }
+  }
+
+  checkFreeTable():boolean{
     let assignPossible = false;
-    if (
-      this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined
-    ) {
-      if (
-        this.tableRestWithCustomer[this.tableIndexSelected].customers
-          ?.length! >=
-        this.tableRestWithCustomer[this.tableIndexSelected].numberPlace
-      ) {
+    if (this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined) {
+      if (this.tableRestWithCustomer[this.tableIndexSelected].customers?.length! >=this.tableRestWithCustomer[this.tableIndexSelected].numberPlace) {
       } else {
         assignPossible = true;
       }
     } else {
       assignPossible = true;
     }
-
-    if (assignPossible) {
-      this.customerManagementService.assignCustomerInTable(
-        this.newCustomers[this.customerIndexSelected],
-        this.tableRestWithCustomer[this.tableIndexSelected]
-      );
-      if (true) {
-        this.newCustomers[this.customerIndexSelected].numImg =
-          Math.floor(Math.random() * 7) + 1;
-        this.tableRestWithCustomer[this.tableIndexSelected].customers?.push(
-          this.newCustomers[this.customerIndexSelected]
-        );
-        this.newCustomers.splice(this.customerIndexSelected, 1);
-      } else {
-        //erreur venant du back
-      }
-    } else {
-      // message d'erreur (place non disponibles)
-    }
+    return assignPossible;
   }
 
   customerChange(event: Event): void {
@@ -110,6 +116,15 @@ export class RestaurantMapComponent implements OnInit {
   tableChange(event: Event): void {
     if (event.target instanceof HTMLSelectElement && event.target.value != '') {
       this.tableIndexSelected = parseInt(event.target.value);
+    }
+  }
+  displayBadge(){
+    const boxSalleBadge=document.querySelector("#restaurant #badge");
+    if(boxSalleBadge==null){
+      const boxSalle= document.getElementById("restaurant");
+      let badge=document.createElement("span");
+      badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2"," bg-primary", "border", "border-light", "rounded-circle");
+      boxSalle?.appendChild(badge);
     }
   }
 }
