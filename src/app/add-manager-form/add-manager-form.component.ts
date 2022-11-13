@@ -24,7 +24,7 @@ export class AddManagerFormComponent implements OnInit {
       this.managerService.addManager(val.name, this.emailPlayer!);
       setTimeout(() => {
         this.router.navigateByUrl('/home/manager/select');
-      }, 100);
+      }, 300);
     }
   }
   ngOnInit(): void {}
