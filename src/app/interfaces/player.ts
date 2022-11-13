@@ -5,6 +5,12 @@ export interface Player {
   password: string;
   matchingPassword: string;
   enabled?: boolean;
-  accessToken: string;
-  refreshToken: string;
+}
+export interface PlayerModel {
+  id?: number;
+  email: string;
+  nickname: string;
+  password: string;
+  enabled?: boolean;
+  roles: [];
 }

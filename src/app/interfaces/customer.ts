@@ -14,7 +14,7 @@ export interface CustomerModel {
   expGiven: number;
   idTableRest?: number;
   consommationStart?: string;
-  commandList?:number[];
+  commandList?: number[];
 }
 export interface Customer {
   id: number;
@@ -32,7 +32,7 @@ export interface Customer {
   expGiven: number;
   idTableRest?: number;
   consommationStart?: string;
-  commandList?:number[];
+  commandList?: number[];
   name?: string;
   numImg?: number;
 }

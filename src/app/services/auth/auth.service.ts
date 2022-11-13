@@ -1,38 +1,39 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthStatus } from 'src/app/interfaces/auth-status';
-import { Player } from 'src/app/interfaces/player';
+import { CurrentUser } from 'src/app/interfaces/currentUser';
+import { Player, PlayerModel } from 'src/app/interfaces/player';
 import { Status } from 'src/app/interfaces/status';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private curUser = new BehaviorSubject<AuthStatus>({
+  private curUser = new BehaviorSubject<CurrentUser>({
     connected: false,
   });
-  curUserObs$ = this.curUser.asObservable();
 
-  constructor(private http: HttpClient) {}
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }),
-  };
+  curUserObs$ = this.curUser.asObservable();
+  apiProfile = environment.apiUrl + 'api/game/profile';
+  apiRegister = environment.apiUrl + 'api/register';
+  apiLogin = environment.apiUrl + 'login';
+
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }),
+    };
     let body = new URLSearchParams();
     body.set('email', email);
     body.set('password', password);
     return this.http
-      .post<any>(
-        environment.apiUrl + 'login',
-        body.toString(),
-        this.httpOptions
-      )
+      .post<any>(this.apiLogin, body.toString(), httpOptions)
       .pipe(
         map((userData) => {
           sessionStorage.setItem('email', email);
@@ -41,14 +42,26 @@ export class AuthService {
       );
   }
   register(player: Player): Observable<Player> {
-    return this.http.post<Player>(environment.apiUrl + 'api/register', player);
+    return this.http.post<Player>(this.apiRegister, player);
   }
+
+  getPlayer(): Observable<PlayerModel> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
+      }),
+    };
+    return this.http.get<PlayerModel>(this.apiProfile, httpOptions);
+  }
+
+  setCurrentUser(auth: CurrentUser) {
+    this.curUser.next(auth);
+  }
+
   isUserLoggedIn() {
     let email = sessionStorage.getItem('email');
     return !(email === null);
-  }
-  setAuthStatus(auth: AuthStatus) {
-    this.curUser.next(auth);
   }
 
   isPlayer(obj: any): obj is Player {
@@ -61,5 +74,6 @@ export class AuthService {
 
   logOut() {
     sessionStorage.clear();
+    this.router.navigateByUrl('/');
   }
 }

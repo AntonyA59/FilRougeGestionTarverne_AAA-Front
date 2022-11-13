@@ -20,7 +20,7 @@ body {
 }
 
 h2 {
-  color: var(--color1);
+  color: var(--color3);
   text-shadow: 2px 2px 1px#000000;
 }
 
@@ -55,11 +55,9 @@ h2 {
 .btn-brown {
   border-radius: 20px;
   text-decoration: none;
-  background: linear-gradient(
-    0deg,
-    rgba(124, 61, 10, 1) 39%,
-    rgba(223, 106, 46, 1) 98%
-  );
+  background: linear-gradient(0deg,
+      rgba(124, 61, 10, 1) 39%,
+      rgba(223, 106, 46, 1) 98%);
   font-weight: bold;
   color: #2e1501;
   border: #582b07 groove 2px;
@@ -73,11 +71,9 @@ h2 {
 
 .btnChoice {
   border-radius: 20px;
-  background: linear-gradient(
-    0deg,
-    rgba(124, 61, 10, 1) 39%,
-    rgba(223, 106, 46, 1) 98%
-  );
+  background: linear-gradient(0deg,
+      rgba(124, 61, 10, 1) 39%,
+      rgba(223, 106, 46, 1) 98%);
   font-weight: bold;
   color: #ffffff;
   border: #582b07 groove 2px;
@@ -85,11 +81,9 @@ h2 {
 
 .btnChoice:active {
   background: rgb(145, 40, 1);
-  background: linear-gradient(
-    0deg,
-    rgba(145, 40, 1, 1) 35%,
-    rgba(201, 62, 6, 1) 97%
-  );
+  background: linear-gradient(0deg,
+      rgba(145, 40, 1, 1) 35%,
+      rgba(201, 62, 6, 1) 97%);
 }
 
 .colorOrange {

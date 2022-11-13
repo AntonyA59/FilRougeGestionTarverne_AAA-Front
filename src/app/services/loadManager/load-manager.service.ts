@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { LoadManager } from 'src/app/interfaces/load-manager';
 import { environment } from 'src/environments/environment';
 import { CategoriesSubcatgoriesService } from '../categories-subcatgories/categories-subcatgories.service';
+import { CustomerManagementService } from '../customerManagement/customer-management.service';
 import { IngredientsService } from '../ingredients/ingredients.service';
 import { InventoryManagerService } from '../inventoryManager/inventory-manager.service';
 import { ManagerService } from '../manager/manager.service';
@@ -14,6 +15,7 @@ import { TableRestService } from '../tableRest/tableRest.service';
   providedIn: 'root',
 })
 export class LoadManagerService {
+  emailPlayer = sessionStorage.getItem('email');
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -29,11 +31,14 @@ export class LoadManagerService {
     private inventoryManagerService: InventoryManagerService,
     private placesServices: PlacesService,
     private recipesServices: RecipeService,
-    private tableRestService: TableRestService
+    private tableRestService: TableRestService,
+    private customerManagementService: CustomerManagementService
   ) {}
 
   loadManager(idManager: number) {
-    const body = JSON.parse(`{"managerId": ${idManager}}`);
+    const body = JSON.parse(
+      `{"managerId": ${idManager}, "email": "${this.emailPlayer}"}`
+    );
     this.http
       .post<LoadManager>(this.urlLoadManager, body, this.httpOptions)
       .subscribe((response) => {
@@ -49,6 +54,7 @@ export class LoadManagerService {
         this.placesServices.setPlaces(response.places);
         this.recipesServices.setRecipes(response.recipes);
         this.tableRestService.setTables(response.tableRests);
+        this.customerManagementService.setListCustomer(response.customers);
       });
   }
 }

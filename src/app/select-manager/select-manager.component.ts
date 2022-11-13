@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { timer } from 'rxjs';
 import { ManagerModel } from '../interfaces/manager';
 import { LoadManagerService } from '../services/loadManager/load-manager.service';
 import { ManagerService } from '../services/manager/manager.service';
@@ -10,9 +11,8 @@ import { ManagerService } from '../services/manager/manager.service';
 })
 export class SelectManagerComponent implements OnInit {
   managers: ManagerModel[] = [];
-  constructor(
-    private managerService: ManagerService
-  ) {}
+
+  constructor(private managerService: ManagerService) {}
 
   ngOnInit(): void {
     this.managerService.listManager().subscribe((response) => {
@@ -21,6 +21,6 @@ export class SelectManagerComponent implements OnInit {
   }
 
   selectManager(idManager: number) {
-    sessionStorage.setItem("idManager",idManager.toString());
+    sessionStorage.setItem('idManager', idManager.toString());
   }
 }
