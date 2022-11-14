@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CustomerModel } from 'src/app/interfaces/customer';
 import { PlaceModel } from 'src/app/interfaces/place';
@@ -15,6 +15,7 @@ import { TimerService } from 'src/app/services/timer/timer.service';
   styleUrls: ['./restaurant-map.component.css'],
 })
 export class RestaurantMapComponent implements OnInit {
+export class RestaurantMapComponent implements OnInit , OnDestroy{
   place: PlaceModel = {} as PlaceModel;
   customers: CustomerModel[] = [];
   sub: Subscription = new Subscription();
@@ -135,5 +136,7 @@ export class RestaurantMapComponent implements OnInit {
       boxSalle?.appendChild(badge);
     }
   }
-
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 }

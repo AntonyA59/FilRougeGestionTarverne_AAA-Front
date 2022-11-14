@@ -85,7 +85,8 @@ export class CustomerManagementService {
   updateCustomer(customerBefore: CustomerModel, customerAfter: CustomerModel): void {
     let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
     const index = newCustomers.findIndex(
-      (element) => {this.findCustomer(element,customerBefore)}
+      element => (
+        element===customerBefore)
     );
     console.log(index)
     newCustomers[index] = customerAfter;
@@ -93,14 +94,11 @@ export class CustomerManagementService {
   }
   deleteCustomer(customer: CustomerModel): void {
     let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
-    const index = newCustomers.findIndex((element) =>  {this.findCustomer(element,customer)});
-    newCustomers.splice(index, 1);
+    const index = newCustomers.findIndex(
+      element => (
+        element===customer)
+    );    newCustomers.splice(index, 1);
     this.setCustomers(newCustomers);
-  }
-  findCustomer(customerA:CustomerModel,customerB:CustomerModel):boolean{
-    if(customerA.id==customerB.id)
-      return true;
-    return false;
   }
 
   getNewRecipe(): Observable<RecipeModel> {
