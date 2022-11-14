@@ -87,6 +87,7 @@ export class CustomerManagementService {
     const index = newCustomers.findIndex(
       (element) => {this.findCustomer(element,customerBefore)}
     );
+    console.log(index)
     newCustomers[index] = customerAfter;
     this.setCustomers(newCustomers);
   }

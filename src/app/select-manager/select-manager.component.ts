@@ -12,7 +12,7 @@ export class SelectManagerComponent implements OnInit {
   managers: ManagerModel[] = [];
   constructor(
     private managerService: ManagerService
-  ) {}
+    ) {}
 
   ngOnInit(): void {
     this.managerService.listManager().subscribe((response) => {

@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { VirtualTimeScheduler } from 'rxjs';
 import { LoadManager } from 'src/app/interfaces/load-manager';
 import { environment } from 'src/environments/environment';
 import { CategoriesSubcatgoriesService } from '../categories-subcatgories/categories-subcatgories.service';
@@ -42,7 +41,9 @@ export class LoadManagerService {
       .subscribe((response) => {
         this.managerService.setManager(response.manager);
         this.categorieSubCategoriesService.setCategories(response.categories);
+        this.placesServices.setPlaces(response.places);
         this.customerManagementService.setCustomers(response.customers);
+        this.tableRestService.setTables(response.tableRests);
         this.categorieSubCategoriesService.setSubCategories(
           response.subCategories
         );
@@ -50,9 +51,7 @@ export class LoadManagerService {
         this.inventoryManagerService.setInventaire(
           response.inventoryManagerIngredient
         );
-        this.placesServices.setPlaces(response.places);
         this.recipesServices.setRecipes(response.recipes);
-        this.tableRestService.setTables(response.tableRests);
       });
   }
 }

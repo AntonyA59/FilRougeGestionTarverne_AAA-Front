@@ -31,13 +31,17 @@ export class RestaurantMapComponent implements OnInit {
     private timerService:TimerService
   ) {}
 
+
   ngOnInit(): void {
     this.sub = this.placesService.places$.subscribe((places) => {
       this.place = places.find((element) => element.type == 1)!;
     });
 
     this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
+      console.log(tableRests);
+      this.tableRestWithCustomer=[];
       tableRests.forEach((table) => {
+        console.log(table);
         if (table.idPlace == this.place.id) {
           this.tableRestWithCustomer.push({
             id: table.id,
@@ -52,30 +56,35 @@ export class RestaurantMapComponent implements OnInit {
       });
       this.sub = this.customerManagementService.customers$.subscribe(
         (customers) => { 
-          customers.forEach((customer) => {
-            if (customer.idTableRest == 1) 
-              this.newCustomers.push(customer);
-              //todo:voir pourquoi les newcustomer sont ajouter deux fois
-            else {
-              for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
-                const tableCurrent = this.tableRestWithCustomer[i];
-                if (tableCurrent.id == customer.idTableRest) {
-                  tableCurrent.customers!.push(customer);
+          if(this.tableRestWithCustomer.length!=0){
+            this.newCustomers.splice(0,this.newCustomers.length);
+            this.timerService.setTimers([]);
+
+            customers.forEach((customer) => {
+              console.log(customer)
+              if (customer.idTableRest == 1) 
+                this.newCustomers.push(customer);
+              else {
+                for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+                  const tableCurrent = this.tableRestWithCustomer[i];
+                  if (tableCurrent.id == customer.idTableRest) {
+                    tableCurrent.customers!.push(customer);
+                  }
                 }
               }
-            }
-            if(customer.consommationStart!=null){
-              const recipeTime= this.recipeService.getRecipeById(customer.commandList[0])?.consommationTime;
-              const timeNow= Date.now();
-              const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
-              if(timeRemaining <=0 ){
-
-                this.displayBadge();
-              }else{
-                this.timerService.addTimer(setTimeout(this.displayBadge,timeRemaining));
+              if(customer.consommationStart!=null){
+                const recipeTime= this.recipeService.getRecipeById(customer.commandList[0])?.consommationTime;
+                const timeNow= Date.now();
+                const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
+                if(timeRemaining <=0 ){
+  
+                  this.displayBadge();
+                }else{
+                  this.timerService.addTimer(setTimeout(this.displayBadge,timeRemaining));
+                }
               }
-            }
-          });
+            });
+          }
         }
       );
     });
@@ -83,7 +92,6 @@ export class RestaurantMapComponent implements OnInit {
 
   assignTable() {
     if (this.checkFreeTable()) {
-      console.log("toto")
       this.customerManagementService.assignCustomerInTable(
         this.newCustomers[this.customerIndexSelected],
         this.tableRestWithCustomer[this.tableIndexSelected]
