@@ -135,4 +135,5 @@ export class RestaurantMapComponent implements OnInit {
       boxSalle?.appendChild(badge);
     }
   }
+
 }
