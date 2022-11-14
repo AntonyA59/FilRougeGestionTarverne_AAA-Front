@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, switchMap, timer } from 'rxjs';
@@ -12,15 +13,24 @@ import { AuthService } from './services/auth/auth.service';
 export class AppComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd) {
-        this.authService.refreshToken().subscribe((response) => {
-          sessionStorage.setItem('accessToken', response.accessToken);
-          sessionStorage.setItem('refreshToken', response.refreshToken);
-        });
+      if (
+        this.location.path() != '/home/connexion' &&
+        this.location.path() != '/home/inscription'
+      ) {
+        if (val instanceof NavigationEnd) {
+          this.authService.refreshToken().subscribe((response) => {
+            sessionStorage.setItem('accessToken', response.accessToken);
+            sessionStorage.setItem('refreshToken', response.refreshToken);
+          });
+        }
       }
     });
   }
