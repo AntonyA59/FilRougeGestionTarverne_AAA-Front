@@ -48,23 +48,11 @@ export class AuthService {
   }
 
   getPlayer(): Observable<PlayerModel> {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-      }),
-    };
-    return this.http.get<PlayerModel>(this.apiProfile, httpOptions);
+    return this.http.get<PlayerModel>(this.apiProfile);
   }
 
   refreshToken() {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + sessionStorage.getItem('refreshToken'),
-      }),
-    };
-    return this.http.get<JwtToken>(this.apiRefresh, httpOptions).pipe(
+    return this.http.get<JwtToken>(this.apiRefresh).pipe(
       map((userData) => {
         return userData;
       })

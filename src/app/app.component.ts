@@ -1,9 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription, switchMap, timer } from 'rxjs';
-import { JwtToken } from './interfaces/JwtToken';
-import { AuthService } from './services/auth/auth.service';
+import { Subscription } from 'rxjs';
+import { EventBusService } from './services/EventBus/event-bus.service';
+import { TokenStorageService } from './services/tokenStorage/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -11,30 +9,25 @@ import { AuthService } from './services/auth/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  subscription!: Subscription;
+  isLoggedIn = false;
+  eventBusSub?: Subscription;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private location: Location
+    private tokenStorageService: TokenStorageService,
+    private eventBusService: EventBusService
   ) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((val) => {
-      if (
-        this.location.path() != '/home/connexion' &&
-        this.location.path() != '/home/inscription'
-      ) {
-        if (val instanceof NavigationEnd) {
-          this.authService.refreshToken().subscribe((response) => {
-            sessionStorage.setItem('accessToken', response.accessToken);
-            sessionStorage.setItem('refreshToken', response.refreshToken);
-          });
-        }
-      }
-    });
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    this.eventBusSub = this.eventBusService.on('logout', () => this.logout());
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.eventBusSub) {
+      this.eventBusSub.unsubscribe();
+    }
+  }
+  logout(): void {
+    this.tokenStorageService.signOut();
+    this.isLoggedIn = false;
   }
 }
