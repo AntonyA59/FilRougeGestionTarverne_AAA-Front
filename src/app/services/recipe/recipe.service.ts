@@ -32,6 +32,15 @@ export class RecipeService {
   setRecipes(newRecipes: RecipeModel[]): void {
     this.recipes.next(newRecipes);
   }
+  getRecipeById(idRecipe:number):RecipeModel| null{
+    let recipe:RecipeModel| null=null;
+    this.recipes.value.forEach((recipeCurrent)=>{
+      if(recipeCurrent.id==idRecipe)
+        recipe=recipeCurrent;
+    })
+    return recipe;
+  }
+  
   requestRecipe(
     manager: ManagerModel,
     recipe: RecipeModel,

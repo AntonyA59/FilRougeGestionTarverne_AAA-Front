@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { LoadManagerService } from '../services/loadManager/load-manager.service';
 
 @Component({
@@ -9,17 +8,10 @@ import { LoadManagerService } from '../services/loadManager/load-manager.service
 })
 export class GamePageComponent implements OnInit {
 
-  constructor(private loadManagerService: LoadManagerService,private router:Router) { }
+  constructor(private loadManagerService:LoadManagerService) { }
 
   ngOnInit(): void {
-    //todo: à supprimer et le remplacer par des guards
-    if(sessionStorage.getItem("idManager")){
-      const idManager:number=Number.parseInt(sessionStorage.getItem("idManager")!);
-      this.loadManagerService.loadManager(idManager);
-    }else{
-      this.router.navigateByUrl('/');
-    }
-
-  }
+    this.loadManagerService.loadManager(Number.parseInt(sessionStorage.getItem('idManager')!));
+  } 
 
 }
