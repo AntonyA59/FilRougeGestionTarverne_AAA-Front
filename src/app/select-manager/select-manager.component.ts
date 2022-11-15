@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ManagerModel } from '../interfaces/manager';
 import { LoadManagerService } from '../services/loadManager/load-manager.service';
 import { ManagerService } from '../services/manager/manager.service';
@@ -11,7 +12,8 @@ import { ManagerService } from '../services/manager/manager.service';
 export class SelectManagerComponent implements OnInit {
   managers: ManagerModel[] = [];
   constructor(
-    private managerService: ManagerService
+    private managerService: ManagerService,
+    private router:Router
     ) {}
 
   ngOnInit(): void {
@@ -22,5 +24,6 @@ export class SelectManagerComponent implements OnInit {
 
   selectManager(idManager: number) {
     sessionStorage.setItem("idManager",idManager.toString());
+    this.router.navigateByUrl("/game/restaurant");
   }
 }

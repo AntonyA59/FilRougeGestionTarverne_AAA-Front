@@ -39,6 +39,7 @@ export class LoadManagerService {
     this.http
       .post<LoadManager>(this.urlLoadManager, body, this.httpOptions)
       .subscribe((response) => {
+        this.recipesServices.setRecipes(response.recipes);
         this.managerService.setManager(response.manager);
         this.categorieSubCategoriesService.setCategories(response.categories);
         this.categorieSubCategoriesService.setSubCategories(
@@ -51,7 +52,6 @@ export class LoadManagerService {
         this.placesServices.setPlaces(response.places);
         this.tableRestService.setTables(response.tableRests);
         this.customerManagementService.setCustomers(response.customers);
-        this.recipesServices.setRecipes(response.recipes);
       });
   }
 }

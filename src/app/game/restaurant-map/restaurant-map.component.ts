@@ -14,7 +14,6 @@ import { TimerService } from 'src/app/services/timer/timer.service';
   templateUrl: './restaurant-map.component.html',
   styleUrls: ['./restaurant-map.component.css'],
 })
-export class RestaurantMapComponent implements OnInit {
 export class RestaurantMapComponent implements OnInit , OnDestroy{
   place: PlaceModel = {} as PlaceModel;
   customers: CustomerModel[] = [];
@@ -39,10 +38,8 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     });
 
     this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
-      console.log(tableRests);
       this.tableRestWithCustomer=[];
       tableRests.forEach((table) => {
-        console.log(table);
         if (table.idPlace == this.place.id) {
           this.tableRestWithCustomer.push({
             id: table.id,
@@ -52,45 +49,57 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
             posY: table.posY,
             idPlace: table.idPlace,
             customers: [],
-          });
+          }); 
         }
       });
-      this.sub = this.customerManagementService.customers$.subscribe(
-        (customers) => { 
-          if(this.tableRestWithCustomer.length!=0){
-            this.newCustomers.splice(0,this.newCustomers.length);
-            this.timerService.setTimers([]);
-
-            customers.forEach((customer) => {
-              console.log(customer)
-              if (customer.idTableRest == 1) 
-                this.newCustomers.push(customer);
-              else {
-                for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
-                  const tableCurrent = this.tableRestWithCustomer[i];
-                  if (tableCurrent.id == customer.idTableRest) {
-                    tableCurrent.customers!.push(customer);
-                  }
-                }
-              }
-              if(customer.consommationStart!=null){
-                const recipeTime= this.recipeService.getRecipeById(customer.commandList[0])?.consommationTime;
-                const timeNow= Date.now();
-                const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
-                if(timeRemaining <=0 ){
-  
-                  this.displayBadge();
-                }else{
-                  this.timerService.addTimer(setTimeout(this.displayBadge,timeRemaining));
-                }
-              }
-            });
+    });
+    this.sub = this.customerManagementService.customers$.subscribe(
+      (customers) => { 
+        this.newCustomers=[];
+        this.timerService.setTimers([]);
+        this.customers=[];
+        this.customers=customers;
+        this.placeCustomerAtHisTable();
+        
+      }
+    );
+  }
+  placeCustomerAtHisTable(){
+    this.customers.forEach((customer) => {
+      if (customer.idTableRest == 1) 
+        this.newCustomers.push(customer);
+      else {
+        for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+          const tableCurrent = this.tableRestWithCustomer[i];
+          if (tableCurrent.id == customer.idTableRest) {
+            tableCurrent.customers!.push(customer);
           }
         }
-      );
-    });
-  }
+      }
 
+      if(customer.consommationStart!=null){
+        const recipeTime= this.recipeService.getRecipeById(customer.commandList[0])?.consommationTime;
+        const timeNow= Date.now();
+        const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
+        console.log("recipeTime")
+        console.log(recipeTime)
+        console.log("statconsomme")
+        console.log(customer.consommationStart)
+        console.log(Number.parseInt(customer.consommationStart))
+        console.log("timeNow")
+        console.log(timeNow)
+        console.log("timeRemaining")
+        console.log(timeRemaining)
+        if(timeRemaining <=0 ){
+          this.displayBadge();
+        }else{
+          this.timerService.addTimer(setTimeout(this.displayBadge,timeRemaining));
+        }
+      }
+    });
+    this.customers=[]
+  }
+  
   assignTable() {
     if (this.checkFreeTable()) {
       this.customerManagementService.assignCustomerInTable(
@@ -128,11 +137,12 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     }
   }
   displayBadge(){
+    console.log("display badge")
     const boxSalleBadge=document.querySelector("#restaurant #badge");
     if(boxSalleBadge==null){
       const boxSalle= document.getElementById("restaurant");
       let badge=document.createElement("span");
-      badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2"," bg-primary", "border", "border-light", "rounded-circle");
+      badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2","bg-primary", "border", "border-light", "rounded-circle");
       boxSalle?.appendChild(badge);
     }
   }

@@ -88,7 +88,6 @@ export class CustomerManagementService {
       element => (
         element===customerBefore)
     );
-    console.log(index)
     newCustomers[index] = customerAfter;
     this.setCustomers(newCustomers);
   }
@@ -130,8 +129,8 @@ export class CustomerManagementService {
         this.httpOptions
       )
       .subscribe((customerTableModel) => {
-        this.updateCustomer(customer, customerTableModel.customer);
         this.tableService.updateTable(table, customerTableModel.tableRest);
+        this.updateCustomer(customer, customerTableModel.customer);
       });
   }
 
