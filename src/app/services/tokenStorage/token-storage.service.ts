@@ -16,7 +16,7 @@ export class TokenStorageService {
     window.sessionStorage.setItem(ACCESS_TOKEN, token);
   }
 
-  getToken(): string | null {
+  getToken() {
     return window.sessionStorage.getItem(ACCESS_TOKEN);
   }
 

@@ -12,14 +12,10 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   eventBusSub?: Subscription;
 
-  constructor(
-    private tokenStorageService: TokenStorageService,
-    private eventBusService: EventBusService
-  ) {}
+  constructor(private tokenStorageService: TokenStorageService) {}
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-    this.eventBusSub = this.eventBusService.on('logout', () => this.logout());
   }
   ngOnDestroy(): void {
     if (this.eventBusSub) {
