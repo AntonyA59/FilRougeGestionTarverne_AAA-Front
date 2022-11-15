@@ -8,9 +8,9 @@ import { AuthService } from './services/auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnDestroy,OnInit{
   subscription!: Subscription;
-
+  title=" "
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
