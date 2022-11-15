@@ -8,7 +8,6 @@ import {
 } from 'src/app/interfaces/ingredient';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
-import { ManagerService } from 'src/app/services/manager/manager.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -34,8 +33,7 @@ export class StoreMapComponent implements OnInit {
   constructor(
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
-    private storeService: StoreService,
-    private managerService: ManagerService
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -148,7 +146,9 @@ export class StoreMapComponent implements OnInit {
   }
 
   private buyingRequest() {
-    this.shopIngredientDtoToBuying.idManager = 836;
+    this.shopIngredientDtoToBuying.idManager = parseInt(
+      sessionStorage.getItem('idManager')!
+    );
     this.shopIngredientDtoToBuying.shopIngredientQuantity = [];
     this.cartBuying.forEach((element) => {
       if (element.quantity != undefined) {
@@ -174,7 +174,9 @@ export class StoreMapComponent implements OnInit {
       });
   }
   private sellingRequest() {
-    this.shopIngredientDtoToSelling.idManager = 836;
+    this.shopIngredientDtoToSelling.idManager = parseInt(
+      sessionStorage.getItem('idManager')!
+    );
     this.shopIngredientDtoToSelling.shopIngredientQuantity = [];
     this.cartSelling.forEach((element) => {
       if (element.quantity != undefined) {
@@ -200,7 +202,9 @@ export class StoreMapComponent implements OnInit {
       });
   }
   private sellingAndBuyingRequest() {
-    this.shopIngredientDtoToSelling.idManager = 836;
+    this.shopIngredientDtoToSelling.idManager = parseInt(
+      sessionStorage.getItem('idManager')!
+    );
     this.shopIngredientDtoToSelling.shopIngredientQuantity = [];
     let stopTransaction = false;
 
@@ -227,7 +231,9 @@ export class StoreMapComponent implements OnInit {
           //erreur venant du back
         }
         if (!stopTransaction) {
-          this.shopIngredientDtoToBuying.idManager = 836;
+          this.shopIngredientDtoToBuying.idManager = parseInt(
+            sessionStorage.getItem('idManager')!
+          );
           this.shopIngredientDtoToBuying.shopIngredientQuantity = [];
 
           this.cartBuying.forEach((element) => {
