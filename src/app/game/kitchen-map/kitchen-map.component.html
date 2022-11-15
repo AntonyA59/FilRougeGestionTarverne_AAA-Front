@@ -1,7 +1,7 @@
-<div class="row h-75 m-1">
-  <div class="col-sm-2">
+<div class="row m-1">
+  <div class="col-sm-4">
     <p class="text-white">Recettes</p>
-    <div class="bg-secondary p-1 d-flex flex-wrap text-left h-100">
+    <div class="bg-secondary p-1 d-flex align-content-start flex-wrap h-100">
       <a
         *ngFor="let item of recipes; index as i"
         title="{{ item.name }}"
@@ -10,7 +10,7 @@
         (click)="selectRecipe(i)"
       >
         <div
-          class="p-2 position-relative"
+          class="p-2"
           id="ingredientsCart"
           style="
       background-image: url('assets/image/icons/{{ item.id }}.png');
@@ -20,44 +20,19 @@
     </div>
   </div>
 
-  <div class="col-sm-2">
-    <p class="text-white">Inventaire</p>
-    <div class="bg-secondary p-1 d-flex flex-wrap text-left h-100">
-      <a
-        *ngFor="let item of inventory"
-        title="{{ item.name }}"
-        id="{{ item.id }}"
-        clickable
-      >
-        <div
-          class="p-2 position-relative"
-          id="ingredientsCart"
-          style="
-    background-image: url('assets/image/icons/{{ item.id }}.png');
-    "
-        >
-          <span
-            class="badge bg-light text-dark bottom-0 end-0 rounded-pill position-absolute"
-            >{{ item.quantity }}</span
-          >
-        </div>
-      </a>
-    </div>
-  </div>
-
   <div class="col-sm-3">
     <p class="text-white">Recette sélectionnée</p>
     <div
       *ngIf="recipeSelected.id"
       title="{{ recipeSelected.name }}"
-      class="p-2 position-relative"
+      class="p-2"
       id="ingredientsCart"
       style="
       background-image: url('assets/image/icons/{{ recipeSelected.id }}.png');
       "
     ></div>
     {{ recipeSelected.name }}
-    <div class="bg-secondary p-1 d-flex flex-wrap text-center">
+    <div class="bg-secondary p-1 d-flex flex-wrap justify-content-around">
       <a
         *ngFor="let item of ingredientsRecipe; index as i"
         title="{{ item.name }}"
