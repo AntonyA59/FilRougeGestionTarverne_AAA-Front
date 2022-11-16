@@ -28,6 +28,7 @@ export class KitchenMapComponent implements OnInit {
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as RecipeModel;
   customerSelected = {} as CustomerModel;
+  customerWithTable: CustomerModel[] = [];
   customerIndexSelected: number = 0;
   ingredientsQuantityAvailable: number[] = [];
   manager = {} as ManagerModel;
@@ -70,6 +71,14 @@ export class KitchenMapComponent implements OnInit {
     });
     this.sub = this.obsCustomer$.subscribe((customers) => {
       this.customers = customers;
+      this.customers.forEach((customer) => {
+        if (
+          customer.idTableRest != null &&
+          customer.consommationStart == null
+        ) {
+          this.customerWithTable.push(customer);
+        }
+      });
       console.log(this.customers);
     });
     this.sub = this.obsManager$.subscribe((manager) => {

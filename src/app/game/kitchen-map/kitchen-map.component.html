@@ -81,7 +81,10 @@
 
     <select class="form-select" (change)="customerChange($event)">
       <option value="">--Choisissez un client--</option>
-      <option *ngFor="let item of customers; index as i" value="{{ i }}">
+      <option
+        *ngFor="let item of customerWithTable; index as i"
+        value="{{ i }}"
+      >
         {{ item.name }}
       </option>
     </select>
@@ -96,6 +99,6 @@
   </div>
 
   <div class="col-sm-5">
-    <p class="text-white">Recettes à Envoyer</p>
+    <p class="text-white">Recettes en cours de préparation</p>
   </div>
 </div>
