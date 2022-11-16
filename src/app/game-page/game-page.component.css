@@ -1,0 +1,21 @@
+.bannerManager{
+    background-color: var(--color7);
+}
+.bannerManager div{
+    background-color: var(--color3);
+    border-radius: 1rem;
+    padding: 10px 20px;
+    color:var(--color7);
+}
+.bannerManager p{
+    margin: 0;
+}
+#conteneurExpMax{
+    width: 100px;
+    height: 10px;
+    background-color: black;
+}
+#conteneurExp{
+    height: 10px;
+    background-color: var(--color7);
+}

@@ -1,4 +1,16 @@
 <app-header></app-header>
 <main>
+    <div class="d-flex justify-content-around w-100 bannerManager">
+        <div><p>Name:{{manager.name}}</p></div>     
+        <div><p>Argent:{{manager.chest}}</p></div>
+        <div><p>Level:{{manager.level}}</p></div>
+        <div><p>Reputation:{{manager.reputation}}</p></div>
+        <div>
+            <p>Experience: </p>
+            <div id="conteneurExpMax">
+                <span id="conteneurExp"></span>
+            </div>
+        </div>
+    </div>
     <app-game-map></app-game-map>
 </main>
