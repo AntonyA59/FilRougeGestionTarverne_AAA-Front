@@ -81,7 +81,7 @@
 
     <select class="form-select" (change)="customerChange($event)">
       <option value="">--Choisissez un client--</option>
-      <option *ngFor="let item of customers" value="{{ item.id }}">
+      <option *ngFor="let item of customers; index as i" value="{{ i }}">
         {{ item.name }}
       </option>
     </select>
