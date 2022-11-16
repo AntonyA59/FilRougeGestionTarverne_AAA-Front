@@ -1,29 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription, switchMap, timer } from 'rxjs';
-import { AuthService } from './services/auth/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from './services/tokenStorage/token-storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnDestroy,OnInit{
-  subscription!: Subscription;
-  title=" "
-  constructor(private authService: AuthService, private router: Router) {}
+export class AppComponent implements OnInit {
+  isLoggedIn = false;
+  title = ' ';
+
+  constructor(private tokenStorageService: TokenStorageService) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd) {
-        this.authService.refreshToken().subscribe((response) => {
-          sessionStorage.setItem('accessToken', response.accessToken);
-          sessionStorage.setItem('refreshToken', response.refreshToken);
-        });
-      }
-    });
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
   }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+
+  logout(): void {
+    this.tokenStorageService.signOut();
+    this.isLoggedIn = false;
   }
 }

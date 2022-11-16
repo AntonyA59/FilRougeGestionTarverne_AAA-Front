@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { confirmPasswordValidator } from '../confirmed-password';
 import { Player } from '../interfaces/player';
 import { AuthService } from '../services/auth/auth.service';
+import { TokenStorageService } from '../services/tokenStorage/token-storage.service';
 
 @Component({
   selector: 'app-registration',
@@ -33,7 +34,11 @@ export class RegistrationComponent implements OnInit {
     ]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private tokenStorageService: TokenStorageService
+  ) {}
 
   get f() {
     return this.formRegistration.controls;
@@ -47,8 +52,8 @@ export class RegistrationComponent implements OnInit {
     setTimeout(() => {
       if (val.email && val.password)
         this.authService.login(val.email, val.password).subscribe((data) => {
-          sessionStorage.setItem('accessToken', data.accessToken);
-          sessionStorage.setItem('refreshToken', data.refreshToken);
+          this.tokenStorageService.saveToken(data.accessToken);
+          this.tokenStorageService.saveRefreshToken(data.refreshToken);
           this.router.navigateByUrl('/home/menu');
         });
     }, 500);

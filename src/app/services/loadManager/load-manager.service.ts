@@ -16,12 +16,7 @@ import { TableRestService } from '../tableRest/tableRest.service';
 })
 export class LoadManagerService {
   emailPlayer = sessionStorage.getItem('email');
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-    }),
-  };
+
   private urlLoadManager = environment.apiUrl + 'api/game/manager/loadManager';
   constructor(
     private http: HttpClient,
@@ -40,7 +35,7 @@ export class LoadManagerService {
       `{"managerId": ${idManager}, "email": "${this.emailPlayer}"}`
     );
     this.http
-      .post<LoadManager>(this.urlLoadManager, body, this.httpOptions)
+      .post<LoadManager>(this.urlLoadManager, body)
       .subscribe((response) => {
         this.recipesServices.setRecipes(response.recipes);
         this.managerService.setManager(response.manager);
