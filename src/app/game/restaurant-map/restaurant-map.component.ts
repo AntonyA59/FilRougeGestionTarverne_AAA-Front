@@ -66,7 +66,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
   }
   placeCustomerAtHisTable(){
     this.customers.forEach((customer) => {
-      if (customer.idTableRest == 1) 
+      if (customer.idTableRest == null) 
         this.newCustomers.push(customer);
       else {
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
