@@ -52,11 +52,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.http.get<JwtToken>(this.apiRefresh).pipe(
-      map((userData) => {
-        return userData;
-      })
-    );
+    return this.http.get<JwtToken>(this.apiRefresh);
   }
 
   setCurrentUser(auth: CurrentUser) {

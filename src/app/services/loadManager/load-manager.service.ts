@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { VirtualTimeScheduler } from 'rxjs';
 import { LoadManager } from 'src/app/interfaces/load-manager';
 import { environment } from 'src/environments/environment';
 import { CategoriesSubcatgoriesService } from '../categories-subcatgories/categories-subcatgories.service';
@@ -17,12 +16,7 @@ import { TableRestService } from '../tableRest/tableRest.service';
 })
 export class LoadManagerService {
   emailPlayer = sessionStorage.getItem('email');
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-    }),
-  };
+
   private urlLoadManager = environment.apiUrl + 'api/game/manager/loadManager';
   constructor(
     private http: HttpClient,
@@ -41,7 +35,7 @@ export class LoadManagerService {
       `{"managerId": ${idManager}, "email": "${this.emailPlayer}"}`
     );
     this.http
-      .post<LoadManager>(this.urlLoadManager, body, this.httpOptions)
+      .post<LoadManager>(this.urlLoadManager, body)
       .subscribe((response) => {
         this.managerService.setManager(response.manager);
         this.categorieSubCategoriesService.setCategories(response.categories);

@@ -16,7 +16,10 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { SelectManagerComponent } from './select-manager/select-manager.component';
 import { PlayerMenuComponent } from './player-menu/player-menu.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import {
+  AuthInterceptor,
+  AUTH_INTERCEPTOR,
+} from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,9 +41,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  ],
+  providers: [AUTH_INTERCEPTOR],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
