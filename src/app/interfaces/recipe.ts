@@ -13,9 +13,16 @@ export interface RecipeModel {
   idSubCategory: number;
   tabIngredientsForRecipe: IngredientQuantity[];
 }
+
+export interface RecipeCustomerModel {
+  recipe: RecipeModel;
+  customer: CustomerModel;
+  recipeStart?: string;
+}
 export interface RecipeCustomerInventoryIngredientModel {
   recipe: RecipeModel;
   customer: CustomerModel;
+  recipeStart?: string;
   inventaire: IngredientQuantity[];
 }
 
