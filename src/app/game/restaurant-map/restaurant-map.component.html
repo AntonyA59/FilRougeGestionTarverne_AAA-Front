@@ -72,16 +72,15 @@
               let customer of tableRestWithCustomer[i].customers;
               index as j
             "
-        class="position-relative"
         >
           <img
 
             src="../../../assets/image/customer_0{{ customer.numImg }}.png"
             alt="client attablé "
             class="zoomCustomer customer{{ j%2}}"
-            
+            (click)="displayBoxInfo(customer.id)"
           >
-          <p class="position-absolute d-none textCustomer">
+          <p class="position-absolute d-none textCustomer" id="{{customer.id}}">
             name: {{customer.name}}<br>
             purseOfGold: {{customer.purseOfGold}}<br>
             happiness: {{customer.happiness}}<br>
@@ -96,6 +95,7 @@
             gender: {{customer.gender}}<br>
             expGiven: {{customer.expGiven}}<br>
             commandList:{{customer.commandList}}<br>
+            jjjjjjjjjjjjjjjjjj
           </p>
         </div>
       </div>

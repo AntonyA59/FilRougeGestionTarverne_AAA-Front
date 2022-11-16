@@ -36,15 +36,19 @@ img {
   cursor: url("../../../assets/image/cursor-zooming.png"), auto;
 
 }
-.zoomCustomer:hover + .textCustomer{
-  display: block !important;
-}
+
 .textCustomer{
   top: 0;
   left: -150px;
   padding: 10px;
   background-color: var(--color1);
   z-index: 10;
+}
+@media screen and (max-width: 1250px ){
+  .textCustomer{
+    top:0;
+    left: 50%;
+  }
 }
 .customerTop {
   transform: rotate(3.142rad);

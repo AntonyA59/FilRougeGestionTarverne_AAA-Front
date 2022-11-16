@@ -66,6 +66,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
   }
   placeCustomerAtHisTable(){
     this.customers.forEach((customer) => {
+      console.log(customer.name)
       if (customer.idTableRest == null) 
         this.newCustomers.push(customer);
       else {
@@ -81,15 +82,6 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
         const recipeTime= this.recipeService.getRecipeById(customer.commandList![0])?.consommationTime;
         const timeNow= Date.now();
         const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
-        console.log("recipeTime")
-        console.log(recipeTime)
-        console.log("statconsomme")
-        console.log(customer.consommationStart)
-        console.log(Number.parseInt(customer.consommationStart))
-        console.log("timeNow")
-        console.log(timeNow)
-        console.log("timeRemaining")
-        console.log(timeRemaining)
         if(timeRemaining <=0 ){
           this.displayBadge();
         }else{
@@ -145,6 +137,10 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
       badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2","bg-primary", "border", "border-light", "rounded-circle");
       boxSalle?.appendChild(badge);
     }
+  }
+  displayBoxInfo(idNummber:number){
+    const boxInfoCustomer= document.getElementById(idNummber.toString());
+    boxInfoCustomer?.classList.remove("d-none")
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
