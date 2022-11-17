@@ -20,8 +20,7 @@ export class StoreService {
   ): Observable<IngredientQuantity[]> {
     return this.http.post<IngredientQuantity[]>(
       this.urlShopSell,
-      shopIngredientDtoToSelling,
-      this.httpOptions
+      shopIngredientDtoToSelling
     );
   }
 
@@ -30,8 +29,7 @@ export class StoreService {
   ): Observable<IngredientQuantity[]> {
     return this.http.post<IngredientQuantity[]>(
       this.urlShopBuy,
-      shopIngredientDtoToBuying,
-      this.httpOptions
+      shopIngredientDtoToBuying
     );
   }
 
