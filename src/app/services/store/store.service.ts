@@ -11,12 +11,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class StoreService {
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-    }),
-  };
   private urlShopSell = environment.apiUrl + 'api/game/shop/ShopSelling';
   private urlShopBuy = environment.apiUrl + 'api/game/shop/ShopBying';
   constructor(private http: HttpClient) {}
@@ -26,8 +20,7 @@ export class StoreService {
   ): Observable<IngredientQuantity[]> {
     return this.http.post<IngredientQuantity[]>(
       this.urlShopSell,
-      shopIngredientDtoToSelling,
-      this.httpOptions
+      shopIngredientDtoToSelling
     );
   }
 
@@ -36,8 +29,7 @@ export class StoreService {
   ): Observable<IngredientQuantity[]> {
     return this.http.post<IngredientQuantity[]>(
       this.urlShopBuy,
-      shopIngredientDtoToBuying,
-      this.httpOptions
+      shopIngredientDtoToBuying
     );
   }
 

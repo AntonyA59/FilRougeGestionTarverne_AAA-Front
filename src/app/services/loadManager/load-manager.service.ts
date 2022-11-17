@@ -46,7 +46,7 @@ export class LoadManagerService {
         this.ingredientsService.setIngredients(response.ingredients);
         this.inventoryManagerService.setInventaire(
           response.inventoryManagerIngredient
-          );
+        );
         this.placesServices.setPlaces(response.places);
         this.tableRestService.setTables(response.tableRests);
         this.customerManagementService.setCustomers(response.customers);
