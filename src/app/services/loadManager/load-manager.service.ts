@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoadManager } from 'src/app/interfaces/load-manager';
 import { environment } from 'src/environments/environment';
@@ -46,7 +46,7 @@ export class LoadManagerService {
         this.ingredientsService.setIngredients(response.ingredients);
         this.inventoryManagerService.setInventaire(
           response.inventoryManagerIngredient
-          );
+        );
         this.placesServices.setPlaces(response.places);
         this.tableRestService.setTables(response.tableRests);
         this.customerManagementService.setCustomers(response.customers);

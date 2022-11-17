@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JwtToken } from 'src/app/interfaces/JwtToken';
+import { TokenStorageService } from '../tokenStorage/token-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,11 @@ export class AuthService {
   apiRegister = environment.apiUrl + 'api/register';
   apiLogin = environment.apiUrl + 'login';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private storageService: TokenStorageService
+  ) {}
 
   login(email: string, password: string) {
     let httpOptions = {
@@ -52,7 +57,11 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.http.get<JwtToken>(this.apiRefresh);
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer' + this.storageService.getRefreshToken(),
+    });
+    const requestOptions = { headers: headers };
+    return this.http.get<JwtToken>(this.apiRefresh, requestOptions);
   }
 
   setCurrentUser(auth: CurrentUser) {
