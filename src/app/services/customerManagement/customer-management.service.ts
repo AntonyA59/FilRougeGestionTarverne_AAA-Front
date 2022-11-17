@@ -32,13 +32,6 @@ export class CustomerManagementService {
   private urlCustomerFinish =
     environment.apiUrl + 'api/game/customerManagement/customerFinish';
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-    }),
-  };
-
   constructor(
     private http: HttpClient,
     private tableService: TableRestService,
@@ -113,12 +106,12 @@ export class CustomerManagementService {
   }
 
   getNewRecipe(): Observable<RecipeModel> {
-    return this.http.get<RecipeModel>(this.urlNewRecipe, this.httpOptions);
+    return this.http.get<RecipeModel>(this.urlNewRecipe);
   }
   getNewCustomer(): Observable<CustomerModel> {
     return new Observable<CustomerModel>((subscriber) => {
       this.http
-        .post<CustomerModel>(this.urlNewCustomer, this.httpOptions)
+        .post<CustomerModel>(this.urlNewCustomer, null)
         .subscribe((newCustomer) => {
           let newCustomers: CustomerModel[] = Array.from(
             this.customers.getValue()
@@ -135,11 +128,7 @@ export class CustomerManagementService {
       `{"customerId":${customer.id}, "tableId":${table.id}}`
     );
     this.http
-      .post<CustomerTableModel>(
-        this.urlAssignCustomerInTable,
-        body,
-        this.httpOptions
-      )
+      .post<CustomerTableModel>(this.urlAssignCustomerInTable, body)
       .subscribe((customerTableModel) => {
         this.updateCustomer(customer, customerTableModel.customer);
         this.tableService.updateTable(table, customerTableModel.tableRest);
@@ -148,11 +137,7 @@ export class CustomerManagementService {
 
   customerServed(customer: CustomerModel): void {
     this.http
-      .post<CustomerModel>(
-        this.urlAssignCustomerInTable,
-        customer.id,
-        this.httpOptions
-      )
+      .post<CustomerModel>(this.urlAssignCustomerInTable, customer.id)
       .subscribe((customerUpdate) => {
         this.updateCustomer(customer, customerUpdate);
       });
@@ -162,7 +147,7 @@ export class CustomerManagementService {
       `{"customerId":${customer.id}, "managerId:${manager.id}"}`
     );
     this.http
-      .post<ManagerModel>(this.urlCustomerFinish, body, this.httpOptions)
+      .post<ManagerModel>(this.urlCustomerFinish, body)
       .subscribe((managerUpdate) => {
         this.deleteCustomer(customer);
         this.managerService.setManager(managerUpdate);
