@@ -1,6 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ShopIngredientDto } from 'src/app/interfaces/ingredient';
+import { Observable } from 'rxjs';
+import {
+  IngredientQuantity,
+  ShopIngredientDto,
+} from 'src/app/interfaces/ingredient';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,11 +15,25 @@ export class StoreService {
   private urlShopBuy = environment.apiUrl + 'api/game/shop/ShopBying';
   constructor(private http: HttpClient) {}
 
-  sellIngredients(shopIngredientDtoToSelling: ShopIngredientDto) {
-    this.http.post(this.urlShopSell, shopIngredientDtoToSelling).subscribe();
+  sellIngredients(
+    shopIngredientDtoToSelling: ShopIngredientDto
+  ): Observable<IngredientQuantity[]> {
+    return this.http.post<IngredientQuantity[]>(
+      this.urlShopSell,
+      shopIngredientDtoToSelling
+    );
   }
 
-  buyIngredients(shopIngredientDtoToBuying: ShopIngredientDto) {
-    this.http.post(this.urlShopBuy, shopIngredientDtoToBuying).subscribe();
+  buyIngredients(
+    shopIngredientDtoToBuying: ShopIngredientDto
+  ): Observable<IngredientQuantity[]> {
+    return this.http.post<IngredientQuantity[]>(
+      this.urlShopBuy,
+      shopIngredientDtoToBuying
+    );
+  }
+
+  isInventory(obj: any): obj is IngredientQuantity[] {
+    return 'name' in obj[0];
   }
 }

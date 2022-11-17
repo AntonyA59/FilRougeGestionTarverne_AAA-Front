@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { catchError, forkJoin, of, shareReplay, Subscription } from 'rxjs';
 import { CustomerModel } from 'src/app/interfaces/customer';
 import {
   IngredientModel,
   IngredientQuantity,
 } from 'src/app/interfaces/ingredient';
+import { ManagerModel } from 'src/app/interfaces/manager';
 import { RecipeModel, RequestRecipeDto } from 'src/app/interfaces/recipe';
+import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
 
 @Component({
@@ -16,48 +19,76 @@ import { RecipeService } from 'src/app/services/recipe/recipe.service';
   styleUrls: ['./kitchen-map.component.css'],
 })
 export class KitchenMapComponent implements OnInit {
-  sub1: Subscription = new Subscription();
-  sub2: Subscription = new Subscription();
+  sub: Subscription = new Subscription();
   customers: CustomerModel[] = [];
   ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [];
   recipes: RecipeModel[] = [];
   ingredientsRecipe: IngredientModel[] = [];
-  requestRecipeDto = {} as RequestRecipeDto;
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as RecipeModel;
-  customerIdSelected: number = 0;
+  customerSelected = {} as CustomerModel;
+  customerWithTable: CustomerModel[] = [];
+  customerIndexSelected: number = 0;
   ingredientsQuantityAvailable: number[] = [];
+  manager = {} as ManagerModel;
   textdark = 'text-dark';
   textred = 'text-danger';
   recipeReady = false;
   customerChoosing = false;
 
+  obsInventory$ = this.inventoryManagerService.inventaireConnect$;
+  obsCustomer$ = this.customerService.customers$;
+  obsRecipes$ = this.recipesService.recipes$;
+  obsIngredients$ = this.ingredientsService.ingredients$;
+  obsManager$ = this.managerService.manager$;
+
   constructor(
     private recipesService: RecipeService,
     private ingredientsService: IngredientsService,
-    private inventoryManagerService: InventoryManagerService
+    private inventoryManagerService: InventoryManagerService,
+    private customerService: CustomerManagementService,
+    private managerService: ManagerService
   ) {}
 
   ngOnInit(): void {
-    this.sub1 = this.recipesService.recipes$.subscribe((recipes) => {
-      this.recipes = recipes;
-      this.sub2 = this.inventoryManagerService.inventaireConnect$.subscribe(
-        (inventory) => {
-          this.inventory = inventory;
-        }
-      );
-    });
+    this.obsRecipes$.pipe(shareReplay());
+    this.obsInventory$.pipe(shareReplay());
+    this.obsIngredients$.pipe(shareReplay());
+    this.obsCustomer$.pipe(shareReplay());
 
-    this.sub1 = this.ingredientsService.ingredients$.subscribe(
-      (ingredients) => {
-        this.ingredients = ingredients;
-      }
-    );
+    this.sub = this.obsRecipes$.subscribe((recipes) => {
+      this.recipes = recipes;
+      console.log(this.recipes);
+    });
+    this.sub = this.obsInventory$.subscribe((inventory) => {
+      this.inventory = inventory;
+      console.log(this.inventory);
+    });
+    this.sub = this.obsIngredients$.subscribe((ingredients) => {
+      this.ingredients = ingredients;
+      console.log(this.ingredients);
+    });
+    this.sub = this.obsCustomer$.subscribe((customers) => {
+      this.customers = customers;
+      this.customers.forEach((customer) => {
+        if (
+          customer.idTableRest != null &&
+          customer.consommationStart == null
+        ) {
+          this.customerWithTable.push(customer);
+        }
+      });
+      console.log(this.customers);
+    });
+    this.sub = this.obsManager$.subscribe((manager) => {
+      this.manager = manager;
+      console.log(this.manager);
+    });
   }
+
   ngOnDestroy(): void {
-    this.sub1.unsubscribe;
-    this.sub2.unsubscribe;
+    this.sub.unsubscribe;
   }
   selectRecipe(index: number) {
     let ingredient: IngredientQuantity | undefined;
@@ -102,19 +133,21 @@ export class KitchenMapComponent implements OnInit {
 
   customerChange(event: Event): void {
     if (event.target instanceof HTMLSelectElement && event.target.value != '') {
-      this.customerIdSelected = parseInt(event.target.value);
+      this.customerIndexSelected = parseInt(event.target.value);
       this.customerChoosing = true;
     } else {
-      this.customerIdSelected = 0;
+      this.customerIndexSelected = 0;
       this.customerChoosing = false;
     }
   }
+
   commitRecipe() {
     if (this.customerChoosing == true && this.recipeSelected != undefined) {
-      this.requestRecipeDto.customerId = this.customerIdSelected;
-      this.requestRecipeDto.recipeId = this.recipeSelected.id;
-      this.requestRecipeDto.managerId = 1;
-
+      this.recipesService.requestRecipe(
+        this.manager,
+        this.recipeSelected,
+        this.customers[this.customerIndexSelected]
+      );
       // envoi du Post avec comme argument this.requestRecipeDto ;
       if (true) {
       } else {

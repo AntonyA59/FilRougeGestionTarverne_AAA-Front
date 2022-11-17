@@ -18,10 +18,13 @@ export class RecipeService {
   private recipes = new BehaviorSubject<RecipeModel[]>([] as RecipeModel[]);
   recipes$ = this.recipes.asObservable();
 
-  urlRequestRecipe = environment.apiUrl+'api/game/recipe/requestRecipe';
+  urlRequestRecipe = environment.apiUrl + 'api/game/recipe/requestRecipe';
 
-  private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
+    }),
   };
   constructor(
     private http: HttpClient,
@@ -32,6 +35,15 @@ export class RecipeService {
   setRecipes(newRecipes: RecipeModel[]): void {
     this.recipes.next(newRecipes);
   }
+  getRecipeById(idRecipe:number):RecipeModel| null{
+    let recipe:RecipeModel| null=null;
+    this.recipes.value.forEach((recipeCurrent)=>{
+      if(recipeCurrent.id==idRecipe)
+        recipe=recipeCurrent;
+    })
+    return recipe;
+  }
+  
   requestRecipe(
     manager: ManagerModel,
     recipe: RecipeModel,

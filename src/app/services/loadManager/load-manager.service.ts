@@ -37,18 +37,17 @@ export class LoadManagerService {
     this.http
       .post<LoadManager>(this.urlLoadManager, body)
       .subscribe((response) => {
+        this.recipesServices.setRecipes(response.recipes);
         this.managerService.setManager(response.manager);
         this.categorieSubCategoriesService.setCategories(response.categories);
-        this.customerManagementService.setCustomers(response.customers);
         this.categorieSubCategoriesService.setSubCategories(
           response.subCategories
         );
         this.ingredientsService.setIngredients(response.ingredients);
         this.inventoryManagerService.setInventaire(
           response.inventoryManagerIngredient
-        );
+          );
         this.placesServices.setPlaces(response.places);
-        this.recipesServices.setRecipes(response.recipes);
         this.tableRestService.setTables(response.tableRests);
         this.customerManagementService.setCustomers(response.customers);
       });

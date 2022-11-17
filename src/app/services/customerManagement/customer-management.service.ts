@@ -86,23 +86,20 @@ export class CustomerManagementService {
     customerAfter: CustomerModel
   ): void {
     let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
-    const index = newCustomers.findIndex((element) => {
-      this.findCustomer(element, customerBefore);
-    });
+    const index = newCustomers.findIndex(
+      element => (
+        element===customerBefore)
+    );
     newCustomers[index] = customerAfter;
     this.setCustomers(newCustomers);
   }
   deleteCustomer(customer: CustomerModel): void {
     let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
-    const index = newCustomers.findIndex((element) => {
-      this.findCustomer(element, customer);
-    });
-    newCustomers.splice(index, 1);
+    const index = newCustomers.findIndex(
+      element => (
+        element===customer)
+    );    newCustomers.splice(index, 1);
     this.setCustomers(newCustomers);
-  }
-  findCustomer(customerA: CustomerModel, customerB: CustomerModel): boolean {
-    if (customerA.id == customerB.id) return true;
-    return false;
   }
 
   getNewRecipe(): Observable<RecipeModel> {
@@ -130,8 +127,8 @@ export class CustomerManagementService {
     this.http
       .post<CustomerTableModel>(this.urlAssignCustomerInTable, body)
       .subscribe((customerTableModel) => {
-        this.updateCustomer(customer, customerTableModel.customer);
         this.tableService.updateTable(table, customerTableModel.tableRest);
+        this.updateCustomer(customer, customerTableModel.customer);
       });
   }
 

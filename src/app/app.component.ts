@@ -8,6 +8,7 @@ import { TokenStorageService } from './services/tokenStorage/token-storage.servi
 })
 export class AppComponent implements OnInit {
   isLoggedIn = false;
+  title = ' ';
 
   constructor(private tokenStorageService: TokenStorageService) {}
 

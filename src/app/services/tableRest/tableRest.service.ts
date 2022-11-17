@@ -19,7 +19,7 @@ export class TableRestService {
 
   updateTable(tableBefore: TableRestModel, tableAfter: TableRestModel): void {
     let newTables: TableRestModel[] = Array.from(this.tables.getValue());
-    const index = newTables.findIndex((element) => (element = tableBefore));
+    const index = newTables.findIndex((element) => (element === tableBefore));
     newTables[index] = tableAfter;
     this.setTables(newTables);
   }
