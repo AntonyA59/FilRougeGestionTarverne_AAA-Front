@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, forkJoin, of, shareReplay, Subscription } from 'rxjs';
+import { shareReplay, Subscription } from 'rxjs';
 import { CustomerModel } from 'src/app/interfaces/customer';
 import {
   IngredientModel,
   IngredientQuantity,
 } from 'src/app/interfaces/ingredient';
 import { ManagerModel } from 'src/app/interfaces/manager';
-import { RecipeModel, RequestRecipeDto } from 'src/app/interfaces/recipe';
+import { RecipeCustomerInstance, RecipeModel } from 'src/app/interfaces/recipe';
 import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
 import { ManagerService } from 'src/app/services/manager/manager.service';
 import { RecipeService } from 'src/app/services/recipe/recipe.service';
+import { RecipeCustomerService } from 'src/app/services/recipeCustomer/recipe-customer.service';
 
 @Component({
   selector: 'app-cuisine-map',
@@ -23,8 +24,9 @@ export class KitchenMapComponent implements OnInit {
   customers: CustomerModel[] = [];
   ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [];
-  recipes: RecipeModel[] = [];
+  listAllRecipes: RecipeModel[] = [];
   ingredientsRecipe: IngredientModel[] = [];
+  listPreparedRecipe: RecipeModel[] = [];
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as RecipeModel;
   customerSelected = {} as CustomerModel;
@@ -42,13 +44,15 @@ export class KitchenMapComponent implements OnInit {
   obsRecipes$ = this.recipesService.recipes$;
   obsIngredients$ = this.ingredientsService.ingredients$;
   obsManager$ = this.managerService.manager$;
+  obsRecipeCustomer$ = this.recipeCustomerService.recipeCustomer$;
 
   constructor(
     private recipesService: RecipeService,
     private ingredientsService: IngredientsService,
     private inventoryManagerService: InventoryManagerService,
     private customerService: CustomerManagementService,
-    private managerService: ManagerService
+    private managerService: ManagerService,
+    private recipeCustomerService: RecipeCustomerService
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +62,9 @@ export class KitchenMapComponent implements OnInit {
     this.obsCustomer$.pipe(shareReplay());
 
     this.sub = this.obsRecipes$.subscribe((recipes) => {
-      this.recipes = recipes;
-      console.log(this.recipes);
+      this.listAllRecipes = recipes;
+
+      console.log(this.listAllRecipes);
     });
     this.sub = this.obsInventory$.subscribe((inventory) => {
       this.inventory = inventory;
@@ -85,6 +90,16 @@ export class KitchenMapComponent implements OnInit {
       this.manager = manager;
       console.log(this.manager);
     });
+    this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
+      recipeCustomers.forEach((element) => {
+        if (element.recipeStart != null) {
+          this.listPreparedRecipe.push(
+            this.listAllRecipes.find((recipe) => recipe.id == element.recipeId)!
+          );
+        }
+      });
+      console.log(this.listPreparedRecipe);
+    });
   }
 
   ngOnDestroy(): void {
@@ -96,12 +111,12 @@ export class KitchenMapComponent implements OnInit {
 
     if (
       this.recipeSelected != undefined &&
-      this.recipeSelected.id != this.recipes[index].id
+      this.recipeSelected.id != this.listAllRecipes[index].id
     ) {
       this.ingredientsRecipe = [];
       this.numberNothing = [];
       this.ingredientsQuantityAvailable = [];
-      this.recipeSelected = this.recipes[index];
+      this.recipeSelected = this.listAllRecipes[index];
       this.recipeReady = true;
 
       this.recipeSelected.tabIngredientsForRecipe.forEach(

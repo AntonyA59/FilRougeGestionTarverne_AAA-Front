@@ -3,7 +3,7 @@
     <p class="text-white">Recettes</p>
     <div class="bg-secondary p-1 d-flex align-content-start flex-wrap h-100">
       <a
-        *ngFor="let item of recipes; index as i"
+        *ngFor="let item of listAllRecipes; index as i"
         title="{{ item.name }}"
         id="{{ item.id }}"
         clickable
@@ -100,5 +100,8 @@
 
   <div class="col-sm-5">
     <p class="text-white">Recettes en cours de préparation</p>
+    <div *ngFor="let item of listPreparedRecipe; index as i">
+      {{ item.name }}
+    </div>
   </div>
 </div>
