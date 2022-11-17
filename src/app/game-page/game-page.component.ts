@@ -23,8 +23,8 @@ export class GamePageComponent implements OnInit {
   } 
   displayJaugeMaxExp(){
     const jaugeExp= document.getElementById('conteneurExp');
-    jaugeExp!.style.width='50px';
-  
+    const exp= (this.manager.experience/this.manager.maxExp)*100;
+    jaugeExp!.style.width=exp+'px';
   }
 
 }

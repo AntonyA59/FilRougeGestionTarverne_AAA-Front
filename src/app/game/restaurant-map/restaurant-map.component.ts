@@ -138,9 +138,12 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
       boxSalle?.appendChild(badge);
     }
   }
-  displayBoxInfo(idNummber:number){
+  displayBoxInfo(display:boolean,idNummber:number){
     const boxInfoCustomer= document.getElementById(idNummber.toString());
-    boxInfoCustomer?.classList.remove("d-none")
+    if(display)
+      boxInfoCustomer?.classList.remove("d-none");
+    else
+      boxInfoCustomer?.classList.add("d-none");
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
