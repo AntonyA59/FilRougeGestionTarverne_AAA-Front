@@ -73,12 +73,12 @@ export class CustomerManagementService {
     this.customers.next(customerNewName);
   }
   getName(): string {
-    const name: string = tabName[Math.floor(Math.random() * 20) + 1];
-    const surname: string = tabSurName[Math.floor(Math.random() * 20) + 1];
+    const name: string = tabName[Math.floor(Math.random() * tabName.length)];
+    const surname: string = tabSurName[Math.floor(Math.random() * tabSurName.length)];
     return name + surname;
   }
   getImg(): number {
-    return Math.floor(Math.random() * 7) + 1;
+    return Math.floor(Math.random() * 7)+1;
   }
 
   updateCustomer(

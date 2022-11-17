@@ -17,7 +17,11 @@
   right: 0;
   width: 150px;
   z-index: 100;
-
+}
+@media screen and (max-width:1000px) {
+  .accordion{
+    position: absolute;
+  }
 }
 #bar {
   background-image: url("../../../assets/image/bar.png");
@@ -36,13 +40,16 @@ img {
   cursor: url("../../../assets/image/cursor-zooming.png"), auto;
 
 }
-.zoomCustomer:hover + .textCustomer{
-  display: block !important;
+.btn-info-bulle-customer{
+  position: absolute;
+  top: -15px;
+  right: -15px;
 }
 .textCustomer{
-  top: 0;
-  left: -150px;
-  padding: 10px;
+  border-radius: 10px;
+  top: 10vh;
+  left: 35vw;
+  padding:  20px 30px 20px 20px;
   background-color: var(--color1);
   z-index: 10;
 }
