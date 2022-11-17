@@ -145,6 +145,13 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     else
       boxInfoCustomer?.classList.add("d-none");
   }
+  getNewCustomer(reponse:boolean){
+    const boxInfoBullNewCustomer=document.getElementById("containerNewCustomer");
+    boxInfoBullNewCustomer?.classList.add('d-none');
+    if(reponse){
+      this.customerManagementService.getNewCustomer();
+    }
+  }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }

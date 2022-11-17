@@ -1,4 +1,16 @@
 <div class="w-100 h-100 map position-relative d-flex flex-column  justify-content-between pb-5" id="room">
+  <div id="containerNewCustomer" ><!--class="d-none" -->
+    <img src="../../../assets/image/doorwomen.png" alt="Portier"/>
+    <div id="triangle"></div>
+    <div id="containerTextNewCustomer">
+      <form>
+        <label>Un nouveau client frappe à la porte. Voulez-vous le faire entrer ?</label>
+        <button type="button" (click)="getNewCustomer(true)" >Oui</button>
+        <button type="button" (click)="getNewCustomer(false)" >Non</button>
+
+      </form>
+    </div>
+  </div>
   <div *ngFor="let table of tableRestWithCustomer;">
     <div *ngFor="
       let customer of table.customers;

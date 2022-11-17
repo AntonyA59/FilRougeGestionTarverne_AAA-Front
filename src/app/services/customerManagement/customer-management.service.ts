@@ -106,9 +106,12 @@ export class CustomerManagementService {
     return this.http.get<RecipeModel>(this.urlNewRecipe);
   }
   getNewCustomer(): Observable<CustomerModel> {
+    const body = JSON.parse(
+      `{"managerId":${sessionStorage.getItem('idManager')}}`
+    );
     return new Observable<CustomerModel>((subscriber) => {
       this.http
-        .post<CustomerModel>(this.urlNewCustomer, null)
+        .post<CustomerModel>(this.urlNewCustomer, body)
         .subscribe((newCustomer) => {
           let newCustomers: CustomerModel[] = Array.from(
             this.customers.getValue()

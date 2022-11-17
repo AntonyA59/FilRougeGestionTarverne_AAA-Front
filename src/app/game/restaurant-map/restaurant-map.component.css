@@ -56,7 +56,22 @@ img {
 .customerTop {
   transform: rotate(3.142rad);
 }
-
+#containerNewCustomer{
+  position: absolute;
+  top: 25vh;
+  left: 25%;
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  background-color: brown;
+}
+#triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 50px;
+  border-color: transparent transparent gold transparent;
+}
 .badgeTable {
   width: 418px;
   height: 287px;
