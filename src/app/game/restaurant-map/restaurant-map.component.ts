@@ -22,7 +22,7 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
   newCustomers: CustomerModel[] = [];
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
-  availableSpace:number=0;
+  availableSpace: number = 0;
 
   constructor(
     private placesService: PlacesService,
@@ -62,21 +62,16 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
         this.placeCustomerAtHisTable();
       }
     );
-    setTimeout(this.displayBoxNewCustomer.bind(this),180000);
+    setTimeout(this.displayBoxNewCustomer.bind(this), 180000);
   }
   placeCustomerAtHisTable() {
     this.customers.forEach((customer) => {
-<<<<<<< HEAD
-      if (customer.idTableRest == null) 
-        this.newCustomers.push(customer);
-=======
       console.log(customer.name);
       if (customer.idTableRest == null) this.newCustomers.push(customer);
->>>>>>> Angular-Adrien
       else {
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
           const element = this.tableRestWithCustomer[i];
-          element.customers?.splice(0,element.customers.length);
+          element.customers?.splice(0, element.customers.length);
         }
 
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
@@ -87,7 +82,6 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
           }
         }
       }
-      
 
       if (customer.consommationStart != null) {
         const recipeTime = this.recipeService.getRecipeById(
@@ -105,16 +99,12 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
         }
       }
     });
-<<<<<<< HEAD
-    this.customers=[];
-    this.availableSpace=0;
+    this.customers = [];
+    this.availableSpace = 0;
     for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
       const element = this.tableRestWithCustomer[i];
-      this.availableSpace+=element.numberPlace;
+      this.availableSpace += element.numberPlace;
     }
-=======
-    this.customers = [];
->>>>>>> Angular-Adrien
   }
 
   assignTable() {
@@ -159,25 +149,7 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
       this.tableIndexSelected = parseInt(event.target.value);
     }
   }
-<<<<<<< HEAD
-  displayBadge(){
-    const boxSalleBadge=document.querySelector("#restaurant #badge");
-    if(boxSalleBadge==null){
-      const boxSalle= document.getElementById("restaurant");
-      let badge=document.createElement("span");
-      badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2","bg-primary", "border", "border-light", "rounded-circle");
-      boxSalle?.appendChild(badge);
-    }
-  }
-  displayBoxInfoCustomer(display:boolean,idNummber:number){
-    const boxInfoCustomer= document.getElementById(idNummber.toString());
-    if(display)
-      boxInfoCustomer?.classList.remove("d-none");
-    else
-      boxInfoCustomer?.classList.add("d-none");
-=======
   displayBadge() {
-    console.log('display badge');
     const boxSalleBadge = document.querySelector('#restaurant #badge');
     if (boxSalleBadge == null) {
       const boxSalle = document.getElementById('restaurant');
@@ -196,23 +168,26 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
       boxSalle?.appendChild(badge);
     }
   }
-  displayBoxInfo(display: boolean, idNummber: number) {
+  displayBoxInfoCustomer(display: boolean, idNummber: number) {
     const boxInfoCustomer = document.getElementById(idNummber.toString());
     if (display) boxInfoCustomer?.classList.remove('d-none');
     else boxInfoCustomer?.classList.add('d-none');
->>>>>>> Angular-Adrien
   }
-  displayBoxNewCustomer(){
-    if(this.availableSpace>0){
-      const boxInfoNewCustomer=document.getElementById('containerNewCustomer');
+  displayBoxNewCustomer() {
+    if (this.availableSpace > 0) {
+      const boxInfoNewCustomer = document.getElementById(
+        'containerNewCustomer'
+      );
       boxInfoNewCustomer?.classList.remove('d-none');
     }
-    setTimeout(this.displayBoxNewCustomer.bind(this),180000);
+    setTimeout(this.displayBoxNewCustomer.bind(this), 180000);
   }
-  getNewCustomer(reponse:boolean){
-    const boxInfoBullNewCustomer=document.getElementById("containerNewCustomer");
+  getNewCustomer(reponse: boolean) {
+    const boxInfoBullNewCustomer = document.getElementById(
+      'containerNewCustomer'
+    );
     boxInfoBullNewCustomer?.classList.add('d-none');
-    if(reponse){
+    if (reponse) {
       this.customerManagementService.getNewCustomer();
     }
   }
