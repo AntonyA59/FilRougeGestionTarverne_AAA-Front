@@ -1,4 +1,16 @@
 <app-header></app-header>
 <main>
+    <div class="d-flex justify-content-around w-100 bannerManager">
+        <div class="d-flex flex-row justify-content-center align-items-center"><p>Name: {{manager.name}}</p></div>     
+        <div class="d-flex flex-row justify-content-center align-items-center"><p>Argent: {{manager.chest}} <img src="../../assets/image/coin.png" alt="pièce"></p></div>
+        <div class="d-flex flex-row justify-content-center align-items-center"><p>Level: {{manager.level}}</p></div>
+        <div class="d-flex flex-row justify-content-center align-items-center"><p>Reputation: {{manager.reputation}}</p></div>
+        <div class="d-flex flex-row justify-content-center align-items-center flex-wrap">
+            <p>Experience:  </p>
+            <div id="conteneurExpMax">
+                <div id="conteneurExp"></div>
+            </div>
+        </div>
+    </div>
     <app-game-map></app-game-map>
 </main>

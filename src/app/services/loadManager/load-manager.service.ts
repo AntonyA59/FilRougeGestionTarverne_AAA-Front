@@ -9,6 +9,7 @@ import { InventoryManagerService } from '../inventoryManager/inventory-manager.s
 import { ManagerService } from '../manager/manager.service';
 import { PlacesService } from '../places/places.service';
 import { RecipeService } from '../recipe/recipe.service';
+import { RecipeCustomerService } from '../recipeCustomer/recipe-customer.service';
 import { TableRestService } from '../tableRest/tableRest.service';
 
 @Injectable({
@@ -27,7 +28,8 @@ export class LoadManagerService {
     private inventoryManagerService: InventoryManagerService,
     private placesServices: PlacesService,
     private recipesServices: RecipeService,
-    private tableRestService: TableRestService
+    private tableRestService: TableRestService,
+    private recipeCustomerService: RecipeCustomerService
   ) {}
 
   loadManager(idManager: number) {
@@ -50,6 +52,7 @@ export class LoadManagerService {
         this.placesServices.setPlaces(response.places);
         this.tableRestService.setTables(response.tableRests);
         this.customerManagementService.setCustomers(response.customers);
+        this.recipeCustomerService.setRecipeCustomer(response.recipeCustomer);
       });
   }
 }

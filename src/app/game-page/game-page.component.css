@@ -1,0 +1,26 @@
+.bannerManager{
+    background-color: rgb(58, 63, 90);
+    padding: 10px 0;
+    margin-bottom: 8px;
+}
+.bannerManager div{
+    background-color: rgb(105, 100, 100);
+    border-radius: 1rem;
+    padding: 10px 20px;
+    color:var(--color7);
+}
+.bannerManager p{
+    margin: 0;
+    color: rgb(175, 205, 230);
+}
+#conteneurExpMax{
+    padding: 0;
+    width: 100px;
+    height: 20px;
+    background-color: rgb(85, 85, 85);
+}
+#conteneurExp{
+    padding: 0;
+    height: 20px;
+    background-color: cornflowerblue;
+}

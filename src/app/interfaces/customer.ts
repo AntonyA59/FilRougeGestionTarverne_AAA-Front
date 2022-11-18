@@ -1,3 +1,5 @@
+import { RecipeCustomerModel } from './recipe';
+
 export interface CustomerModel {
   id: number;
   purseOfGold: number;
@@ -12,9 +14,9 @@ export interface CustomerModel {
   alcoholTolerance: number;
   gender: number;
   expGiven: number;
-  idTableRest?: number | null;
+  idTableRest: number | null;
   consommationStart?: string;
-  commandList?: number[];
+  commandList?: RecipeCustomerModel[];
   name?: string;
   numImg?: number;
 }

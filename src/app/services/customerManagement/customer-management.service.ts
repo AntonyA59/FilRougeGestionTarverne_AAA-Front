@@ -73,12 +73,12 @@ export class CustomerManagementService {
     this.customers.next(customerNewName);
   }
   getName(): string {
-    const name: string = tabName[Math.floor(Math.random() * 20) + 1];
-    const surname: string = tabSurName[Math.floor(Math.random() * 20) + 1];
+    const name: string = tabName[Math.floor(Math.random() * tabName.length)];
+    const surname: string = tabSurName[Math.floor(Math.random() * tabSurName.length)];
     return name + surname;
   }
   getImg(): number {
-    return Math.floor(Math.random() * 7) + 1;
+    return Math.floor(Math.random() * 7)+1;
   }
 
   updateCustomer(
@@ -105,19 +105,19 @@ export class CustomerManagementService {
   getNewRecipe(): Observable<RecipeModel> {
     return this.http.get<RecipeModel>(this.urlNewRecipe);
   }
-  getNewCustomer(): Observable<CustomerModel> {
-    return new Observable<CustomerModel>((subscriber) => {
-      this.http
-        .post<CustomerModel>(this.urlNewCustomer, null)
-        .subscribe((newCustomer) => {
-          let newCustomers: CustomerModel[] = Array.from(
-            this.customers.getValue()
-          );
-          newCustomers.push(newCustomer);
-          this.setCustomers(newCustomers);
-          subscriber.next(newCustomer);
-        });
-    });
+  getNewCustomer():void{
+    const body = JSON.parse(
+      `{"managerId":${sessionStorage.getItem('idManager')}}`
+    );
+    this.http
+      .post<CustomerModel>(this.urlNewCustomer, body)
+      .subscribe((newCustomer) => {
+        let newCustomers: CustomerModel[] = Array.from(
+          this.customers.getValue()
+        );
+        newCustomers.push(newCustomer);
+        this.setCustomers(newCustomers);
+      });
   }
 
   assignCustomerInTable(customer: CustomerModel, table: TableRestModel): void {

@@ -15,8 +15,8 @@ export interface RecipeModel {
 }
 
 export interface RecipeCustomerModel {
-  recipe: RecipeModel;
-  customer: CustomerModel;
+  recipeId: number;
+  customerId: number;
   recipeStart?: string;
 }
 export interface RecipeCustomerInventoryIngredientModel {
@@ -30,4 +30,9 @@ export interface RequestRecipeDto {
   managerId: number;
   recipeId: number;
   customerId: number;
+}
+export interface RecipeCustomerPreparation {
+  recipe: RecipeModel;
+  recipeStart: number;
+  pourcentProgress?: string;
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CustomerModel } from 'src/app/interfaces/customer';
 import { ManagerModel } from 'src/app/interfaces/manager';
 import {
@@ -20,12 +20,6 @@ export class RecipeService {
 
   urlRequestRecipe = environment.apiUrl + 'api/game/recipe/requestRecipe';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-    }),
-  };
   constructor(
     private http: HttpClient,
     private customerManagementService: CustomerManagementService,
@@ -35,36 +29,36 @@ export class RecipeService {
   setRecipes(newRecipes: RecipeModel[]): void {
     this.recipes.next(newRecipes);
   }
-  getRecipeById(idRecipe:number):RecipeModel| null{
-    let recipe:RecipeModel| null=null;
-    this.recipes.value.forEach((recipeCurrent)=>{
-      if(recipeCurrent.id==idRecipe)
-        recipe=recipeCurrent;
-    })
+  getRecipeById(idRecipe: number): RecipeModel | null {
+    let recipe: RecipeModel | null = null;
+    this.recipes.value.forEach((recipeCurrent) => {
+      if (recipeCurrent.id == idRecipe) recipe = recipeCurrent;
+    });
     return recipe;
   }
-  
+
   requestRecipe(
     manager: ManagerModel,
     recipe: RecipeModel,
     customer: CustomerModel
-  ) {
-    const body = JSON.parse(
-      `{"managerId":${manager.id},"recipeId":${recipe.id},"customerId":${customer.id}}`
-    );
-    this.http
-      .post<RecipeCustomerInventoryIngredientModel>(
-        this.urlRequestRecipe,
-        body,
-        this.httpOptions
-      )
-      .subscribe((recipeCustomerInventory) => {
-        this.customerManagementService.updateCustomer(
-          customer,
-          recipeCustomerInventory.customer
-        );
-        this.inventoryManager.setInventaire(recipeCustomerInventory.inventaire);
-        //a voir pour lancer un compteur
-      });
+  ): Observable<CustomerModel> {
+    return new Observable<CustomerModel>((subscriber) => {
+      const body = JSON.parse(
+        `{"managerId":${manager.id},"recipeId":${recipe.id},"customerId":${customer.id}}`
+      );
+      this.http
+        .post<RecipeCustomerInventoryIngredientModel>(
+          this.urlRequestRecipe,
+          body
+        )
+        .subscribe((recipeCustomerInventory) => {
+          this.inventoryManager.setInventaire(
+            recipeCustomerInventory.inventaire
+          );
+
+          subscriber.next(recipeCustomerInventory.customer);
+          //a voir pour lancer un compteur
+        });
+    });
   }
 }
