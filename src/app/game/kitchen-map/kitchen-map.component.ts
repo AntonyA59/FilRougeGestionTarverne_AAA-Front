@@ -7,6 +7,7 @@ import {
 } from 'src/app/interfaces/ingredient';
 import { ManagerModel } from 'src/app/interfaces/manager';
 import {
+  RecipeCustomerModel,
   RecipeCustomerPreparation,
   RecipeModel,
 } from 'src/app/interfaces/recipe';
@@ -28,6 +29,7 @@ export class KitchenMapComponent implements OnInit {
   ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [];
   listAllRecipes: RecipeModel[] = [];
+  listAllrecipeCustomerModel: RecipeCustomerModel[] = [];
   ingredientsRecipe: IngredientModel[] = [];
   listPreparedRecipe: RecipeCustomerPreparation[] = [];
   numberNothing: number[] = [1, 1, 1, 1];
@@ -79,6 +81,10 @@ export class KitchenMapComponent implements OnInit {
       this.ingredients = ingredients;
       console.log(this.ingredients);
     });
+    this.sub = this.obsManager$.subscribe((manager) => {
+      this.manager = manager;
+      console.log(this.manager);
+    });
     this.sub = this.obsCustomer$.subscribe((customers) => {
       this.customers = customers;
       this.customers.forEach((customer) => {
@@ -86,14 +92,16 @@ export class KitchenMapComponent implements OnInit {
           customer.idTableRest != null &&
           customer.consommationStart == null
         ) {
-          this.customerWithTable.push(customer);
+          if (customer.commandList != null) {
+            customer.commandList.forEach((recipeCustomerTemp) => {
+              if (recipeCustomerTemp.recipeStart == null) {
+                this.customerWithTable.push(customer);
+              }
+            });
+          }
         }
       });
       console.log(this.customers);
-    });
-    this.sub = this.obsManager$.subscribe((manager) => {
-      this.manager = manager;
-      console.log(this.manager);
     });
     this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
       recipeCustomers.forEach((element) => {
@@ -181,20 +189,20 @@ export class KitchenMapComponent implements OnInit {
 
   commitRecipe() {
     if (this.customerChoosing == true && this.recipeSelected != undefined) {
-      /*
+      // envoi du Post avec comme argument this.requestRecipeDto ;
       this.recipesService.requestRecipe(
         this.manager,
         this.recipeSelected,
         this.customers[this.customerIndexSelected]
       );
-      */
+
       let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
 
       recipeCustomerPreparation.recipe = this.recipeSelected;
       recipeCustomerPreparation.recipeStart = Date.now();
       recipeCustomerPreparation.pourcentProgress = '1%';
       this.listPreparedRecipe.push(recipeCustomerPreparation);
-      // envoi du Post avec comme argument this.requestRecipeDto ;
+
       if (true) {
       } else {
         //erreur venant du back

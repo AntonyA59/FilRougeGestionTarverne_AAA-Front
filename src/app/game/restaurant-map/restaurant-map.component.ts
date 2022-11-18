@@ -14,7 +14,7 @@ import { TimerService } from 'src/app/services/timer/timer.service';
   templateUrl: './restaurant-map.component.html',
   styleUrls: ['./restaurant-map.component.css'],
 })
-export class RestaurantMapComponent implements OnInit , OnDestroy{
+export class RestaurantMapComponent implements OnInit, OnDestroy {
   place: PlaceModel = {} as PlaceModel;
   customers: CustomerModel[] = [];
   sub: Subscription = new Subscription();
@@ -27,10 +27,9 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     private placesService: PlacesService,
     private tableRestService: TableRestService,
     private customerManagementService: CustomerManagementService,
-    private recipeService:RecipeService,
-    private timerService:TimerService
+    private recipeService: RecipeService,
+    private timerService: TimerService
   ) {}
-
 
   ngOnInit(): void {
     this.sub = this.placesService.places$.subscribe((places) => {
@@ -38,7 +37,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     });
 
     this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
-      this.tableRestWithCustomer=[];
+      this.tableRestWithCustomer = [];
       tableRests.forEach((table) => {
         if (table.idPlace == this.place.id) {
           this.tableRestWithCustomer.push({
@@ -49,26 +48,24 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
             posY: table.posY,
             idPlace: table.idPlace,
             customers: [],
-          }); 
+          });
         }
       });
     });
     this.sub = this.customerManagementService.customers$.subscribe(
-      (customers) => { 
-        this.newCustomers=[];
+      (customers) => {
+        this.newCustomers = [];
         this.timerService.setTimers([]);
-        this.customers=[];
-        this.customers=customers;
+        this.customers = [];
+        this.customers = customers;
         this.placeCustomerAtHisTable();
-        
       }
     );
   }
-  placeCustomerAtHisTable(){
+  placeCustomerAtHisTable() {
     this.customers.forEach((customer) => {
-      console.log(customer.name)
-      if (customer.idTableRest == null) 
-        this.newCustomers.push(customer);
+      console.log(customer.name);
+      if (customer.idTableRest == null) this.newCustomers.push(customer);
       else {
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
           const tableCurrent = this.tableRestWithCustomer[i];
@@ -78,20 +75,25 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
         }
       }
 
-      if(customer.consommationStart!=null){
-        const recipeTime= this.recipeService.getRecipeById(customer.commandList![0])?.consommationTime;
-        const timeNow= Date.now();
-        const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
-        if(timeRemaining <=0 ){
+      if (customer.consommationStart != null) {
+        const recipeTime = this.recipeService.getRecipeById(
+          customer.commandList![0].recipeId
+        )?.consommationTime;
+        const timeNow = Date.now();
+        const timeRemaining =
+          recipeTime! + Number.parseInt(customer.consommationStart) - timeNow;
+        if (timeRemaining <= 0) {
           this.displayBadge();
-        }else{
-          this.timerService.addTimer(setTimeout(this.displayBadge,timeRemaining));
+        } else {
+          this.timerService.addTimer(
+            setTimeout(this.displayBadge, timeRemaining)
+          );
         }
       }
     });
-    this.customers=[]
+    this.customers = [];
   }
-  
+
   assignTable() {
     if (this.checkFreeTable()) {
       this.customerManagementService.assignCustomerInTable(
@@ -104,10 +106,16 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     }
   }
 
-  checkFreeTable():boolean{
+  checkFreeTable(): boolean {
     let assignPossible = false;
-    if (this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined) {
-      if (this.tableRestWithCustomer[this.tableIndexSelected].customers?.length! >=this.tableRestWithCustomer[this.tableIndexSelected].numberPlace) {
+    if (
+      this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined
+    ) {
+      if (
+        this.tableRestWithCustomer[this.tableIndexSelected].customers
+          ?.length! >=
+        this.tableRestWithCustomer[this.tableIndexSelected].numberPlace
+      ) {
       } else {
         assignPossible = true;
       }
@@ -128,22 +136,30 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
       this.tableIndexSelected = parseInt(event.target.value);
     }
   }
-  displayBadge(){
-    console.log("display badge")
-    const boxSalleBadge=document.querySelector("#restaurant #badge");
-    if(boxSalleBadge==null){
-      const boxSalle= document.getElementById("restaurant");
-      let badge=document.createElement("span");
-      badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2","bg-primary", "border", "border-light", "rounded-circle");
+  displayBadge() {
+    console.log('display badge');
+    const boxSalleBadge = document.querySelector('#restaurant #badge');
+    if (boxSalleBadge == null) {
+      const boxSalle = document.getElementById('restaurant');
+      let badge = document.createElement('span');
+      badge.classList.add(
+        'position-absolute',
+        'top-0',
+        'start-100',
+        'translate-middle',
+        'p-2',
+        'bg-primary',
+        'border',
+        'border-light',
+        'rounded-circle'
+      );
       boxSalle?.appendChild(badge);
     }
   }
-  displayBoxInfo(display:boolean,idNummber:number){
-    const boxInfoCustomer= document.getElementById(idNummber.toString());
-    if(display)
-      boxInfoCustomer?.classList.remove("d-none");
-    else
-      boxInfoCustomer?.classList.add("d-none");
+  displayBoxInfo(display: boolean, idNummber: number) {
+    const boxInfoCustomer = document.getElementById(idNummber.toString());
+    if (display) boxInfoCustomer?.classList.remove('d-none');
+    else boxInfoCustomer?.classList.add('d-none');
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
