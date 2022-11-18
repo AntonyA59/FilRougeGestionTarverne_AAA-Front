@@ -139,9 +139,10 @@ export class CustomerManagementService {
         this.updateCustomer(customer, customerUpdate);
       });
   }
-  customerFinish(customer: CustomerModel, manager: ManagerModel): void {
+  customerFinish(customer: CustomerModel): void {
+    const idManager=sessionStorage.getItem('idManager')!;
     const body = JSON.parse(
-      `{"customerId":${customer.id}, "managerId:${manager.id}"}`
+      `{"customerId":${customer.id}, "managerId":${idManager}}`
     );
     this.http
       .post<ManagerModel>(this.urlCustomerFinish, body)
