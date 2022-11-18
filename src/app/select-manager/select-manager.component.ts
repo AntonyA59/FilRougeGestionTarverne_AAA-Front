@@ -19,6 +19,7 @@ export class SelectManagerComponent implements OnInit {
     this.managerService.listManager().subscribe((response) => {
       this.managers = response;
     });
+    
   }
 
   selectManager(idManager: number) {
