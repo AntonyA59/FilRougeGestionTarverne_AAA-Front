@@ -49,14 +49,7 @@ export class RegistrationComponent implements OnInit {
       .register(this.formRegistration.value as Player)
       .subscribe();
     this.submitted = true;
-    setTimeout(() => {
-      if (val.email && val.password)
-        this.authService.login(val.email, val.password).subscribe((data) => {
-          this.tokenStorageService.saveToken(data.accessToken);
-          this.tokenStorageService.saveRefreshToken(data.refreshToken);
-          this.router.navigateByUrl('/home/menu');
-        });
-    }, 500);
+    this.router.navigateByUrl('/home/connexion');
   }
   ngOnInit(): void {}
 }

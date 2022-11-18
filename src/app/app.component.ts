@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, timer } from 'rxjs';
 import { TokenStorageService } from './services/tokenStorage/token-storage.service';
 
 @Component({
@@ -7,6 +8,7 @@ import { TokenStorageService } from './services/tokenStorage/token-storage.servi
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  jwtTimer: Observable<number> = timer(0, 24000);
   isLoggedIn = false;
   title = ' ';
 
@@ -14,6 +16,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    const refreshToken = this.tokenStorageService.getRefreshToken();
+    if (refreshToken) {
+      this.tokenStorageService.refreshToken();
+      this.tokenStorageService.timerRefresh();
+    }
   }
 
   logout(): void {
