@@ -7,7 +7,6 @@ import { Status } from 'src/app/interfaces/status';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { JwtToken } from 'src/app/interfaces/JwtToken';
 import { TokenStorageService } from '../tokenStorage/token-storage.service';
 
 @Injectable({
@@ -20,15 +19,11 @@ export class AuthService {
 
   curUserObs$ = this.curUser.asObservable();
   apiProfile = environment.apiUrl + 'api/game/profile';
-  apiRefresh = environment.apiUrl + 'refreshToken';
+
   apiRegister = environment.apiUrl + 'api/register';
   apiLogin = environment.apiUrl + 'login';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private storageService: TokenStorageService
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string) {
     let httpOptions = {
@@ -54,14 +49,6 @@ export class AuthService {
 
   getPlayer(): Observable<PlayerModel> {
     return this.http.get<PlayerModel>(this.apiProfile);
-  }
-
-  refreshToken() {
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer' + this.storageService.getRefreshToken(),
-    });
-    const requestOptions = { headers: headers };
-    return this.http.get<JwtToken>(this.apiRefresh, requestOptions);
   }
 
   setCurrentUser(auth: CurrentUser) {

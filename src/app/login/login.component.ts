@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { timer } from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
 import { TokenStorageService } from '../services/tokenStorage/token-storage.service';
 
@@ -32,5 +33,6 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home/menu');
       });
     }
+    this.tokenStorageService.timerRefresh();
   }
 }
