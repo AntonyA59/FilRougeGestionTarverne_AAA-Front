@@ -31,6 +31,8 @@ export class CustomerManagementService {
     environment.apiUrl + 'api/game/customerManagement/customerAssignTable';
   private urlCustomerFinish =
     environment.apiUrl + 'api/game/customerManagement/customerFinish';
+  private urlCustomerServed =
+    environment.apiUrl + 'api/game/customerManagement/customerServed';
 
   constructor(
     private http: HttpClient,
@@ -74,11 +76,12 @@ export class CustomerManagementService {
   }
   getName(): string {
     const name: string = tabName[Math.floor(Math.random() * tabName.length)];
-    const surname: string = tabSurName[Math.floor(Math.random() * tabSurName.length)];
+    const surname: string =
+      tabSurName[Math.floor(Math.random() * tabSurName.length)];
     return name + surname;
   }
   getImg(): number {
-    return Math.floor(Math.random() * 7)+1;
+    return Math.floor(Math.random() * 7) + 1;
   }
 
   updateCustomer(
@@ -87,25 +90,22 @@ export class CustomerManagementService {
   ): void {
     let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
     const index = newCustomers.findIndex(
-      element => (
-        element===customerBefore)
+      (element) => element === customerBefore
     );
     newCustomers[index] = customerAfter;
     this.setCustomers(newCustomers);
   }
   deleteCustomer(customer: CustomerModel): void {
     let newCustomers: CustomerModel[] = Array.from(this.customers.getValue());
-    const index = newCustomers.findIndex(
-      element => (
-        element===customer)
-    );    newCustomers.splice(index, 1);
+    const index = newCustomers.findIndex((element) => element === customer);
+    newCustomers.splice(index, 1);
     this.setCustomers(newCustomers);
   }
 
   getNewRecipe(): Observable<RecipeModel> {
     return this.http.get<RecipeModel>(this.urlNewRecipe);
   }
-  getNewCustomer():void{
+  getNewCustomer(): void {
     const body = JSON.parse(
       `{"managerId":${sessionStorage.getItem('idManager')}}`
     );
@@ -134,7 +134,10 @@ export class CustomerManagementService {
 
   customerServed(customer: CustomerModel): void {
     this.http
-      .post<CustomerModel>(this.urlAssignCustomerInTable, customer.id)
+      .post<CustomerModel>(
+        this.urlCustomerServed,
+        JSON.parse(`{"customerId":${customer.id}}`)
+      )
       .subscribe((customerUpdate) => {
         this.updateCustomer(customer, customerUpdate);
       });

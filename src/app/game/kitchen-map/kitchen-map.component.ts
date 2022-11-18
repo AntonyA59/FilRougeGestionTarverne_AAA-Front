@@ -193,8 +193,25 @@ export class KitchenMapComponent implements OnInit {
   private refreshRecipeCustomerPreparation() {
     this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
       recipeCustomers.forEach((element) => {
-        if (element.recipeStart != null) {
+        let customerAlreadyServed = true;
+
+        let curentCustomer = this.customers.find(
+          (cutomerTemp) => cutomerTemp.id == element.customerId
+        );
+        if (
+          curentCustomer != null &&
+          curentCustomer.consommationStart == null
+        ) {
+          customerAlreadyServed = false;
+        }
+
+        if (
+          element.recipeStart != null &&
+          customerAlreadyServed == false &&
+          curentCustomer != null
+        ) {
           let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
+          recipeCustomerPreparation.customer = curentCustomer;
           recipeCustomerPreparation.recipe = this.listAllRecipes.find(
             (recipe) => recipe.id == element.recipeId
           )!;
@@ -218,5 +235,21 @@ export class KitchenMapComponent implements OnInit {
         }
       });
     });
+  }
+
+  serveAtCustomer(idCustomer: number) {
+    let curentCustomer = this.customers.find(
+      (cutomerTemp) => cutomerTemp.id == idCustomer
+    );
+    if (curentCustomer != null) {
+      this.customerService.customerServed(curentCustomer);
+
+      for (let i = 0; i < this.listPreparedRecipe.length; i++) {
+        if (this.listPreparedRecipe[i].customer.id == idCustomer) {
+          this.customerWithTable.splice(i, 1);
+          break;
+        }
+      }
+    }
   }
 }
