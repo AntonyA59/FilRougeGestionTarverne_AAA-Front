@@ -31,8 +31,8 @@ export interface RequestRecipeDto {
   recipeId: number;
   customerId: number;
 }
-export interface RecipeCustomerInstance {
+export interface RecipeCustomerPreparation {
   recipe: RecipeModel;
-  customer: CustomerModel;
-  recipeStart?: string;
+  recipeStart: number;
+  pourcentProgress?: string;
 }

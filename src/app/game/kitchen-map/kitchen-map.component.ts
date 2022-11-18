@@ -6,7 +6,10 @@ import {
   IngredientQuantity,
 } from 'src/app/interfaces/ingredient';
 import { ManagerModel } from 'src/app/interfaces/manager';
-import { RecipeCustomerInstance, RecipeModel } from 'src/app/interfaces/recipe';
+import {
+  RecipeCustomerPreparation,
+  RecipeModel,
+} from 'src/app/interfaces/recipe';
 import { CustomerManagementService } from 'src/app/services/customerManagement/customer-management.service';
 import { IngredientsService } from 'src/app/services/ingredients/ingredients.service';
 import { InventoryManagerService } from 'src/app/services/inventoryManager/inventory-manager.service';
@@ -26,7 +29,7 @@ export class KitchenMapComponent implements OnInit {
   inventory: IngredientQuantity[] = [];
   listAllRecipes: RecipeModel[] = [];
   ingredientsRecipe: IngredientModel[] = [];
-  listPreparedRecipe: RecipeModel[] = [];
+  listPreparedRecipe: RecipeCustomerPreparation[] = [];
   numberNothing: number[] = [1, 1, 1, 1];
   recipeSelected = {} as RecipeModel;
   customerSelected = {} as CustomerModel;
@@ -45,6 +48,8 @@ export class KitchenMapComponent implements OnInit {
   obsIngredients$ = this.ingredientsService.ingredients$;
   obsManager$ = this.managerService.manager$;
   obsRecipeCustomer$ = this.recipeCustomerService.recipeCustomer$;
+
+  numberExemple = 30;
 
   constructor(
     private recipesService: RecipeService,
@@ -93,9 +98,27 @@ export class KitchenMapComponent implements OnInit {
     this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
       recipeCustomers.forEach((element) => {
         if (element.recipeStart != null) {
-          this.listPreparedRecipe.push(
-            this.listAllRecipes.find((recipe) => recipe.id == element.recipeId)!
-          );
+          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
+          recipeCustomerPreparation.recipe = this.listAllRecipes.find(
+            (recipe) => recipe.id == element.recipeId
+          )!;
+          recipeCustomerPreparation.recipeStart = parseInt(element.recipeStart);
+
+          let elapsedTime = Date.now() - recipeCustomerPreparation.recipeStart;
+
+          if (elapsedTime < recipeCustomerPreparation.recipe.preparationTime) {
+            let pourcent = Math.ceil(
+              (elapsedTime * 100) /
+                recipeCustomerPreparation.recipe.preparationTime
+            );
+            recipeCustomerPreparation.pourcentProgress = pourcent + '%';
+          } else {
+            if (elapsedTime >= 0) {
+              recipeCustomerPreparation.pourcentProgress = '100%';
+            }
+          }
+
+          this.listPreparedRecipe.push(recipeCustomerPreparation);
         }
       });
       console.log(this.listPreparedRecipe);
@@ -158,11 +181,19 @@ export class KitchenMapComponent implements OnInit {
 
   commitRecipe() {
     if (this.customerChoosing == true && this.recipeSelected != undefined) {
+      /*
       this.recipesService.requestRecipe(
         this.manager,
         this.recipeSelected,
         this.customers[this.customerIndexSelected]
       );
+      */
+      let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
+
+      recipeCustomerPreparation.recipe = this.recipeSelected;
+      recipeCustomerPreparation.recipeStart = Date.now();
+      recipeCustomerPreparation.pourcentProgress = '1%';
+      this.listPreparedRecipe.push(recipeCustomerPreparation);
       // envoi du Post avec comme argument this.requestRecipeDto ;
       if (true) {
       } else {
