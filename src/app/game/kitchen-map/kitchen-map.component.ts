@@ -63,10 +63,12 @@ export class KitchenMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.obsRecipes$.pipe(shareReplay());
     this.obsInventory$.pipe(shareReplay());
-    this.obsIngredients$.pipe(shareReplay());
     this.obsCustomer$.pipe(shareReplay());
+    this.obsRecipes$.pipe(shareReplay());
+    this.obsIngredients$.pipe(shareReplay());
+    this.obsManager$.pipe(shareReplay());
+    this.obsRecipeCustomer$.pipe(shareReplay());
 
     this.sub = this.obsRecipes$.subscribe((recipes) => {
       this.listAllRecipes = recipes;
@@ -103,34 +105,8 @@ export class KitchenMapComponent implements OnInit {
       });
       console.log(this.customers);
     });
-    this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
-      recipeCustomers.forEach((element) => {
-        if (element.recipeStart != null) {
-          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
-          recipeCustomerPreparation.recipe = this.listAllRecipes.find(
-            (recipe) => recipe.id == element.recipeId
-          )!;
-          recipeCustomerPreparation.recipeStart = parseInt(element.recipeStart);
 
-          let elapsedTime = Date.now() - recipeCustomerPreparation.recipeStart;
-
-          if (elapsedTime < recipeCustomerPreparation.recipe.preparationTime) {
-            let pourcent = Math.ceil(
-              (elapsedTime * 100) /
-                recipeCustomerPreparation.recipe.preparationTime
-            );
-            recipeCustomerPreparation.pourcentProgress = pourcent + '%';
-          } else {
-            if (elapsedTime >= 0) {
-              recipeCustomerPreparation.pourcentProgress = '100%';
-            }
-          }
-
-          this.listPreparedRecipe.push(recipeCustomerPreparation);
-        }
-      });
-      console.log(this.listPreparedRecipe);
-    });
+    this.refreshRecipeCustomerPreparation();
   }
 
   ngOnDestroy(): void {
@@ -190,23 +166,57 @@ export class KitchenMapComponent implements OnInit {
   commitRecipe() {
     if (this.customerChoosing == true && this.recipeSelected != undefined) {
       // envoi du Post avec comme argument this.requestRecipeDto ;
-      this.recipesService.requestRecipe(
-        this.manager,
-        this.recipeSelected,
-        this.customers[this.customerIndexSelected]
-      );
+      this.recipesService
+        .requestRecipe(
+          this.manager,
+          this.recipeSelected,
+          this.customerWithTable[this.customerIndexSelected]
+        )
+        .subscribe((customer) => {
+          for (let i = 0; i < this.customerWithTable.length; i++) {
+            if (this.customerWithTable[i].id == customer.id) {
+              this.customerWithTable.splice(i, 1);
+              break;
+            }
+          }
+          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
 
-      let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
-
-      recipeCustomerPreparation.recipe = this.recipeSelected;
-      recipeCustomerPreparation.recipeStart = Date.now();
-      recipeCustomerPreparation.pourcentProgress = '1%';
-      this.listPreparedRecipe.push(recipeCustomerPreparation);
-
-      if (true) {
-      } else {
-        //erreur venant du back
-      }
+          recipeCustomerPreparation.recipe = this.recipeSelected;
+          recipeCustomerPreparation.recipeStart = Date.now();
+          recipeCustomerPreparation.pourcentProgress = '0%';
+          this.listPreparedRecipe.push(recipeCustomerPreparation);
+          //this.refreshRecipeCustomerPreparation();
+        });
     }
+  }
+
+  private refreshRecipeCustomerPreparation() {
+    this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
+      recipeCustomers.forEach((element) => {
+        if (element.recipeStart != null) {
+          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
+          recipeCustomerPreparation.recipe = this.listAllRecipes.find(
+            (recipe) => recipe.id == element.recipeId
+          )!;
+          recipeCustomerPreparation.recipeStart = parseInt(element.recipeStart);
+
+          let elapsedTime = Date.now() - recipeCustomerPreparation.recipeStart;
+
+          if (elapsedTime < recipeCustomerPreparation.recipe.preparationTime) {
+            let pourcent = Math.ceil(
+              (elapsedTime * 100) /
+                recipeCustomerPreparation.recipe.preparationTime
+            );
+            recipeCustomerPreparation.pourcentProgress = pourcent + '%';
+          } else {
+            if (elapsedTime >= 0) {
+              recipeCustomerPreparation.pourcentProgress = '100%';
+            }
+          }
+
+          this.listPreparedRecipe.push(recipeCustomerPreparation);
+        }
+      });
+    });
   }
 }
