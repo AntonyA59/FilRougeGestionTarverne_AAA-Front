@@ -1,23 +1,26 @@
 <div class="w-100 h-100 map position-relative d-flex flex-column  justify-content-between pb-5" id="room">
-  <div id="containerNewCustomer" ><!--class="d-none" -->
+  <div id="containerNewCustomer" class="d-none" ><!--class="d-none" -->
     <img src="../../../assets/image/doorwomen.png" alt="Portier"/>
     <div id="triangle"></div>
     <div id="containerTextNewCustomer">
       <form>
         <label>Un nouveau client frappe à la porte. Voulez-vous le faire entrer ?</label>
-        <button type="button" (click)="getNewCustomer(true)" >Oui</button>
-        <button type="button" (click)="getNewCustomer(false)" >Non</button>
+        <div class="d-flex flex-rox justify-content-around mt-4">
+          <button type="button" class="btn btn-outline-dark" (click)="getNewCustomer(true)" >Oui</button>
+          <button type="button" class="btn btn-outline-dark" (click)="getNewCustomer(false)" >Non</button>
+
+        </div>
 
       </form>
     </div>
   </div>
-  <div *ngFor="let table of tableRestWithCustomer;">
+  <div *ngFor="let table of tableRestWithCustomer;" >
     <div *ngFor="
       let customer of table.customers;
       index as j
-    " class="position-absolute textCustomer" id="{{customer.id}}">
+    " class="position-absolute textCustomer d-none" id="{{customer.id}}">
       <p class="position-relative" >
-        <button type="button" (click)="displayBoxInfo(false,customer.id)" class="btn-close btn-info-bulle-customer" aria-label="Close"></button>
+        <button type="button" (click)="displayBoxInfoCustomer(false,customer.id)" class="btn-close btn-info-bulle-customer" aria-label="Close"></button>
         name: {{customer.name}}<br>
         purseOfGold: {{customer.purseOfGold}}<br>
         happiness: {{customer.happiness}}<br>
@@ -116,7 +119,7 @@
             src="../../../assets/image/customer_0{{ customer.numImg }}.png"
             alt="client attablé "
             class="zoomCustomer customer{{ j%2}}"
-            (click)="displayBoxInfo(true,customer.id)"
+            (click)="displayBoxInfoCustomer(true,customer.id)"
           >
         </div>
       </div>

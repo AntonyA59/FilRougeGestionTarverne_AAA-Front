@@ -22,6 +22,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
   newCustomers: CustomerModel[] = [];
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
+  availableSpace:number=0;
 
   constructor(
     private placesService: PlacesService,
@@ -63,20 +64,27 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
         
       }
     );
+    setTimeout(this.displayBoxNewCustomer.bind(this),180000);
   }
   placeCustomerAtHisTable(){
     this.customers.forEach((customer) => {
-      console.log(customer.name)
       if (customer.idTableRest == null) 
         this.newCustomers.push(customer);
       else {
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+          const element = this.tableRestWithCustomer[i];
+          element.customers?.splice(0,element.customers.length);
+        }
+
+        for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
           const tableCurrent = this.tableRestWithCustomer[i];
           if (tableCurrent.id == customer.idTableRest) {
             tableCurrent.customers!.push(customer);
+            break;
           }
         }
       }
+      
 
       if(customer.consommationStart!=null){
         const recipeTime= this.recipeService.getRecipeById(customer.commandList![0])?.consommationTime;
@@ -89,7 +97,12 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
         }
       }
     });
-    this.customers=[]
+    this.customers=[];
+    this.availableSpace=0;
+    for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+      const element = this.tableRestWithCustomer[i];
+      this.availableSpace+=element.numberPlace;
+    }
   }
   
   assignTable() {
@@ -129,7 +142,6 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
     }
   }
   displayBadge(){
-    console.log("display badge")
     const boxSalleBadge=document.querySelector("#restaurant #badge");
     if(boxSalleBadge==null){
       const boxSalle= document.getElementById("restaurant");
@@ -138,12 +150,19 @@ export class RestaurantMapComponent implements OnInit , OnDestroy{
       boxSalle?.appendChild(badge);
     }
   }
-  displayBoxInfo(display:boolean,idNummber:number){
+  displayBoxInfoCustomer(display:boolean,idNummber:number){
     const boxInfoCustomer= document.getElementById(idNummber.toString());
     if(display)
       boxInfoCustomer?.classList.remove("d-none");
     else
       boxInfoCustomer?.classList.add("d-none");
+  }
+  displayBoxNewCustomer(){
+    if(this.availableSpace>0){
+      const boxInfoNewCustomer=document.getElementById('containerNewCustomer');
+      boxInfoNewCustomer?.classList.remove('d-none');
+    }
+    setTimeout(this.displayBoxNewCustomer.bind(this),180000);
   }
   getNewCustomer(reponse:boolean){
     const boxInfoBullNewCustomer=document.getElementById("containerNewCustomer");
