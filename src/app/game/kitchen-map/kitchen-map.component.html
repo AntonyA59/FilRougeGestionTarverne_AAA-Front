@@ -101,7 +101,7 @@
   <div class="col-sm-5">
     <p class="text-white">Recettes en cours de préparation</p>
     <div *ngFor="let item of listPreparedRecipe; index as i">
-      {{ item.recipe.name }}
+      {{ item.recipe.name }} pour le client : {{ item.customer.name }}
       <div class="progress">
         <div
           *ngIf="item.pourcentProgress == '100%'"
@@ -118,6 +118,14 @@
           [style.width]="item.pourcentProgress"
         ></div>
       </div>
+      <button
+        class="btn btn-light m-1"
+        clickable
+        (click)="serveAtCustomer(item.customer.id)"
+        [disabled]="item.pourcentProgress != '100%'"
+      >
+        Servir
+      </button>
     </div>
   </div>
 </div>

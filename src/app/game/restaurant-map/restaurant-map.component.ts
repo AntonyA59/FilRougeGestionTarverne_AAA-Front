@@ -22,7 +22,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
   newCustomers: CustomerModel[] = [];
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
-  availableSpace:number=0;
+  availableSpace: number = 0;
 
   removeEventRecolte:Function=()=>{};
 
@@ -30,10 +30,9 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
     private placesService: PlacesService,
     private tableRestService: TableRestService,
     private customerManagementService: CustomerManagementService,
-    private recipeService:RecipeService,
-    private timerService:TimerService,
+    private recipeService: RecipeService,
+    private timerService: TimerService
   ) {}
-
 
   ngOnInit(): void {
     setTimeout(this.displayBoxNewCustomer.bind(this),180000);
@@ -45,7 +44,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
     });
 
     this.sub = this.tableRestService.tables$.subscribe((tableRests) => {
-      this.tableRestWithCustomer=[];
+      this.tableRestWithCustomer = [];
       tableRests.forEach((table) => {
         if (table.idPlace == this.place.id) {
           this.tableRestWithCustomer.push({
@@ -56,7 +55,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
             posY: table.posY,
             idPlace: table.idPlace,
             customers: [],
-          }); 
+          });
         }
       });
     });
@@ -77,8 +76,7 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
     }
 
     this.customers.forEach((customer) => {
-      if (customer.idTableRest == null) 
-        this.newCustomers.push(customer);
+      if (customer.idTableRest == null) this.newCustomers.push(customer);
       else {
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
           const tableCurrent = this.tableRestWithCustomer[i];
@@ -90,13 +88,13 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
       }
       
       if(customer.consommationStart!=null){
-        const recipeTime= this.recipeService.getRecipeById(customer.commandList![0])?.consommationTime;
+        const recipeTime= this.recipeService.getRecipeById(customer.commandList![0].recipeId)?.consommationTime;
         const timeNow= Date.now();
         const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
         if(timeRemaining <=0 ){
           this.displayBadgeNavSalle(customer);
         }else{
-          this.timerService.addTimerEat(setTimeout(this.displayBadgeNavSalle,timeRemaining));
+          this.timerService.addTimerEat(setTimeout(()=>this.displayBadgeNavSalle(customer),timeRemaining));
         }
       }
     });
@@ -104,12 +102,13 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
     this.customers=[];
     this.availableSpace=0;
 
+
     for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
       const element = this.tableRestWithCustomer[i];
-      this.availableSpace+=element.numberPlace;
+      this.availableSpace += element.numberPlace;
     }
   }
-  
+
   assignTable() {
     if (this.checkFreeTable()) {
       this.customerManagementService.assignCustomerInTable(
@@ -122,10 +121,16 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
     }
   }
 
-  checkFreeTable():boolean{
+  checkFreeTable(): boolean {
     let assignPossible = false;
-    if (this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined) {
-      if (this.tableRestWithCustomer[this.tableIndexSelected].customers?.length! >=this.tableRestWithCustomer[this.tableIndexSelected].numberPlace) {
+    if (
+      this.tableRestWithCustomer[this.tableIndexSelected].customers != undefined
+    ) {
+      if (
+        this.tableRestWithCustomer[this.tableIndexSelected].customers
+          ?.length! >=
+        this.tableRestWithCustomer[this.tableIndexSelected].numberPlace
+      ) {
       } else {
         assignPossible = true;
       }
@@ -163,17 +168,21 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
     else
       boxInfoCustomer?.classList.add("d-none");
   }
-  displayBoxNewCustomer(){
-    if(this.availableSpace>0){
-      const boxInfoNewCustomer=document.getElementById('containerNewCustomer');
+  displayBoxNewCustomer() {
+    if (this.availableSpace > 0) {
+      const boxInfoNewCustomer = document.getElementById(
+        'containerNewCustomer'
+      );
       boxInfoNewCustomer?.classList.remove('d-none');
     }
-    setTimeout(this.displayBoxNewCustomer.bind(this),180000);
+    setTimeout(this.displayBoxNewCustomer.bind(this), 180000);
   }
-  getNewCustomer(reponse:boolean){
-    const boxInfoBullNewCustomer=document.getElementById("containerNewCustomer");
+  getNewCustomer(reponse: boolean) {
+    const boxInfoBullNewCustomer = document.getElementById(
+      'containerNewCustomer'
+    );
     boxInfoBullNewCustomer?.classList.add('d-none');
-    if(reponse){
+    if (reponse) {
       this.customerManagementService.getNewCustomer();
     }
   }

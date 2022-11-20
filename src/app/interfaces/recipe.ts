@@ -33,6 +33,7 @@ export interface RequestRecipeDto {
 }
 export interface RecipeCustomerPreparation {
   recipe: RecipeModel;
+  customer: CustomerModel;
   recipeStart: number;
   pourcentProgress?: string;
 }

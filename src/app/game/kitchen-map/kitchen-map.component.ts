@@ -7,6 +7,7 @@ import {
 } from 'src/app/interfaces/ingredient';
 import { ManagerModel } from 'src/app/interfaces/manager';
 import {
+  RecipeCustomerModel,
   RecipeCustomerPreparation,
   RecipeModel,
 } from 'src/app/interfaces/recipe';
@@ -28,6 +29,7 @@ export class KitchenMapComponent implements OnInit {
   ingredients: IngredientModel[] = [];
   inventory: IngredientQuantity[] = [];
   listAllRecipes: RecipeModel[] = [];
+  listAllrecipeCustomerModel: RecipeCustomerModel[] = [];
   ingredientsRecipe: IngredientModel[] = [];
   listPreparedRecipe: RecipeCustomerPreparation[] = [];
   numberNothing: number[] = [1, 1, 1, 1];
@@ -61,10 +63,12 @@ export class KitchenMapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.obsRecipes$.pipe(shareReplay());
     this.obsInventory$.pipe(shareReplay());
-    this.obsIngredients$.pipe(shareReplay());
     this.obsCustomer$.pipe(shareReplay());
+    this.obsRecipes$.pipe(shareReplay());
+    this.obsIngredients$.pipe(shareReplay());
+    this.obsManager$.pipe(shareReplay());
+    this.obsRecipeCustomer$.pipe(shareReplay());
 
     this.sub = this.obsRecipes$.subscribe((recipes) => {
       this.listAllRecipes = recipes;
@@ -79,6 +83,10 @@ export class KitchenMapComponent implements OnInit {
       this.ingredients = ingredients;
       console.log(this.ingredients);
     });
+    this.sub = this.obsManager$.subscribe((manager) => {
+      this.manager = manager;
+      console.log(this.manager);
+    });
     this.sub = this.obsCustomer$.subscribe((customers) => {
       this.customers = customers;
       this.customers.forEach((customer) => {
@@ -86,43 +94,19 @@ export class KitchenMapComponent implements OnInit {
           customer.idTableRest != null &&
           customer.consommationStart == null
         ) {
-          this.customerWithTable.push(customer);
+          if (customer.commandList != null) {
+            customer.commandList.forEach((recipeCustomerTemp) => {
+              if (recipeCustomerTemp.recipeStart == null) {
+                this.customerWithTable.push(customer);
+              }
+            });
+          }
         }
       });
       console.log(this.customers);
     });
-    this.sub = this.obsManager$.subscribe((manager) => {
-      this.manager = manager;
-      console.log(this.manager);
-    });
-    this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
-      recipeCustomers.forEach((element) => {
-        if (element.recipeStart != null) {
-          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
-          recipeCustomerPreparation.recipe = this.listAllRecipes.find(
-            (recipe) => recipe.id == element.recipeId
-          )!;
-          recipeCustomerPreparation.recipeStart = parseInt(element.recipeStart);
 
-          let elapsedTime = Date.now() - recipeCustomerPreparation.recipeStart;
-
-          if (elapsedTime < recipeCustomerPreparation.recipe.preparationTime) {
-            let pourcent = Math.ceil(
-              (elapsedTime * 100) /
-                recipeCustomerPreparation.recipe.preparationTime
-            );
-            recipeCustomerPreparation.pourcentProgress = pourcent + '%';
-          } else {
-            if (elapsedTime >= 0) {
-              recipeCustomerPreparation.pourcentProgress = '100%';
-            }
-          }
-
-          this.listPreparedRecipe.push(recipeCustomerPreparation);
-        }
-      });
-      console.log(this.listPreparedRecipe);
-    });
+    this.refreshRecipeCustomerPreparation();
   }
 
   ngOnDestroy(): void {
@@ -181,23 +165,90 @@ export class KitchenMapComponent implements OnInit {
 
   commitRecipe() {
     if (this.customerChoosing == true && this.recipeSelected != undefined) {
-      /*
-      this.recipesService.requestRecipe(
-        this.manager,
-        this.recipeSelected,
-        this.customers[this.customerIndexSelected]
-      );
-      */
-      let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
-
-      recipeCustomerPreparation.recipe = this.recipeSelected;
-      recipeCustomerPreparation.recipeStart = Date.now();
-      recipeCustomerPreparation.pourcentProgress = '1%';
-      this.listPreparedRecipe.push(recipeCustomerPreparation);
       // envoi du Post avec comme argument this.requestRecipeDto ;
-      if (true) {
-      } else {
-        //erreur venant du back
+      this.recipesService
+        .requestRecipe(
+          this.manager,
+          this.recipeSelected,
+          this.customerWithTable[this.customerIndexSelected]
+        )
+        .subscribe((customer) => {
+          for (let i = 0; i < this.customerWithTable.length; i++) {
+            if (this.customerWithTable[i].id == customer.id) {
+              this.customerWithTable.splice(i, 1);
+              break;
+            }
+          }
+          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
+
+          recipeCustomerPreparation.recipe = this.recipeSelected;
+          recipeCustomerPreparation.recipeStart = Date.now();
+          recipeCustomerPreparation.pourcentProgress = '0%';
+          this.listPreparedRecipe.push(recipeCustomerPreparation);
+          //this.refreshRecipeCustomerPreparation();
+        });
+    }
+  }
+
+  private refreshRecipeCustomerPreparation() {
+    this.sub = this.obsRecipeCustomer$.subscribe((recipeCustomers) => {
+      recipeCustomers.forEach((element) => {
+        let customerAlreadyServed = true;
+
+        let curentCustomer = this.customers.find(
+          (cutomerTemp) => cutomerTemp.id == element.customerId
+        );
+        if (
+          curentCustomer != null &&
+          curentCustomer.consommationStart == null
+        ) {
+          customerAlreadyServed = false;
+        }
+
+        if (
+          element.recipeStart != null &&
+          customerAlreadyServed == false &&
+          curentCustomer != null
+        ) {
+          let recipeCustomerPreparation = {} as RecipeCustomerPreparation;
+          recipeCustomerPreparation.customer = curentCustomer;
+          recipeCustomerPreparation.recipe = this.listAllRecipes.find(
+            (recipe) => recipe.id == element.recipeId
+          )!;
+          recipeCustomerPreparation.recipeStart = parseInt(element.recipeStart);
+
+          let elapsedTime = Date.now() - recipeCustomerPreparation.recipeStart;
+
+          if (elapsedTime < recipeCustomerPreparation.recipe.preparationTime) {
+            let pourcent = Math.ceil(
+              (elapsedTime * 100) /
+                recipeCustomerPreparation.recipe.preparationTime
+            );
+            recipeCustomerPreparation.pourcentProgress = pourcent + '%';
+          } else {
+            if (elapsedTime >= 0) {
+              recipeCustomerPreparation.pourcentProgress = '100%';
+            }
+          }
+
+          this.listPreparedRecipe.push(recipeCustomerPreparation);
+        }
+      });
+    });
+  }
+
+  serveAtCustomer(idCustomer: number) {
+    let curentCustomer = this.customers.find(
+      (cutomerTemp) => cutomerTemp.id == idCustomer
+    );
+    if (curentCustomer != null) {
+      this.customerService.customerServed(curentCustomer);
+
+      for (let i = 0; i < this.listPreparedRecipe.length; i++) {
+        if (this.listPreparedRecipe[i].customer.id == idCustomer) {
+          this.customerWithTable.splice(i, 1);
+          break;
+        }
       }
     }
   }
