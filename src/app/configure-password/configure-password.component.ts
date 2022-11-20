@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { confirmPasswordValidator } from '../confirmed-password';
-import { AuthService } from '../services/auth/auth.service';
 import { PlayerService } from '../services/player/player.service';
 
 @Component({
