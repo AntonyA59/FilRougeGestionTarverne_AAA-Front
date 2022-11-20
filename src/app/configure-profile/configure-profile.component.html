@@ -1,0 +1,34 @@
+<form [formGroup]="modifForm" (ngSubmit)="onSubmit()"
+    class="offset-0 offset-sm-0 offset-lg-1 col-12 col-sm-12 col-lg-10 text-white">
+    <div class="row flex-column align-items-center">
+        <div>
+            <h1 class="title text-center">Votre profil</h1>
+            <h2 class="text-center  m-3">Que souhaitez-vous modifier ?</h2>
+        </div>
+        <div class="mb-5 text-center col-11 text-sm-center text-lg-start">
+            <label for="email" class="form-label fw-bold ">Adresse E-mail <span class="title">(Vous devrez vous
+                    reconnecter aprés modification)</span></label>
+
+            <input formControlName="email" type="email" class="form-control opacity-75" id="email">
+            <p class="text-danger" *ngIf="submitted && f.email.errors?.['email']">L'e-mail est pas valide</p>
+
+        </div>
+        <div class="mb-5 text-center col-11 text-sm-center text-lg-start">
+            <label for="nickname" class="form-label fw-bold ">NickName</label>
+            <input formControlName="nickname" type="text" class="form-control opacity-75" id="nickname">
+            <p class="text-danger" *ngIf="submitted && f.nickname.errors?.['minlength']">Le nickname doit avoir au moins
+                8 caractéres
+            </p>
+            <p class="text-danger" *ngIf="submitted && f.nickname.errors?.['maxlength']">Le nickname doit pas avoir plus
+                de 30
+                caractéres</p>
+        </div>
+        <div class="text-center mb-2">
+            <button type="submit" class="w-25 btn-brown m-2 p-3">Valider</button>
+            <a class="w-25 btn-brown p-3" routerLink="/home/menu/modifMdp">Changer de mot de passe</a>
+        </div>
+        <div class="text-center">
+            <button routerLink="/home/menu" type="button" class="w-25 m-1 btn-brown p-3 ">Retour</button>
+        </div>
+    </div>
+</form>

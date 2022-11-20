@@ -11,13 +11,15 @@ import { PlayerMenuComponent } from './player-menu/player-menu.component';
 import { AddManagerFormComponent } from './add-manager-form/add-manager-form.component';
 import { IsLoggedManagerGuard } from './guard/managerStep/is-logged-manager.guard';
 import { IsLoggedGuard } from './guard/playerStep/is-logged.guard';
+import { ConfigureProfileComponent } from './configure-profile/configure-profile.component';
+import { ConfigurePasswordComponent } from './configure-password/configure-password.component';
 
 const routes: Routes = [
   //page Game
   {
     path: 'game',
     component: GamePageComponent,
-    canActivate:[IsLoggedManagerGuard],
+    canActivate: [IsLoggedManagerGuard],
     loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
   },
 
@@ -34,9 +36,31 @@ const routes: Routes = [
         component: LoginComponent,
       },
       { path: 'inscription', component: RegistrationComponent },
-      { path: 'menu', component: PlayerMenuComponent, canActivate:[IsLoggedGuard] },
-      { path: 'manager/select', component: SelectManagerComponent,canActivate:[IsLoggedGuard] },
-      { path: 'manager/add', component: AddManagerFormComponent,canActivate:[IsLoggedGuard] },
+      {
+        path: 'menu',
+        component: PlayerMenuComponent,
+        canActivate: [IsLoggedGuard],
+      },
+      {
+        path: 'manager/select',
+        component: SelectManagerComponent,
+        canActivate: [IsLoggedGuard],
+      },
+      {
+        path: 'manager/add',
+        component: AddManagerFormComponent,
+        canActivate: [IsLoggedGuard],
+      },
+      {
+        path: 'menu/profil',
+        component: ConfigureProfileComponent,
+        canActivate: [IsLoggedGuard],
+      },
+      {
+        path: 'menu/modifMdp',
+        component: ConfigurePasswordComponent,
+        canActivate: [IsLoggedGuard],
+      },
     ],
   },
   //page Not found

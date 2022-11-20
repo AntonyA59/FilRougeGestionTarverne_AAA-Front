@@ -20,6 +20,8 @@ import {
   AuthInterceptor,
   AUTH_INTERCEPTOR,
 } from './interceptors/auth.interceptor';
+import { ConfigureProfileComponent } from './configure-profile/configure-profile.component';
+import { ConfigurePasswordComponent } from './configure-password/configure-password.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import {
     SelectManagerComponent,
     PlayerMenuComponent,
     AddManagerFormComponent,
+    ConfigureProfileComponent,
+    ConfigurePasswordComponent,
   ],
   imports: [
     BrowserModule,
