@@ -25,8 +25,6 @@ export class CustomerManagementService {
 
   private urlNewCustomer =
     environment.apiUrl + 'api/game/customerManagement/newCustomer';
-  private urlNewRecipe =
-    environment.apiUrl + 'api/game/customerManagement/newRecipe';
   private urlAssignCustomerInTable =
     environment.apiUrl + 'api/game/customerManagement/customerAssignTable';
   private urlCustomerFinish =
