@@ -193,8 +193,6 @@ export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit
   }
   recolteCustomer(customer:CustomerModel){
     this.customerManagementService.customerFinish(customer);
-    const boxImgCustomer=document.getElementById(`btnCustomer${customer.id}`);
-    boxImgCustomer?.removeEventListener('click',()=>this.recolteCustomer(customer));
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
