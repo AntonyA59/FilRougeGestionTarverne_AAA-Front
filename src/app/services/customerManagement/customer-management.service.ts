@@ -102,9 +102,6 @@ export class CustomerManagementService {
     this.setCustomers(newCustomers);
   }
 
-  getNewRecipe(): Observable<RecipeModel> {
-    return this.http.get<RecipeModel>(this.urlNewRecipe);
-  }
   getNewCustomer(): void {
     const body = JSON.parse(
       `{"managerId":${sessionStorage.getItem('idManager')}}`
@@ -122,7 +119,7 @@ export class CustomerManagementService {
 
   assignCustomerInTable(customer: CustomerModel, table: TableRestModel): void {
     const body = JSON.parse(
-      `{"customerId":${customer.id}, "tableId":${table.id}}`
+      `{"customerId":${customer.id}, "tableId":${table.id}, "managerId":${sessionStorage.getItem('idManager')}}`
     );
     this.http
       .post<CustomerTableModel>(this.urlAssignCustomerInTable, body)
