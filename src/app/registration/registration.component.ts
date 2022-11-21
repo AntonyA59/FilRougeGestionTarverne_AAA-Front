@@ -45,11 +45,13 @@ export class RegistrationComponent implements OnInit {
   }
   onSubmit() {
     const val = this.formRegistration.value;
-    this.authService
-      .register(this.formRegistration.value as Player)
-      .subscribe();
     this.submitted = true;
-    this.router.navigateByUrl('/home/connexion');
+    if (this.formRegistration.valid) {
+      this.authService
+        .register(this.formRegistration.value as Player)
+        .subscribe();
+      this.router.navigateByUrl('/home/connexion');
+    }
   }
   ngOnInit(): void {}
 }

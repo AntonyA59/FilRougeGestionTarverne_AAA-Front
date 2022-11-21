@@ -26,13 +26,15 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const val = this.connectionForm.value;
-    if (val.email && val.password) {
-      this.authService.login(val.email, val.password).subscribe((data) => {
-        this.tokenStorageService.saveToken(data.accessToken);
-        this.tokenStorageService.saveRefreshToken(data.refreshToken);
-        this.router.navigateByUrl('/home/menu');
-      });
+    if (this.connectionForm.valid) {
+      if (val.email && val.password) {
+        this.authService.login(val.email, val.password).subscribe((data) => {
+          this.tokenStorageService.saveToken(data.accessToken);
+          this.tokenStorageService.saveRefreshToken(data.refreshToken);
+          this.router.navigateByUrl('/home/menu');
+        });
+      }
+      this.tokenStorageService.timerRefresh();
     }
-    this.tokenStorageService.timerRefresh();
   }
 }
