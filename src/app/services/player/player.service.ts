@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,7 +10,7 @@ export class PlayerService {
   apiModifEmail = environment.apiUrl + 'api/game/modifEmail';
   apiModifNickname = environment.apiUrl + 'api/game/modifNickname';
   apiModifPassword = environment.apiUrl + 'api/game/modifPassword';
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   modifEmail(emailModified: string) {
     const body = JSON.parse(

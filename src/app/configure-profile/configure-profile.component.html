@@ -6,11 +6,11 @@
             <h2 class="text-center  m-3">Que souhaitez-vous modifier ?</h2>
         </div>
         <div class="mb-5 text-center col-11 text-sm-center text-lg-start">
-            <label for="email" class="form-label fw-bold ">Adresse E-mail <span class="title">(Vous devrez vous
+            <label for="emailModified" class="form-label fw-bold ">Adresse E-mail <span class="title">(Vous devrez vous
                     reconnecter aprés modification)</span></label>
 
-            <input formControlName="email" type="email" class="form-control opacity-75" id="email">
-            <p class="text-danger" *ngIf="submitted && f.email.errors?.['email']">L'e-mail est pas valide</p>
+            <input formControlName="emailModified" type="email" class="form-control opacity-75" id="email">
+            <p class="text-danger" *ngIf="submitted && f.emailModified.errors?.['email']">L'e-mail est pas valide</p>
 
         </div>
         <div class="mb-5 text-center col-11 text-sm-center text-lg-start">

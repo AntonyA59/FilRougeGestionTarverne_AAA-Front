@@ -12,7 +12,7 @@ import { PlayerService } from '../services/player/player.service';
 export class ConfigureProfileComponent implements OnInit {
   submitted: boolean = false;
   modifForm = new FormGroup({
-    email: new FormControl('', [Validators.email]),
+    emailModified: new FormControl('', [Validators.email]),
     nickname: new FormControl('', [
       Validators.minLength(8),
       Validators.maxLength(30),
@@ -32,14 +32,14 @@ export class ConfigureProfileComponent implements OnInit {
     const val = this.modifForm.value;
     this.submitted = true;
     if (this.modifForm.valid) {
-      if (val.email && !val.nickname) {
-        this.playerService.modifEmail(val.email);
+      if (val.emailModified && !val.nickname) {
+        this.playerService.modifEmail(val.emailModified);
         this.authSevice.logOut();
-      } else if (val.email && val.nickname) {
-        this.playerService.modifEmail(val.email);
+      } else if (val.emailModified && val.nickname) {
+        this.playerService.modifEmail(val.emailModified);
         this.playerService.modifNickname(val.nickname);
         this.authSevice.logOut();
-      } else if (val.nickname && !val.email) {
+      } else if (val.nickname && !val.emailModified) {
         this.playerService.modifNickname(val.nickname);
         setTimeout(() => {
           this.router.navigateByUrl('/home/menu');
