@@ -11,6 +11,7 @@ import { TokenStorageService } from '../services/tokenStorage/token-storage.serv
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  submitted = false;
   connectionForm = new FormGroup({
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -22,10 +23,14 @@ export class LoginComponent implements OnInit {
     private tokenStorageService: TokenStorageService
   ) {}
 
+  get f() {
+    return this.connectionForm.controls;
+  }
   ngOnInit(): void {}
 
   onSubmit() {
     const val = this.connectionForm.value;
+    this.submitted = true;
     if (this.connectionForm.valid) {
       if (val.email && val.password) {
         this.authService.login(val.email, val.password).subscribe((data) => {

@@ -13,10 +13,12 @@
             <label for="email" class="form-label fw-bold ">Adresse E-mail</label>
             <input type="email" formControlName="email" class="form-control opacity-75" id="email"
                 aria-describedby="emailHelp">
+            <p class="text-danger" *ngIf="submitted && f.email.errors?.['required']">Ce champ est requis</p>
         </div>
         <div class="mb-5 col-11 text-center text-sm-center text-lg-start">
             <label for="password" class="form-label fw-bold">Mot de passe</label>
             <input formControlName="password" type="password" class="form-control opacity-75" id="password">
+            <p class="text-danger" *ngIf="submitted && f.email.errors?.['required']">Ce champ est requis</p>
         </div>
 
         <div class="text-center mb-3">
