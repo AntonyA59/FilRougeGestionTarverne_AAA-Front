@@ -51,6 +51,9 @@
   background-color: var(--color1);
   z-index: 10;
 }
+.commandList{
+  z-index:11
+}
 .customerTop {
   transform: rotate(3.142rad);
 }

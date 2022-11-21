@@ -35,6 +35,7 @@
         alcoholTolerance: {{customer.alcoholTolerance}}<br>
         gender: {{customer.gender}}<br>
         expGiven: {{customer.expGiven}}<br>
+        CommandeList: <span *ngFor="let customerRecipe of customer.commandList" class="commandList">{{customerRecipe.recipeName}}</span>
       </p>
     </div>
 
