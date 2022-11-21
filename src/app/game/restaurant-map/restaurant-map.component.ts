@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CustomerModel } from 'src/app/interfaces/customer';
 import { PlaceModel } from 'src/app/interfaces/place';
@@ -14,7 +14,7 @@ import { TimerService } from 'src/app/services/timer/timer.service';
   templateUrl: './restaurant-map.component.html',
   styleUrls: ['./restaurant-map.component.css'],
 })
-export class RestaurantMapComponent implements OnInit, OnDestroy {
+export class RestaurantMapComponent implements OnInit , OnDestroy, AfterViewInit{
   place: PlaceModel = {} as PlaceModel;
   customers: CustomerModel[] = [];
   sub: Subscription = new Subscription();
@@ -23,6 +23,8 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
   customerIndexSelected: number = 0;
   tableIndexSelected: number = 0;
   availableSpace: number = 0;
+
+  removeEventRecolte:Function=()=>{};
 
   constructor(
     private placesService: PlacesService,
@@ -33,6 +35,10 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    setTimeout(this.displayBoxNewCustomer.bind(this),180000);
+  }
+
+  ngAfterViewInit(): void {
     this.sub = this.placesService.places$.subscribe((places) => {
       this.place = places.find((element) => element.type == 1)!;
     });
@@ -54,26 +60,24 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
       });
     });
     this.sub = this.customerManagementService.customers$.subscribe(
-      (customers) => {
-        this.newCustomers = [];
-        this.timerService.setTimers([]);
-        this.customers = [];
-        this.customers = customers;
+      (customers) => { 
+        this.newCustomers=[];
+        this.timerService.setTimersEat([]);
+        this.customers=[];
+        this.customers=customers;
         this.placeCustomerAtHisTable();
       }
     );
-    setTimeout(this.displayBoxNewCustomer.bind(this), 180000);
   }
-  placeCustomerAtHisTable() {
+  placeCustomerAtHisTable(){
+    for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
+      const element = this.tableRestWithCustomer[i];
+      element.customers?.splice(0,element.customers.length);
+    }
+
     this.customers.forEach((customer) => {
-      console.log(customer.name);
       if (customer.idTableRest == null) this.newCustomers.push(customer);
       else {
-        for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
-          const element = this.tableRestWithCustomer[i];
-          element.customers?.splice(0, element.customers.length);
-        }
-
         for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
           const tableCurrent = this.tableRestWithCustomer[i];
           if (tableCurrent.id == customer.idTableRest) {
@@ -82,25 +86,23 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
           }
         }
       }
-
-      if (customer.consommationStart != null) {
-        const recipeTime = this.recipeService.getRecipeById(
-          customer.commandList![0].recipeId
-        )?.consommationTime;
-        const timeNow = Date.now();
-        const timeRemaining =
-          recipeTime! + Number.parseInt(customer.consommationStart) - timeNow;
-        if (timeRemaining <= 0) {
-          this.displayBadge();
-        } else {
-          this.timerService.addTimer(
-            setTimeout(this.displayBadge, timeRemaining)
-          );
+      
+      if(customer.consommationStart!=null){
+        const recipeTime= this.recipeService.getRecipeById(customer.commandList![0].recipeId)?.consommationTime;
+        const timeNow= Date.now();
+        const timeRemaining=(recipeTime!+Number.parseInt(customer.consommationStart))-timeNow
+        if(timeRemaining <=0 ){
+          this.displayBadgeNavSalle(customer);
+        }else{
+          this.timerService.addTimerEat(setTimeout(()=>this.displayBadgeNavSalle(customer),timeRemaining));
         }
       }
     });
-    this.customers = [];
-    this.availableSpace = 0;
+    
+    this.customers=[];
+    this.availableSpace=0;
+
+
     for (let i = 0; i < this.tableRestWithCustomer.length; i++) {
       const element = this.tableRestWithCustomer[i];
       this.availableSpace += element.numberPlace;
@@ -149,29 +151,22 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
       this.tableIndexSelected = parseInt(event.target.value);
     }
   }
-  displayBadge() {
-    const boxSalleBadge = document.querySelector('#restaurant #badge');
-    if (boxSalleBadge == null) {
-      const boxSalle = document.getElementById('restaurant');
-      let badge = document.createElement('span');
-      badge.classList.add(
-        'position-absolute',
-        'top-0',
-        'start-100',
-        'translate-middle',
-        'p-2',
-        'bg-primary',
-        'border',
-        'border-light',
-        'rounded-circle'
-      );
+  displayBadgeNavSalle(customer:CustomerModel){
+    const boxSalleBadge=document.querySelector("#restaurant #badge");
+    if(boxSalleBadge==null){
+      const boxSalle= document.getElementById("restaurant");
+      let badge=document.createElement("span");
+      badge.classList.add("position-absolute", "top-0" ,"start-100" ,"translate-middle", "p-2","bg-primary", "border", "border-light", "rounded-circle");
       boxSalle?.appendChild(badge);
     }
+    setTimeout(()=>this.displayBoxRecolteCustomer(customer),1000); 
   }
-  displayBoxInfoCustomer(display: boolean, idNummber: number) {
-    const boxInfoCustomer = document.getElementById(idNummber.toString());
-    if (display) boxInfoCustomer?.classList.remove('d-none');
-    else boxInfoCustomer?.classList.add('d-none');
+  displayBoxInfoCustomer(display:boolean,idNummber:number){
+    const boxInfoCustomer= document.getElementById(`boxInfoCustomer${idNummber}`);
+    if(display)
+      boxInfoCustomer?.classList.remove("d-none");
+    else
+      boxInfoCustomer?.classList.add("d-none");
   }
   displayBoxNewCustomer() {
     if (this.availableSpace > 0) {
@@ -190,6 +185,23 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
     if (reponse) {
       this.customerManagementService.getNewCustomer();
     }
+  }
+  displayBoxRecolteCustomer(customer:CustomerModel){
+    
+    const boxImgCustomer=document.getElementById("boxCustomer"+customer.id);
+    let boxImgRecolte= document.createElement("button");
+    boxImgRecolte.setAttribute('type','button');
+    boxImgRecolte.setAttribute('id',`btnCustomer${customer.id}`);
+    boxImgRecolte.classList.add('position-absolute','containerRecolteCustomer'); 
+    boxImgRecolte.addEventListener('click',()=>this.recolteCustomer(customer));
+    let imgCoinCustomer= document.createElement('img');
+    imgCoinCustomer.setAttribute('src','../../../assets/image/coin_customer.png');
+    imgCoinCustomer.setAttribute('alt',"le customer à fini click pour recolter l'argent");
+    boxImgRecolte.appendChild(imgCoinCustomer);
+    boxImgCustomer?.appendChild(boxImgRecolte);
+  }
+  recolteCustomer(customer:CustomerModel){
+    this.customerManagementService.customerFinish(customer);
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();

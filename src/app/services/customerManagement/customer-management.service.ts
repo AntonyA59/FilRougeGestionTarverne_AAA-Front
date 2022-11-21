@@ -25,8 +25,6 @@ export class CustomerManagementService {
 
   private urlNewCustomer =
     environment.apiUrl + 'api/game/customerManagement/newCustomer';
-  private urlNewRecipe =
-    environment.apiUrl + 'api/game/customerManagement/newRecipe';
   private urlAssignCustomerInTable =
     environment.apiUrl + 'api/game/customerManagement/customerAssignTable';
   private urlCustomerFinish =
@@ -102,9 +100,6 @@ export class CustomerManagementService {
     this.setCustomers(newCustomers);
   }
 
-  getNewRecipe(): Observable<RecipeModel> {
-    return this.http.get<RecipeModel>(this.urlNewRecipe);
-  }
   getNewCustomer(): void {
     const body = JSON.parse(
       `{"managerId":${sessionStorage.getItem('idManager')}}`
@@ -122,7 +117,7 @@ export class CustomerManagementService {
 
   assignCustomerInTable(customer: CustomerModel, table: TableRestModel): void {
     const body = JSON.parse(
-      `{"customerId":${customer.id}, "tableId":${table.id}}`
+      `{"customerId":${customer.id}, "tableId":${table.id}, "managerId":${sessionStorage.getItem('idManager')}}`
     );
     this.http
       .post<CustomerTableModel>(this.urlAssignCustomerInTable, body)
@@ -142,9 +137,10 @@ export class CustomerManagementService {
         this.updateCustomer(customer, customerUpdate);
       });
   }
-  customerFinish(customer: CustomerModel, manager: ManagerModel): void {
+  customerFinish(customer: CustomerModel): void {
+    const idManager=sessionStorage.getItem('idManager')!;
     const body = JSON.parse(
-      `{"customerId":${customer.id}, "managerId:${manager.id}"}`
+      `{"customerId":${customer.id}, "managerId":${idManager}}`
     );
     this.http
       .post<ManagerModel>(this.urlCustomerFinish, body)

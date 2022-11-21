@@ -5,15 +5,15 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class TimerService {
-  private timers = new BehaviorSubject([] as any[]);
-  timers$=this.timers.asObservable();
+  private timersEat = new BehaviorSubject([] as any[]);
+  timersEat$=this.timersEat.asObservable();
   constructor() { }
-  setTimers(newTimers: any[]) {
-    this.timers.next(newTimers);
+  setTimersEat(newTimersEat: any[]) {
+    this.timersEat.next(newTimersEat); 
   }
-  addTimer(newTimer:any){
-    let newTab:any[]=Array.from(this.timers.getValue());
-    newTab.push(newTimer);
-    this.timers.next(newTab);
+  addTimerEat(newTimerEat:any){
+    let newTab:any[]=Array.from(this.timersEat.getValue());
+    newTab.push(newTimerEat);
+    this.timersEat.next(newTab);
   }
 }

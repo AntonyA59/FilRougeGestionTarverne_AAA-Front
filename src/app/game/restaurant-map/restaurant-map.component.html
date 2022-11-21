@@ -1,6 +1,7 @@
 <div class="w-100 h-100 map position-relative d-flex flex-column  justify-content-between pb-5" id="room">
-  <div id="containerNewCustomer" class="d-none" ><!--class="d-none" -->
-    <img src="../../../assets/image/doorwomen.png" alt="Portier"/>
+  
+  <div id="containerNewCustomer" class="d-none" >
+    <img src="../../../assets/image/doorwomen.png" alt="Portier" class="imgDoorWomen"/>
     <div id="triangle"></div>
     <div id="containerTextNewCustomer">
       <form>
@@ -18,7 +19,7 @@
     <div *ngFor="
       let customer of table.customers;
       index as j
-    " class="position-absolute textCustomer d-none" id="{{customer.id}}">
+    " class="position-absolute textCustomer d-none" id="boxInfoCustomer{{customer.id}}">
       <p class="position-relative" >
         <button type="button" (click)="displayBoxInfoCustomer(false,customer.id)" class="btn-close btn-info-bulle-customer" aria-label="Close"></button>
         name: {{customer.name}}<br>
@@ -34,6 +35,7 @@
         alcoholTolerance: {{customer.alcoholTolerance}}<br>
         gender: {{customer.gender}}<br>
         expGiven: {{customer.expGiven}}<br>
+        CommandeList: <span *ngFor="let customerRecipe of customer.commandList" class="commandList">{{customerRecipe.recipeName}}</span>
       </p>
     </div>
 
@@ -109,11 +111,13 @@
       >
         {{ i + 1 }}
       </span>
-      <div class="d-flex flex-column flex-wrap h-100">
+      <div  class="d-flex flex-column flex-wrap h-100">
         <div *ngFor="
               let customer of tableRestWithCustomer[i].customers;
               index as j
             "
+            class="position-relative"
+            id="boxCustomer{{customer.id}}"
         >
           <img
             src="../../../assets/image/customer_0{{ customer.numImg }}.png"

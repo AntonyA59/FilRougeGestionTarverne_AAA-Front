@@ -20,11 +20,13 @@ export class GamePageComponent implements OnInit {
       this.manager=manager;
       this.displayJaugeMaxExp();
     })
+    setTimeout(()=>document.getElementById('container')?.remove(),4000);
+
   } 
   displayJaugeMaxExp(){
     const jaugeExp= document.getElementById('conteneurExp');
     const exp= (this.manager.experience/this.manager.maxExp)*100;
     jaugeExp!.style.width=exp+'px';
-  }
+  } 
 
 }
